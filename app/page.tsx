@@ -1,10 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [email, setEmail] = useState("");
+  const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   useEffect(() => {
     const main = document.querySelector("main");
@@ -18,6 +21,23 @@ export default function Home() {
     const timer = setTimeout(() => setShowHint(true), 8000);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubStatus("loading");
+    const { error } = await supabase.from("subscribers").insert({ email });
+    if (error) {
+      if (error.code === "23505") {
+        setSubStatus("success"); // already subscribed
+      } else {
+        setSubStatus("error");
+      }
+    } else {
+      setSubStatus("success");
+    }
+    setEmail("");
+  };
 
   return (
     <>
@@ -90,7 +110,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer id="footer" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
+        <footer id="footer" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
           <div>
             <img
               src="/john-v2.jpg"
@@ -101,7 +121,36 @@ export default function Home() {
             />
             <p className="text-stone-500 text-sm mb-2">John Kevin Wallace</p>
             <p className="text-stone-600 text-xs uppercase tracking-[0.2em] mb-6">Lived experience. Real advocacy.</p>
-            <p className="text-stone-600 text-sm">Seen — because everyone deserves to be.</p>
+            <p className="text-stone-600 text-sm mb-10">Seen — because everyone deserves to be.</p>
+          </div>
+
+          {/* Newsletter signup */}
+          <div className="w-full max-w-md">
+            <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Stay in the loop</p>
+            {subStatus === "success" ? (
+              <p className="text-amber-400 text-sm">You&apos;re in. We&apos;ll be in touch.</p>
+            ) : (
+              <form onSubmit={handleSubscribe} className="flex gap-3">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="flex-1 bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+                />
+                <button
+                  type="submit"
+                  disabled={subStatus === "loading"}
+                  className="px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                >
+                  {subStatus === "loading" ? "..." : "Subscribe"}
+                </button>
+              </form>
+            )}
+            {subStatus === "error" && (
+              <p className="text-red-400 text-xs mt-2">Something went wrong. Try again?</p>
+            )}
           </div>
         </footer>
       </main>
