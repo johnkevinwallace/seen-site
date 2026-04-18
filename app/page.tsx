@@ -174,7 +174,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer id="footer" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
+        <footer id="loop" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
           <div>
             <img
               src="/john-v2.jpg"

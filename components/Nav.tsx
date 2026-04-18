@@ -6,9 +6,13 @@ import { usePathname } from "next/navigation";
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/blog", label: "Blog" },
+  { href: "/#mission", label: "Mission | Vision | Values" },
+  { href: "/#why", label: "Why This Matters" },
+  { href: "/#coming", label: "What's Coming" },
   { href: "/#share", label: "Share Your Story" },
+  { href: "/#loop", label: "Stay In The Loop" },
   { href: "/#resources", label: "Resources" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export default function Nav() {
@@ -17,14 +21,14 @@ export default function Nav() {
 
   return (
     <>
-      {/* Hamburger button - always visible overlay */}
+      {/* Hamburger button */}
       <button
         onClick={() => setOpen(!open)}
         style={{
           position: "fixed",
           top: "20px",
           left: "20px",
-          zIndex: 99999,
+          zIndex: 100001,
           width: "44px",
           height: "44px",
           display: "flex",
@@ -81,7 +85,7 @@ export default function Nav() {
             inset: 0,
             background: "rgba(28, 25, 23, 0.8)",
             backdropFilter: "blur(4px)",
-            zIndex: 99998,
+            zIndex: 99999,
           }}
           onClick={() => setOpen(false)}
         />
@@ -97,7 +101,7 @@ export default function Nav() {
           width: "256px",
           background: "#0c0a09",
           borderRight: "1px solid #292524",
-          zIndex: 99999,
+          zIndex: 100000,
           transform: open ? "translateX(0)" : "translateX(-100%)",
           transition: "transform 0.3s ease",
         }}
@@ -114,7 +118,7 @@ export default function Nav() {
           >
             Navigate
           </p>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "24px" }}>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "20px" }}>
             {links.map((link) => (
               <li key={link.href}>
                 <Link
@@ -130,6 +134,8 @@ export default function Nav() {
                         : "#a8a29e",
                     textDecoration: "none",
                     transition: "color 0.2s",
+                    display: "block",
+                    padding: "4px 0",
                   }}
                 >
                   {link.label}
