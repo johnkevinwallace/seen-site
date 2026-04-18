@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: "Seen",
     description: "Mental health advocacy — because everyone deserves to be seen.",
     type: "website",
+    url: "https://seenadvocacy.com",
   },
   other: {
     "x-vercel-toolbar": "0",
