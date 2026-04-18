@@ -141,7 +141,7 @@ export default function Home() {
 
         {/* Share Your Story */}
         <section id="share" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
-          <div className="max-w-lg w-full px-6">
+          <div className="w-full max-w-md px-6">
             <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-4">Share Your Story</h2>
             <p className="text-stone-400 text-sm leading-relaxed mb-8">Your story matters. Share it here — completely anonymous. No email, no name, no way to trace it back to you. Just your words.</p>
             {storyStatus === "success" ? (
@@ -156,12 +156,12 @@ export default function Home() {
                   onChange={(e) => setStoryText(e.target.value)}
                   placeholder="Write your story here..."
                   rows={6}
-                  className="w-full max-w-md bg-stone-900 border border-stone-700 rounded px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50 resize-none"
+                  className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50 resize-none"
                 />
                 <button
                   type="submit"
                   disabled={storyStatus === "loading" || storyText.trim().length < 10}
-                  className="w-full max-w-md px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                  className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
                 >
                   {storyStatus === "loading" ? "..." : "Submit anonymously"}
                 </button>
