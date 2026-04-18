@@ -240,6 +240,9 @@ export default function Home() {
                 <p className="text-stone-400 text-xs italic">1-800-662-4357 — 24/7, free, confidential</p>
               </div>
             </div>
+
+            {/* Disclaimer */}
+            <p className="text-stone-700 text-xs leading-relaxed mt-12">This site is not a substitute for professional mental health care. If you are in crisis, please reach out to the resources listed above. The stories shared here are personal experiences and do not constitute medical advice.</p>
           </div>
         </section>
       </main>
