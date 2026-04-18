@@ -222,24 +222,24 @@ export default function Home() {
         <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
           <div className="w-80">
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-8">If you need help now</p>
-            <ul className="space-y-8">
-              <li>
+            <div className="space-y-8">
+              <div>
                 <p className="text-amber-400 text-sm font-bold">988 Suicide & Crisis Lifeline</p>
                 <p className="text-stone-400 text-xs">Call or text 988 — 24/7, free, confidential</p>
-              </li>
-              <li>
+              </div>
+              <div>
                 <p className="text-amber-400 text-sm font-bold">Crisis Text Line</p>
                 <p className="text-stone-400 text-xs">Text HOME to 741741 — 24/7, free, confidential</p>
-              </li>
-              <li>
+              </div>
+              <div>
                 <p className="text-amber-400 text-sm font-bold">NAMI Helpline</p>
                 <p className="text-stone-400 text-xs">1-800-950-NAMI (6264) — Mon–Fri, 10am–10pm ET</p>
-              </li>
-              <li>
+              </div>
+              <div>
                 <p className="text-amber-400 text-sm font-bold">SAMHSA Helpline</p>
                 <p className="text-stone-400 text-xs">1-800-662-4357 — 24/7, free, confidential</p>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
         </section>
       </main>
