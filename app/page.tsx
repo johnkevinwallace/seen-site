@@ -140,8 +140,8 @@ export default function Home() {
         </section>
 
         {/* Share Your Story */}
-        <section id="share" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
-          <div className="w-full max-w-md px-6">
+        <section id="share" className="min-h-dvh snap-start flex items-center justify-center px-6">
+          <div className="w-full max-w-sm text-center mx-auto">
             <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-4">Share Your Story</h2>
             <p className="text-stone-400 text-sm leading-relaxed mb-8">Your story matters. Share it here — completely anonymous. No email, no name, no way to trace it back to you. Just your words.</p>
             {storyStatus === "success" ? (
