@@ -21,9 +21,9 @@ export default function Home() {
 
   return (
     <>
-      <main className="h-screen overflow-y-scroll snap-y snap-mandatory">
+      <main className="h-dvh overflow-y-scroll snap-y snap-mandatory">
         {/* Hero */}
-        <section className="h-screen snap-start flex items-center justify-center px-6 text-center">
+        <section className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8">
               Everyone deserves to be{" "}
@@ -43,7 +43,7 @@ export default function Home() {
         </section>
 
         {/* Mission / Vision / Values */}
-        <section id="mission" className="h-screen snap-start flex items-center justify-center px-6 text-center">
+        <section id="mission" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div className="max-w-4xl w-full grid md:grid-cols-3 gap-20">
             <div>
               <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-6">Mission</h2>
@@ -61,7 +61,7 @@ export default function Home() {
         </section>
 
         {/* Why This Matters */}
-        <section id="why" className="h-screen snap-start flex items-center justify-center px-6 text-center">
+        <section id="why" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div className="max-w-2xl w-full">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
             <div className="space-y-6 text-stone-400 leading-loose">
@@ -78,7 +78,7 @@ export default function Home() {
         </section>
 
         {/* What's Coming */}
-        <section id="coming" className="h-screen snap-start flex items-center justify-center px-6 text-center">
+        <section id="coming" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div className="max-w-2xl w-full">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">What&apos;s Coming</h2>
             <ul className="space-y-8 text-stone-400">
@@ -90,7 +90,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer id="footer" className="h-screen snap-start flex items-center justify-center px-6 text-center">
+        <footer id="footer" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div>
             <img
               src="/john-v2.jpg"
