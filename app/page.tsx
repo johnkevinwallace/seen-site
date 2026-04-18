@@ -125,24 +125,24 @@ export default function Home() {
           </div>
 
           {/* Newsletter signup */}
-          <div className="w-full max-w-md">
+          <div className="w-64">
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Stay in the loop</p>
             {subStatus === "success" ? (
               <p className="text-amber-400 text-sm">You&apos;re in. We&apos;ll be in touch.</p>
             ) : (
-              <form onSubmit={handleSubscribe} className="flex gap-3">
+              <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
-                  className="flex-1 bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+                  className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
                 />
                 <button
                   type="submit"
                   disabled={subStatus === "loading"}
-                  className="px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                  className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
                 >
                   {subStatus === "loading" ? "..." : "Subscribe"}
                 </button>
