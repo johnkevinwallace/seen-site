@@ -1,13 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [email, setEmail] = useState("");
   const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [confirmedParam] = useState(() => {
+    if (typeof window === "undefined") return null;
+    return new URLSearchParams(window.location.search).get("confirmed");
+  });
 
   useEffect(() => {
     const main = document.querySelector("main");
@@ -26,15 +29,19 @@ export default function Home() {
     e.preventDefault();
     if (!email) return;
     setSubStatus("loading");
-    const { error } = await supabase.from("subscribers").insert({ email });
-    if (error) {
-      if (error.code === "23505") {
-        setSubStatus("success"); // already subscribed
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setSubStatus("success");
       } else {
         setSubStatus("error");
       }
-    } else {
-      setSubStatus("success");
+    } catch {
+      setSubStatus("error");
     }
     setEmail("");
   };
@@ -128,7 +135,7 @@ export default function Home() {
           <div className="w-64">
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Stay in the loop</p>
             {subStatus === "success" ? (
-              <p className="text-amber-400 text-sm">You&apos;re in. We&apos;ll be in touch.</p>
+              <p className="text-amber-400 text-sm">Check your inbox to confirm your subscription.</p>
             ) : (
               <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
                 <input
