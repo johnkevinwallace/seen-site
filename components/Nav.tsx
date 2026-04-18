@@ -19,6 +19,36 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
+  function handleClick(href: string) {
+    setOpen(false);
+
+    // If we're on the homepage and clicking a hash link, scroll manually
+    if (pathname === "/" && href.startsWith("/#")) {
+      const id = href.slice(2); // remove "/#"
+      // Small delay so the menu closes first
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }
+
+  // Only highlight "Home" if we're exactly on "/" with no hash
+  // Highlight blog if on /blog
+  // Section links never highlight (they're anchors, not pages)
+  function getLinkColor(href: string) {
+    if (href === "/") {
+      return pathname === "/" && !window.location.hash ? "#fbbf24" : "#a8a29e";
+    }
+    if (href.startsWith("/blog")) {
+      return pathname.startsWith("/blog") ? "#fbbf24" : "#a8a29e";
+    }
+    // Section links are always neutral
+    return "#a8a29e";
+  }
+
   return (
     <>
       {/* Hamburger button */}
@@ -123,15 +153,11 @@ export default function Nav() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  onClick={() => setOpen(false)}
+                  onClick={() => handleClick(link.href)}
                   style={{
                     fontSize: "14px",
                     letterSpacing: "0.025em",
-                    color:
-                      (link.href === "/" && pathname === "/") ||
-                      (link.href !== "/" && pathname.startsWith(link.href))
-                        ? "#fbbf24"
-                        : "#a8a29e",
+                    color: "#a8a29e",
                     textDecoration: "none",
                     transition: "color 0.2s",
                     display: "block",
