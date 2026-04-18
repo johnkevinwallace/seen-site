@@ -216,34 +216,32 @@ export default function Home() {
               <p className="text-red-400 text-xs mt-2">Something went wrong. Try again?</p>
             )}
           </div>
+        </footer>
 
-          {/* Resources */}
-          <div className="mt-16 border-t border-stone-800 pt-8 w-full max-w-sm text-center">
-            <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">If you need help now</p>
-            <ul className="space-y-4 text-center">
+        {/* Resources */}
+        <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
+          <div className="w-80">
+            <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-8">If you need help now</p>
+            <ul className="space-y-8">
               <li>
-                <span className="text-amber-400 text-sm font-semibold">988 Suicide & Crisis Lifeline</span>
-                <br />
-                <span className="text-stone-400 text-xs">Call or text 988 — 24/7, free, confidential</span>
+                <p className="text-amber-400 text-sm font-bold">988 Suicide & Crisis Lifeline</p>
+                <p className="text-stone-400 text-xs">Call or text 988 — 24/7, free, confidential</p>
               </li>
               <li>
-                <span className="text-amber-400 text-sm font-semibold">Crisis Text Line</span>
-                <br />
-                <span className="text-stone-400 text-xs">Text HOME to 741741 — 24/7, free, confidential</span>
+                <p className="text-amber-400 text-sm font-bold">Crisis Text Line</p>
+                <p className="text-stone-400 text-xs">Text HOME to 741741 — 24/7, free, confidential</p>
               </li>
               <li>
-                <span className="text-amber-400 text-sm font-semibold">NAMI Helpline</span>
-                <br />
-                <span className="text-stone-400 text-xs">1-800-950-NAMI (6264) — Mon–Fri, 10am–10pm ET</span>
+                <p className="text-amber-400 text-sm font-bold">NAMI Helpline</p>
+                <p className="text-stone-400 text-xs">1-800-950-NAMI (6264) — Mon–Fri, 10am–10pm ET</p>
               </li>
               <li>
-                <span className="text-amber-400 text-sm font-semibold">SAMHSA Helpline</span>
-                <br />
-                <span className="text-stone-400 text-xs">1-800-662-4357 — 24/7, free, confidential</span>
+                <p className="text-amber-400 text-sm font-bold">SAMHSA Helpline</p>
+                <p className="text-stone-400 text-xs">1-800-662-4357 — 24/7, free, confidential</p>
               </li>
             </ul>
           </div>
-        </footer>
+        </section>
       </main>
     </>
   );
