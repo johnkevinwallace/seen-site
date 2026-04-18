@@ -7,6 +7,8 @@ export default function Home() {
   const [showHint, setShowHint] = useState(false);
   const [email, setEmail] = useState("");
   const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [storyText, setStoryText] = useState("");
+  const [storyStatus, setStoryStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [confirmedParam] = useState(() => {
     if (typeof window === "undefined") return null;
     return new URLSearchParams(window.location.search).get("confirmed");
@@ -44,6 +46,27 @@ export default function Home() {
       setSubStatus("error");
     }
     setEmail("");
+  };
+
+  const handleStory = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!storyText || storyText.trim().length < 10) return;
+    setStoryStatus("loading");
+    try {
+      const res = await fetch("/api/story", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ story: storyText.trim() }),
+      });
+      if (res.ok) {
+        setStoryStatus("success");
+      } else {
+        setStoryStatus("error");
+      }
+    } catch {
+      setStoryStatus("error");
+    }
+    setStoryText("");
   };
 
   return (
@@ -113,6 +136,40 @@ export default function Home() {
               <li>→ Honest writing about the real experience of mental health recovery</li>
               <li>→ A community where people support each other without judgment</li>
             </ul>
+          </div>
+        </section>
+
+        {/* Share Your Story */}
+        <section id="share" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
+          <div className="max-w-lg w-full px-6">
+            <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-4">Share Your Story</h2>
+            <p className="text-stone-400 text-sm leading-relaxed mb-8">Your story matters. Share it here — completely anonymous. No email, no name, no way to trace it back to you. Just your words.</p>
+            {storyStatus === "success" ? (
+              <p className="text-amber-400">Thank you. Your story has been received.</p>
+            ) : (
+              <form onSubmit={handleStory} className="flex flex-col gap-4">
+                <textarea
+                  required
+                  minLength={10}
+                  maxLength={5000}
+                  value={storyText}
+                  onChange={(e) => setStoryText(e.target.value)}
+                  placeholder="Write your story here..."
+                  rows={6}
+                  className="w-full max-w-md bg-stone-900 border border-stone-700 rounded px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50 resize-none"
+                />
+                <button
+                  type="submit"
+                  disabled={storyStatus === "loading" || storyText.trim().length < 10}
+                  className="w-full max-w-md px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                >
+                  {storyStatus === "loading" ? "..." : "Submit anonymously"}
+                </button>
+              </form>
+            )}
+            {storyStatus === "error" && (
+              <p className="text-red-400 text-xs mt-2">Something went wrong. Try again?</p>
+            )}
           </div>
         </section>
 
