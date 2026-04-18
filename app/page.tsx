@@ -218,9 +218,9 @@ export default function Home() {
           </div>
 
           {/* Resources */}
-          <div className="mt-12 border-t border-stone-800 pt-8 w-full max-w-sm">
+          <div className="mt-16 border-t border-stone-800 pt-8 w-full max-w-sm text-center">
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">If you need help now</p>
-            <ul className="space-y-4 text-left">
+            <ul className="space-y-4 text-center">
               <li>
                 <span className="text-amber-400 text-sm font-semibold">988 Suicide & Crisis Lifeline</span>
                 <br />
