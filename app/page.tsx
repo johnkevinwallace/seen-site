@@ -216,6 +216,33 @@ export default function Home() {
               <p className="text-red-400 text-xs mt-2">Something went wrong. Try again?</p>
             )}
           </div>
+
+          {/* Resources */}
+          <div className="mt-12 border-t border-stone-800 pt-8 w-full max-w-sm">
+            <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">If you need help now</p>
+            <ul className="space-y-4 text-left">
+              <li>
+                <span className="text-amber-400 text-sm font-semibold">988 Suicide & Crisis Lifeline</span>
+                <br />
+                <span className="text-stone-400 text-xs">Call or text 988 — 24/7, free, confidential</span>
+              </li>
+              <li>
+                <span className="text-amber-400 text-sm font-semibold">Crisis Text Line</span>
+                <br />
+                <span className="text-stone-400 text-xs">Text HOME to 741741 — 24/7, free, confidential</span>
+              </li>
+              <li>
+                <span className="text-amber-400 text-sm font-semibold">NAMI Helpline</span>
+                <br />
+                <span className="text-stone-400 text-xs">1-800-950-NAMI (6264) — Mon–Fri, 10am–10pm ET</span>
+              </li>
+              <li>
+                <span className="text-amber-400 text-sm font-semibold">SAMHSA Helpline</span>
+                <br />
+                <span className="text-stone-400 text-xs">1-800-662-4357 — 24/7, free, confidential</span>
+              </li>
+            </ul>
+          </div>
         </footer>
       </main>
     </>
