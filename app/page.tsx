@@ -242,7 +242,11 @@ export default function Home() {
             </div>
 
             {/* Disclaimer */}
-            <p className="text-stone-700 text-xs leading-relaxed mt-12">This site is not a substitute for professional mental health care. If you are in crisis, please reach out to the resources listed above. The stories shared here are personal experiences and do not constitute medical advice.</p>
+            <div className="mt-12 space-y-4">
+              <p className="text-stone-600 text-xs">This site is not a substitute for professional mental health care.</p>
+              <p className="text-stone-600 text-xs">If you are in crisis, please reach out to the resources listed above.</p>
+              <p className="text-stone-600 text-xs">The stories shared here are personal experiences and do not constitute medical advice.</p>
+            </div>
           </div>
         </section>
       </main>
