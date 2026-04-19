@@ -83,7 +83,7 @@ export default function BlogPostPage() {
           })}
         </p>
 
-        <div className="text-stone-400 leading-relaxed">
+        <div className="text-stone-400 leading-relaxed text-left">
           {blocks.map((block: string, i: number) => (
             <p key={i} className="mb-6 break-words" style={{ whiteSpace: "pre-line", overflowWrap: "anywhere" }}>
               {block}
