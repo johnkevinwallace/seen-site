@@ -114,7 +114,7 @@ export default function Home() {
         <section id="why" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div className="max-w-2xl w-full">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
-            <div className="space-y-6 text-stone-400 leading-loose">
+            <div className="space-y-12 text-stone-400 leading-loose">
               <p><span className="font-semibold text-stone-200">I live it.</span></p>
               <p>ADHD. Bipolar 1.</p>
               <p>The cycle of starting strong, crashing hard, and rebuilding from scratch.</p>
@@ -131,7 +131,7 @@ export default function Home() {
         <section id="coming" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div className="max-w-2xl w-full">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">What&apos;s Coming</h2>
-            <ul className="space-y-8 text-stone-400">
+            <ul className="space-y-12 text-stone-400">
               <li>→ Tools and systems for building stability when motivation fails</li>
               <li>→ Honest writing about the real experience of mental health recovery</li>
               <li>→ A community where people support each other without judgment</li>
@@ -222,7 +222,7 @@ export default function Home() {
         <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
           <div className="w-80">
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-8">If you need help now</p>
-            <div className="space-y-8">
+            <div className="space-y-12">
               <div>
                 <p className="text-amber-400 text-sm" style={{ fontWeight: 700 }}>988 Suicide & Crisis Lifeline</p>
                 <p className="text-stone-400 text-xs italic">Call or text 988 — 24/7, free, confidential</p>
@@ -242,7 +242,7 @@ export default function Home() {
             </div>
 
             {/* Disclaimer */}
-            <div className="mt-12 pt-8 border-t border-stone-800 space-y-3">
+            <div className="mt-12 pt-8 border-t border-stone-800 space-y-6">
               <p className="text-stone-700 text-[10px]">This site is not a substitute for professional mental health care.</p>
               <p className="text-stone-700 text-[10px]">If you are in crisis, please reach out to the resources listed above.</p>
               <p className="text-stone-700 text-[10px]">The stories shared here are personal experiences and do not constitute medical advice.</p>
