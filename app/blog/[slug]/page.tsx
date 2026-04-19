@@ -129,6 +129,9 @@ export default function BlogPostPage() {
         .blog-post-body strong {
           color: #f5f5f4;
         }
+        [data-theme="light"] .blog-post-body strong {
+          color: #1c1917;
+        }
         .blog-post-body a {
           color: #fbbf24;
           text-decoration: none;
@@ -137,9 +140,15 @@ export default function BlogPostPage() {
           color: #d6d3d1;
           font-style: italic;
         }
+        [data-theme="light"] .blog-post-body em {
+          color: #57534e;
+        }
         .blog-post-body u {
           color: #d6d3d1;
           text-decoration: underline;
+        }
+        [data-theme="light"] .blog-post-body u {
+          color: #57534e;
         }
         .blog-post-body a:hover {
           text-decoration: underline;
