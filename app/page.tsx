@@ -10,6 +10,9 @@ export default function Home() {
   const [storyText, setStoryText] = useState("");
   const [storyStatus, setStoryStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [website, setWebsite] = useState(""); // honeypot
+  const [publishedStories, setPublishedStories] = useState<{ story: string; created_at: string }[]>([]);
+  const [storiesLoaded, setStoriesLoaded] = useState(false);
+
   const [confirmedParam] = useState(() => {
     if (typeof window === "undefined") return null;
     return new URLSearchParams(window.location.search).get("confirmed");
@@ -26,6 +29,16 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => setShowHint(true), 8000);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/stories/public")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.stories) setPublishedStories(data.stories);
+      })
+      .catch(() => {})
+      .finally(() => setStoriesLoaded(true));
   }, []);
 
   const handleSubscribe = async (e: React.FormEvent) => {
@@ -139,6 +152,28 @@ export default function Home() {
             </ul>
           </div>
         </section>
+
+        {/* Published Stories */}
+        {publishedStories.length > 0 && (
+          <section id="stories" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
+            <div className="max-w-2xl w-full">
+              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-10">Stories</h2>
+              <div className="space-y-8">
+                {publishedStories.map((s, i) => {
+                  const date = new Date(s.created_at);
+                  const month = date.toLocaleString("en-US", { month: "long" });
+                  const year = date.getFullYear();
+                  return (
+                    <div key={i} className="text-left">
+                      <p className="text-stone-300 text-sm leading-relaxed whitespace-pre-wrap" style={{ marginBottom: "8px" }}>{s.story}</p>
+                      <p className="text-stone-600 text-xs">Shared {month} {year}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Share Your Story */}
         <section id="share" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">

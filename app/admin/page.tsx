@@ -13,12 +13,23 @@ interface Draft {
   created_at: string;
 }
 
+interface Story {
+  id: number;
+  story: string;
+  created_at: string;
+  status: string | null;
+}
+
+type AdminTab = "posts" | "stories";
+
 export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState<AdminTab>("posts");
 
+  // Blog post state
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
@@ -31,6 +42,12 @@ export default function AdminPage() {
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [draftsLoading, setDraftsLoading] = useState(false);
 
+  // Story review state
+  const [stories, setStories] = useState<Story[]>([]);
+  const [storiesLoading, setStoriesLoading] = useState(false);
+  const [expandedStories, setExpandedStories] = useState<Set<number>>(new Set());
+  const [actionLoading, setActionLoading] = useState<number | null>(null);
+
   function loadDrafts() {
     setDraftsLoading(true);
     fetch("/api/draft")
@@ -41,8 +58,21 @@ export default function AdminPage() {
       .finally(() => setDraftsLoading(false));
   }
 
+  function loadStories() {
+    setStoriesLoading(true);
+    fetch("/api/stories")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.stories) setStories(data.stories);
+      })
+      .finally(() => setStoriesLoading(false));
+  }
+
   useEffect(() => {
-    if (authenticated) loadDrafts();
+    if (authenticated) {
+      loadDrafts();
+      loadStories();
+    }
   }, [authenticated]);
 
   // Check if already logged in on mount
@@ -190,6 +220,51 @@ export default function AdminPage() {
     setErrorMsg("");
   }
 
+  function toggleStoryExpand(id: number) {
+    setExpandedStories((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
+
+  async function handlePublishStory(id: number) {
+    setActionLoading(id);
+    try {
+      const res = await fetch("/api/stories", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: "published" }),
+      });
+      if (res.ok) {
+        setStories((prev) => prev.filter((s) => s.id !== id));
+      }
+    } catch {}
+    setActionLoading(null);
+  }
+
+  async function handleDeleteStory(id: number) {
+    if (!confirm("Delete this story permanently?")) return;
+    setActionLoading(id);
+    try {
+      const res = await fetch("/api/stories", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (res.ok) {
+        setStories((prev) => prev.filter((s) => s.id !== id));
+      }
+    } catch {}
+    setActionLoading(null);
+  }
+
+  const pendingCount = stories.length;
+
   if (!authenticated) {
     return (
       <div className="min-h-dvh bg-stone-950 text-stone-100 flex items-center justify-center">
@@ -221,125 +296,223 @@ export default function AdminPage() {
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
       <div className="max-w-2xl mx-auto px-6 py-24 overflow-hidden">
-        {/* Drafts section */}
-        {drafts.length > 0 && (
-          <div className="mb-10 border border-stone-800 rounded p-4">
-            <h2 className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Drafts</h2>
-            <div className="space-y-2">
-              {drafts.map((d) => (
-                <button
-                  key={d.id}
-                  onClick={() => loadDraft(d)}
-                  className="w-full text-left px-3 py-2 bg-stone-900 rounded hover:bg-stone-800 transition-colors"
-                >
-                  <span className="text-stone-100 text-sm">{d.title}</span>
-                  <span className="text-stone-600 text-xs ml-2">{new Date(d.created_at).toLocaleDateString()}</span>
-                </button>
-              ))}
-            </div>
+        {/* Tab navigation */}
+        <div className="flex gap-6 mb-8 border-b border-stone-800 pb-3">
+          <button
+            onClick={() => setActiveTab("posts")}
+            className="relative text-sm font-semibold uppercase tracking-[0.15em] transition-colors"
+            style={{ color: activeTab === "posts" ? "#fbbf24" : "#a8a29e" }}
+          >
+            Posts
+          </button>
+          <button
+            onClick={() => setActiveTab("stories")}
+            className="relative text-sm font-semibold uppercase tracking-[0.15em] transition-colors"
+            style={{ color: activeTab === "stories" ? "#fbbf24" : "#a8a29e" }}
+          >
+            Stories
+            {pendingCount > 0 && (
+              <span
+                className="ml-2 px-2 py-0.5 text-xs rounded-full font-bold"
+                style={{ backgroundColor: "#fbbf24", color: "#0c0a09" }}
+              >
+                {pendingCount}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {activeTab === "stories" && (
+          <div>
+            <h1 className="text-2xl font-bold mb-2">Story Review</h1>
+            <p className="text-stone-600 text-xs mb-8">
+              {pendingCount} pending submission{pendingCount !== 1 ? "s" : ""}
+            </p>
+
+            {storiesLoading ? (
+              <p className="text-stone-500 text-sm">Loading stories...</p>
+            ) : stories.length === 0 ? (
+              <p className="text-stone-600 text-sm">No pending stories. Nice work!</p>
+            ) : (
+              <div className="space-y-4">
+                {stories.map((s) => {
+                  const isExpanded = expandedStories.has(s.id);
+                  const isActionLoading = actionLoading === s.id;
+                  const truncated = s.story.length > 200;
+                  const displayText =
+                    isExpanded || !truncated
+                      ? s.story
+                      : s.story.slice(0, 200) + "...";
+
+                  return (
+                    <div
+                      key={s.id}
+                      className="border border-stone-800 rounded p-4"
+                    >
+                      <p
+                        className="text-stone-300 text-sm leading-relaxed whitespace-pre-wrap"
+                        style={{ marginBottom: "8px" }}
+                      >
+                        {displayText}
+                      </p>
+                      {truncated && (
+                        <button
+                          onClick={() => toggleStoryExpand(s.id)}
+                          className="text-amber-400 text-xs hover:underline mb-2"
+                        >
+                          {isExpanded ? "Show less" : "Show more"}
+                        </button>
+                      )}
+                      <p className="text-stone-600 text-xs" style={{ marginBottom: "12px" }}>
+                        Submitted {new Date(s.created_at).toLocaleDateString()}
+                      </p>
+                      <div className="flex gap-3">
+                        <button
+                          onClick={() => handlePublishStory(s.id)}
+                          disabled={isActionLoading}
+                          className="px-4 py-1.5 bg-amber-400 text-stone-950 text-xs font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                        >
+                          {isActionLoading ? "..." : "Publish"}
+                        </button>
+                        <button
+                          onClick={() => handleDeleteStory(s.id)}
+                          disabled={isActionLoading}
+                          className="px-4 py-1.5 bg-stone-800 text-stone-100 text-xs font-semibold rounded hover:bg-stone-700 transition-colors disabled:opacity-50 border border-stone-700"
+                        >
+                          {isActionLoading ? "..." : "Delete"}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 
-        <h1 className="text-2xl font-bold mb-2">New Post</h1>
-        <p className="text-stone-600 text-xs mb-8">Write, preview, publish to Supabase</p>
-
-        <div className="space-y-6">
-          <div>
-            <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">Title</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                if (!slug) setSlug(generateSlug(e.target.value));
-              }}
-              placeholder="Why I Started Seen"
-              className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
-            />
-          </div>
-
-          <div>
-            <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">URL Slug</label>
-            <input
-              type="text"
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-              placeholder="why-i-started-seen"
-              className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
-            />
-          </div>
-
-          <div>
-            <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">Excerpt (optional — shows in blog list)</label>
-            <input
-              type="text"
-              value={excerpt}
-              onChange={(e) => setExcerpt(e.target.value)}
-              placeholder="A short summary of what this post is about"
-              className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
-            />
-          </div>
-
-          <div>
-            <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">Trigger Warning (optional)</label>
-            <input
-              type="text"
-              value={triggerWarning}
-              onChange={(e) => setTriggerWarning(e.target.value)}
-              placeholder="e.g. self-harm, substance abuse, suicide mention"
-              className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
-            />
-          </div>
-
-          <div>
-            <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">Body</label>
-            <textarea
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              placeholder="Write your post here...&#10;&#10;Separate paragraphs with blank lines."
-              rows={15}
-              className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50 resize-y leading-relaxed"
-            />
-            <p className="text-stone-600 text-xs mt-1">Supports **bold**, *italic*, &lt;u&gt;underline&lt;/u&gt;, ## headings, ### subheadings</p>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <button
-              onClick={handlePublish}
-              disabled={publishing || !title || !body}
-              className="px-6 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
-            >
-              {publishing ? "Publishing..." : "Publish"}
-            </button>
-            <button
-              onClick={handleSaveDraft}
-              disabled={publishing || !title || !body}
-              className="px-6 py-2 bg-stone-800 text-stone-100 text-sm font-semibold rounded hover:bg-stone-700 transition-colors disabled:opacity-50 border border-stone-700"
-            >
-              {publishing ? "Saving..." : "Save Draft"}
-            </button>
-            {status === "success" && (
-              <p className="text-green-400 text-sm">Saved ✓</p>
+        {activeTab === "posts" && (
+          <>
+            {/* Drafts section */}
+            {drafts.length > 0 && (
+              <div className="mb-10 border border-stone-800 rounded p-4">
+                <h2 className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Drafts</h2>
+                <div className="space-y-2">
+                  {drafts.map((d) => (
+                    <button
+                      key={d.id}
+                      onClick={() => loadDraft(d)}
+                      className="w-full text-left px-3 py-2 bg-stone-900 rounded hover:bg-stone-800 transition-colors"
+                    >
+                      <span className="text-stone-100 text-sm">{d.title}</span>
+                      <span className="text-stone-600 text-xs ml-2">{new Date(d.created_at).toLocaleDateString()}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             )}
-            {status === "error" && (
-              <p className="text-red-400 text-sm">{errorMsg || "Something went wrong."}</p>
-            )}
-          </div>
-        </div>
 
-        {body && (
-          <div className="mt-16 border-t border-stone-800 pt-8">
-            <h2 className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">Preview</h2>
-            <div className="text-center">
-              <h3 className="text-2xl font-bold mb-2">{title}</h3>
-              {excerpt && <p className="text-stone-500 text-sm mb-8">{excerpt}</p>}
-              <div
-                className="text-left prose-invert"
-                style={{ color: "#a8a29e", lineHeight: "1.625" }}
-                dangerouslySetInnerHTML={{ __html: previewHtml }}
-              />
+            <h1 className="text-2xl font-bold mb-2">New Post</h1>
+            <p className="text-stone-600 text-xs mb-8">Write, preview, publish to Supabase</p>
+
+            <div className="space-y-6">
+              <div>
+                <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">Title</label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                    if (!slug) setSlug(generateSlug(e.target.value));
+                  }}
+                  placeholder="Why I Started Seen"
+                  className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">URL Slug</label>
+                <input
+                  type="text"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  placeholder="why-i-started-seen"
+                  className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">Excerpt (optional — shows in blog list)</label>
+                <input
+                  type="text"
+                  value={excerpt}
+                  onChange={(e) => setExcerpt(e.target.value)}
+                  placeholder="A short summary of what this post is about"
+                  className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">Trigger Warning (optional)</label>
+                <input
+                  type="text"
+                  value={triggerWarning}
+                  onChange={(e) => setTriggerWarning(e.target.value)}
+                  placeholder="e.g. self-harm, substance abuse, suicide mention"
+                  className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">Body</label>
+                <textarea
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
+                  placeholder="Write your post here...&#10;&#10;Separate paragraphs with blank lines."
+                  rows={15}
+                  className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50 resize-y leading-relaxed"
+                />
+                <p className="text-stone-600 text-xs mt-1">Supports **bold**, *italic*, &lt;u&gt;underline&lt;/u&gt;, ## headings, ### subheadings</p>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={handlePublish}
+                  disabled={publishing || !title || !body}
+                  className="px-6 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                >
+                  {publishing ? "Publishing..." : "Publish"}
+                </button>
+                <button
+                  onClick={handleSaveDraft}
+                  disabled={publishing || !title || !body}
+                  className="px-6 py-2 bg-stone-800 text-stone-100 text-sm font-semibold rounded hover:bg-stone-700 transition-colors disabled:opacity-50 border border-stone-700"
+                >
+                  {publishing ? "Saving..." : "Save Draft"}
+                </button>
+                {status === "success" && (
+                  <p className="text-green-400 text-sm">Saved ✓</p>
+                )}
+                {status === "error" && (
+                  <p className="text-red-400 text-sm">{errorMsg || "Something went wrong."}</p>
+                )}
+              </div>
             </div>
-          </div>
+
+            {body && (
+              <div className="mt-16 border-t border-stone-800 pt-8">
+                <h2 className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">Preview</h2>
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold mb-2">{title}</h3>
+                  {excerpt && <p className="text-stone-500 text-sm mb-8">{excerpt}</p>}
+                  <div
+                    className="text-left prose-invert"
+                    style={{ color: "#a8a29e", lineHeight: "1.625" }}
+                    dangerouslySetInnerHTML={{ __html: previewHtml }}
+                  />
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         <style jsx global>{`
