@@ -20,6 +20,9 @@ export default function Nav() {
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
 
+  // Hide nav on admin page
+  if (pathname === "/admin") return null;
+
   function handleClick(href: string) {
     setOpen(false);
     if (pathname === "/" && href.startsWith("/#")) {

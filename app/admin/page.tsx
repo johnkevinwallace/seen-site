@@ -106,7 +106,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
-      <div className="max-w-2xl mx-auto px-6 pt-40 pb-24 overflow-hidden">
+      <div className="max-w-2xl mx-auto px-6 py-24 overflow-hidden">
         <h1 className="text-2xl font-bold mb-2">New Post</h1>
         <p className="text-stone-600 text-xs mb-8">Write, preview, publish to Supabase</p>
 
