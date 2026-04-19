@@ -49,6 +49,28 @@ export default function Footer() {
           Seen — Mental Health Advocacy
         </span>
       </div>
+      <div style={{ marginTop: "8px" }}>
+        <span
+          style={{
+            color: "#57534e",
+            fontSize: "11px",
+          }}
+        >
+          © 2026 Seen Advocacy. All rights reserved.
+        </span>
+      </div>
+      <div style={{ marginTop: "4px" }}>
+        <a
+          href="/terms"
+          style={{
+            color: "#57534e",
+            fontSize: "11px",
+            textDecoration: "none",
+          }}
+        >
+          Terms of Use
+        </a>
+      </div>
     </footer>
   );
 }
