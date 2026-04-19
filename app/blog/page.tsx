@@ -47,18 +47,16 @@ export default function BlogPage() {
           Blog
         </h1>
 
-        <p className="text-stone-400 leading-loose mb-2">
-          Honest writing<br />
-          about the real experience of<br />
-          mental health recovery.
+        <p className="text-stone-400 leading-relaxed" style={{ marginBottom: "12px" }}>
+          Honest writing about the real experience of mental health recovery.
         </p>
-        <p className="text-stone-400 leading-loose mb-2">
+        <p className="text-stone-400 leading-relaxed" style={{ marginBottom: "12px" }}>
           No clinical language.
         </p>
-        <p className="text-stone-400 leading-loose mb-2">
+        <p className="text-stone-400 leading-relaxed" style={{ marginBottom: "12px" }}>
           No motivational posters.
         </p>
-        <p className="text-stone-400 leading-loose mb-12">
+        <p className="text-stone-400 leading-relaxed" style={{ marginBottom: "12px" }}>
           Just what it&apos;s actually like.
         </p>
 
