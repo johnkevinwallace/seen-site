@@ -183,7 +183,7 @@ export default function AdminPage() {
               {excerpt && <p className="text-stone-500 text-sm mb-8">{excerpt}</p>}
               <div className="text-stone-400 leading-loose text-left">
                 {body.split(/\n\n+/).filter((b) => b.trim()).map((block, i) => (
-                  <p key={i} className="mb-6 break-words" style={{ whiteSpace: "pre-line", overflowWrap: "anywhere" }}>{block.trim()}</p>
+                  <p key={i} className="mb-12 break-words" style={{ whiteSpace: "pre-line", overflowWrap: "anywhere" }}>{block.trim()}</p>
                 ))}
               </div>
             </div>
