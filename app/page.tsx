@@ -114,7 +114,7 @@ export default function Home() {
         <section id="why" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div className="max-w-2xl w-full">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
-            <div className="space-y-6 text-stone-400 leading-relaxed text-left">
+            <div className="space-y-6 text-stone-400 leading-relaxed text-left mx-auto max-w-2xl">
               <p><span className="font-semibold text-stone-200">I live it.</span></p>
               <p>ADHD. Bipolar 1.</p>
               <p>The cycle of starting strong, crashing hard, and rebuilding from scratch.</p>
