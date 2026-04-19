@@ -112,10 +112,10 @@ export default function Home() {
 
         {/* Why This Matters */}
         <section id="why" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
-          <div className="max-w-lg w-full mx-auto">
+          <div className="max-w-2xl w-full mx-auto">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
             <div className="space-y-6 text-stone-400 leading-relaxed">
-              <p><span className="font-semibold text-stone-200">I live it.</span></p>
+              <p>I live it.</p>
               <p>ADHD. Bipolar 1.</p>
               <p>The cycle of starting strong, crashing hard, and rebuilding from scratch.</p>
               <p>The comparison trap — watching everyone else move forward while you&apos;re just trying to stand up.</p>
