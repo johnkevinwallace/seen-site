@@ -96,15 +96,15 @@ export default function Home() {
         <section id="mission" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div className="max-w-4xl w-full grid md:grid-cols-3 gap-20">
             <div>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-6">Mission</h2>
+              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "12px" }}>Mission</h2>
               <p className="text-lg text-stone-300 leading-relaxed">Help those struggling with their mental health to be seen.</p>
             </div>
             <div>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-6">Vision</h2>
+              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "12px" }}>Vision</h2>
               <p className="text-lg text-stone-300 leading-relaxed">Become a prominent voice in the mental health advocacy space.</p>
             </div>
             <div>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-6">Values</h2>
+              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "12px" }}>Values</h2>
               <p className="text-lg text-stone-300 leading-relaxed">Compassion. Respect. Support.</p>
             </div>
           </div>
@@ -131,10 +131,10 @@ export default function Home() {
         <section id="coming" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div className="max-w-2xl w-full">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">What&apos;s Coming</h2>
-            <ul className="space-y-6 text-stone-400">
-              <li>→ Tools and systems for building stability when motivation fails</li>
-              <li>→ Honest writing about the real experience of mental health recovery</li>
-              <li>→ A community where people support each other without judgment</li>
+            <ul className="text-stone-400">
+              <li style={{ marginBottom: "12px" }}>→ Tools and systems for building stability when motivation fails</li>
+              <li style={{ marginBottom: "12px" }}>→ Honest writing about the real experience of mental health recovery</li>
+              <li style={{ marginBottom: "12px" }}>→ A community where people support each other without judgment</li>
             </ul>
           </div>
         </section>
@@ -221,31 +221,31 @@ export default function Home() {
         {/* Resources */}
         <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
           <div className="w-80">
-            <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-8">If you need help now</p>
-            <div className="space-y-6">
-              <div>
+            <p className="text-stone-500 text-xs uppercase tracking-[0.2em]" style={{ marginBottom: "12px" }}>If you need help now</p>
+            <div>
+              <div style={{ marginBottom: "12px" }}>
                 <p className="text-amber-400 text-sm" style={{ fontWeight: 700 }}>988 Suicide & Crisis Lifeline</p>
                 <p className="text-stone-400 text-xs italic">Call or text 988 — 24/7, free, confidential</p>
               </div>
-              <div>
+              <div style={{ marginBottom: "12px" }}>
                 <p className="text-amber-400 text-sm" style={{ fontWeight: 700 }}>Crisis Text Line</p>
                 <p className="text-stone-400 text-xs italic">Text HOME to 741741 — 24/7, free, confidential</p>
               </div>
-              <div>
+              <div style={{ marginBottom: "12px" }}>
                 <p className="text-amber-400 text-sm" style={{ fontWeight: 700 }}>NAMI Helpline</p>
                 <p className="text-stone-400 text-xs italic">1-800-950-NAMI (6264) — Mon–Fri, 10am–10pm ET</p>
               </div>
-              <div>
+              <div style={{ marginBottom: "12px" }}>
                 <p className="text-amber-400 text-sm" style={{ fontWeight: 700 }}>SAMHSA Helpline</p>
                 <p className="text-stone-400 text-xs italic">1-800-662-4357 — 24/7, free, confidential</p>
               </div>
             </div>
 
             {/* Disclaimer */}
-            <div className="mt-12 pt-8 border-t border-stone-800 space-y-6">
-              <p className="text-stone-700 text-[10px]">This site is not a substitute for professional mental health care.</p>
-              <p className="text-stone-700 text-[10px]">If you are in crisis, please reach out to the resources listed above.</p>
-              <p className="text-stone-700 text-[10px]">The stories shared here are personal experiences and do not constitute medical advice.</p>
+            <div className="mt-12 pt-8 border-t border-stone-800">
+              <p className="text-stone-700 text-[10px]" style={{ marginBottom: "12px" }}>This site is not a substitute for professional mental health care.</p>
+              <p className="text-stone-700 text-[10px]" style={{ marginBottom: "12px" }}>If you are in crisis, please reach out to the resources listed above.</p>
+              <p className="text-stone-700 text-[10px]" style={{ marginBottom: "12px" }}>The stories shared here are personal experiences and do not constitute medical advice.</p>
             </div>
           </div>
         </section>
