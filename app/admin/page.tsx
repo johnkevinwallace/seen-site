@@ -242,8 +242,13 @@ export default function AdminPage() {
       });
       if (res.ok) {
         setStories((prev) => prev.filter((s) => s.id !== id));
+      } else {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || `Failed to publish (HTTP ${res.status})`);
       }
-    } catch {}
+    } catch (err) {
+      alert("Network error publishing story");
+    }
     setActionLoading(null);
   }
 
