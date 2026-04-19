@@ -12,6 +12,37 @@ export default function Home() {
   const [website, setWebsite] = useState(""); // honeypot
   const [publishedStories, setPublishedStories] = useState<{ story: string; created_at: string }[]>([]);
   const [storiesLoaded, setStoriesLoaded] = useState(false);
+  const [storyIndex, setStoryIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    if (Math.abs(distance) > minSwipeDistance) {
+      if (distance > 0 && storyIndex < publishedStories.length - 1) {
+        setStoryIndex((i) => i + 1);
+      } else if (distance < 0 && storyIndex > 0) {
+        setStoryIndex((i) => i - 1);
+      }
+    }
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  const prevStory = () => setStoryIndex((i) => Math.max(0, i - 1));
+  const nextStory = () => setStoryIndex((i) => Math.min(publishedStories.length - 1, i + 1));
 
   const [confirmedParam] = useState(() => {
     if (typeof window === "undefined") return null;
@@ -156,20 +187,93 @@ export default function Home() {
         {/* Published Stories */}
         {publishedStories.length > 0 && (
           <section id="stories" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
-            <div className="max-w-2xl w-full">
+            <div style={{ maxWidth: "640px", width: "100%" }}>
               <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-10">Stories</h2>
-              <div className="space-y-8">
-                {publishedStories.map((s, i) => {
-                  const date = new Date(s.created_at);
-                  const month = date.toLocaleString("en-US", { month: "long" });
-                  const year = date.getFullYear();
-                  return (
-                    <div key={i} className="text-left">
-                      <p className="text-stone-300 text-sm leading-relaxed whitespace-pre-wrap" style={{ marginBottom: "8px" }}>{s.story}</p>
-                      <p className="text-stone-600 text-xs">Shared {month} {year}</p>
-                    </div>
-                  );
-                })}
+              <div
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+                style={{ position: "relative", minHeight: "200px" }}
+              >
+                {/* Navigation arrows */}
+                {publishedStories.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevStory}
+                      disabled={storyIndex === 0}
+                      style={{
+                        position: "absolute",
+                        left: "-48px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        background: "none",
+                        border: "none",
+                        color: storyIndex === 0 ? "#44403c" : "#fbbf24",
+                        cursor: storyIndex === 0 ? "default" : "pointer",
+                        fontSize: "24px",
+                        padding: "8px",
+                        transition: "color 0.2s",
+                      }}
+                      aria-label="Previous story"
+                    >
+                      ◀
+                    </button>
+                    <button
+                      onClick={nextStory}
+                      disabled={storyIndex === publishedStories.length - 1}
+                      style={{
+                        position: "absolute",
+                        right: "-48px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        background: "none",
+                        border: "none",
+                        color: storyIndex === publishedStories.length - 1 ? "#44403c" : "#fbbf24",
+                        cursor: storyIndex === publishedStories.length - 1 ? "default" : "pointer",
+                        fontSize: "24px",
+                        padding: "8px",
+                        transition: "color 0.2s",
+                      }}
+                      aria-label="Next story"
+                    >
+                      ▶
+                    </button>
+                  </>
+                )}
+                {/* Story content */}
+                <div style={{ overflow: "hidden" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      transition: "transform 0.4s ease",
+                      transform: `translateX(-${storyIndex * 100}%)`,
+                    }}
+                  >
+                    {publishedStories.map((s, i) => {
+                      const date = new Date(s.created_at);
+                      const month = date.toLocaleString("en-US", { month: "long" });
+                      const year = date.getFullYear();
+                      return (
+                        <div key={i} style={{ minWidth: "100%", textAlign: "left" }}>
+                          <div className="blog-post-body">
+                            <p style={{ color: "#a8a29e", lineHeight: "1.625", marginBottom: "12px", whiteSpace: "pre-wrap", fontSize: "14px" }}>
+                              {s.story}
+                            </p>
+                          </div>
+                          <p style={{ color: "#78716c", fontSize: "12px", marginTop: "16px" }}>
+                            Shared {month} {year}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                {/* Counter */}
+                {publishedStories.length > 1 && (
+                  <p style={{ color: "#78716c", fontSize: "12px", marginTop: "24px", letterSpacing: "0.05em" }}>
+                    {storyIndex + 1} / {publishedStories.length}
+                  </p>
+                )}
               </div>
             </div>
           </section>

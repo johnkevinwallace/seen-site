@@ -11,6 +11,7 @@ const links = [
   { href: "/#coming", label: "What's Coming" },
   { href: "/#share", label: "Share Your Story" },
   { href: "/#loop", label: "Stay In The Loop" },
+  { href: "/#stories", label: "Stories" },
   { href: "/#resources", label: "Resources" },
   { href: "/blog", label: "Blog" },
 ];
