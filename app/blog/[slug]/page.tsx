@@ -6,6 +6,8 @@ import { createClient } from "@supabase/supabase-js";
 import { useParams } from "next/navigation";
 import { marked } from "marked";
 
+marked.use({ async: false });
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
@@ -55,7 +57,7 @@ export default function BlogPostPage() {
   }
 
   const bodyHtml = useMemo(() => {
-    return marked.parse(post.body, { async: false, breaks: true, gfm: true }) as string;
+    return marked.parse(post.body, { breaks: true, gfm: true }) as string;
   }, [post.body]);
 
   return (
