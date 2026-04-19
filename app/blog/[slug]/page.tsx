@@ -75,7 +75,7 @@ export default function BlogPostPage() {
           {post.title}
         </h1>
 
-        <p className="text-stone-600 text-xs mb-12">
+        <p className="text-stone-600 text-xs" style={{ marginBottom: "12px" }}>
           {new Date(post.created_at).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
@@ -91,7 +91,7 @@ export default function BlogPostPage() {
 
         <div className="text-stone-400 leading-relaxed text-left">
           {blocks.map((block: string, i: number) => (
-            <p key={i} className="mb-12 break-words" style={{ whiteSpace: "pre-line", overflowWrap: "anywhere" }}>
+            <p key={i} className="break-words" style={{ marginBottom: "12px", whiteSpace: "pre-line", overflowWrap: "anywhere" }}>
               {block}
             </p>
           ))}
