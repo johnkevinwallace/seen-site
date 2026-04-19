@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import Nav from "@/components/Nav";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -27,10 +28,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-va="0">
-      <body className={`${inter.className} bg-stone-950 text-stone-100`}>
-        <Nav />
-        {children}
+    <html lang="en" data-va="0" data-theme="light">
+      <body className={`${inter.className}`} style={{ background: "var(--bg)", color: "var(--text)" }}>
+        <ThemeProvider>
+          <Nav />
+          {children}
+        </ThemeProvider>
         <Analytics />
         <script
           dangerouslySetInnerHTML={{
