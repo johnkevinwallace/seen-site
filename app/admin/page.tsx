@@ -14,7 +14,7 @@ interface Draft {
 }
 
 interface Story {
-  id: number;
+  id: string;
   story: string;
   created_at: string;
   status: string | null;
@@ -45,8 +45,8 @@ export default function AdminPage() {
   // Story review state
   const [stories, setStories] = useState<Story[]>([]);
   const [storiesLoading, setStoriesLoading] = useState(false);
-  const [expandedStories, setExpandedStories] = useState<Set<number>>(new Set());
-  const [actionLoading, setActionLoading] = useState<number | null>(null);
+  const [expandedStories, setExpandedStories] = useState<Set<string>>(new Set());
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   function loadDrafts() {
     setDraftsLoading(true);
@@ -220,7 +220,7 @@ export default function AdminPage() {
     setErrorMsg("");
   }
 
-  function toggleStoryExpand(id: number) {
+  function toggleStoryExpand(id: string) {
     setExpandedStories((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
@@ -232,7 +232,7 @@ export default function AdminPage() {
     });
   }
 
-  async function handlePublishStory(id: number) {
+  async function handlePublishStory(id: string) {
     setActionLoading(id);
     try {
       const res = await fetch("/api/stories", {
@@ -247,7 +247,7 @@ export default function AdminPage() {
     setActionLoading(null);
   }
 
-  async function handleDeleteStory(id: number) {
+  async function handleDeleteStory(id: string) {
     if (!confirm("Delete this story permanently?")) return;
     setActionLoading(id);
     try {
