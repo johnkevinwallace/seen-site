@@ -62,7 +62,7 @@ export default function BlogPostPage() {
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
-      <div className="max-w-2xl mx-auto px-6 py-24 text-center">
+      <div className="max-w-lg mx-auto px-6 py-24 text-center">
         <Link
           href="/blog"
           style={{ textDecoration: "none" }}
