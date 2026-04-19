@@ -115,14 +115,14 @@ export default function Home() {
           <div className="max-w-2xl w-full mx-auto">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
             <div className="text-stone-400 leading-relaxed">
-              <p className="mb-12">I live it.</p>
-              <p className="mb-12">ADHD. Bipolar 1.</p>
-              <p className="mb-12">The cycle of starting strong, crashing hard, and rebuilding from scratch.</p>
-              <p className="mb-12">The comparison trap — watching everyone else move forward while you&apos;re just trying to stand up.</p>
-              <p className="mb-12">I don&apos;t have a degree in psychology. I&apos;m not a therapist.</p>
-              <p className="mb-12">But I know what it&apos;s like to fight your own brain and still show up the next day.</p>
-              <p className="mb-12">And I know that being seen — truly seen, not judged, not fixed, just acknowledged — is where recovery starts.</p>
-              <p className="mb-12">This isn&apos;t about having all the answers. It&apos;s about making sure no one has to struggle alone in the dark.</p>
+              <p className="mb-12" style={{ marginBottom: "24px" }}>I live it.</p>
+              <p className="mb-12" style={{ marginBottom: "24px" }}>ADHD. Bipolar 1.</p>
+              <p className="mb-12" style={{ marginBottom: "24px" }}>The cycle of starting strong, crashing hard, and rebuilding from scratch.</p>
+              <p className="mb-12" style={{ marginBottom: "24px" }}>The comparison trap — watching everyone else move forward while you&apos;re just trying to stand up.</p>
+              <p className="mb-12" style={{ marginBottom: "24px" }}>I don&apos;t have a degree in psychology. I&apos;m not a therapist.</p>
+              <p className="mb-12" style={{ marginBottom: "24px" }}>But I know what it&apos;s like to fight your own brain and still show up the next day.</p>
+              <p className="mb-12" style={{ marginBottom: "24px" }}>And I know that being seen — truly seen, not judged, not fixed, just acknowledged — is where recovery starts.</p>
+              <p className="mb-12" style={{ marginBottom: "24px" }}>This isn&apos;t about having all the answers. It&apos;s about making sure no one has to struggle alone in the dark.</p>
             </div>
           </div>
         </section>
