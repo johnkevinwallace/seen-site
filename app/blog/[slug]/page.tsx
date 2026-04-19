@@ -5,8 +5,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import { useParams } from "next/navigation";
 import { marked } from "marked";
-
-marked.use({ async: false });
+import { useMemo } from "react";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -57,7 +56,8 @@ export default function BlogPostPage() {
   }
 
   const bodyHtml = useMemo(() => {
-    return marked.parse(post.body, { breaks: true, gfm: true }) as string;
+    const result = marked.parse(post.body, { breaks: true, gfm: true, async: false });
+    return typeof result === "string" ? result : "";
   }, [post.body]);
 
   return (
