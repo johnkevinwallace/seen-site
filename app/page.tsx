@@ -96,15 +96,15 @@ export default function Home() {
         <section id="mission" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div className="max-w-4xl w-full grid md:grid-cols-3 gap-20">
             <div>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "12px" }}>Mission</h2>
-              <p className="text-lg text-stone-300 leading-relaxed">Help those struggling with their mental health to be seen.</p>
+              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "0px" }}>Mission</h2>
+              <p className="text-lg text-stone-300 leading-relaxed" style={{ marginBottom: "12px" }}>Help those struggling with their mental health to be seen.</p>
             </div>
             <div>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "12px" }}>Vision</h2>
-              <p className="text-lg text-stone-300 leading-relaxed">Become a prominent voice in the mental health advocacy space.</p>
+              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "0px" }}>Vision</h2>
+              <p className="text-lg text-stone-300 leading-relaxed" style={{ marginBottom: "12px" }}>Become a prominent voice in the mental health advocacy space.</p>
             </div>
             <div>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "12px" }}>Values</h2>
+              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "0px" }}>Values</h2>
               <p className="text-lg text-stone-300 leading-relaxed">Compassion. Respect. Support.</p>
             </div>
           </div>
@@ -243,9 +243,9 @@ export default function Home() {
 
             {/* Disclaimer */}
             <div className="mt-12 pt-8 border-t border-stone-800">
-              <p className="text-stone-700 text-[10px]" style={{ marginBottom: "12px" }}>This site is not a substitute for professional mental health care.</p>
-              <p className="text-stone-700 text-[10px]" style={{ marginBottom: "12px" }}>If you are in crisis, please reach out to the resources listed above.</p>
-              <p className="text-stone-700 text-[10px]" style={{ marginBottom: "12px" }}>The stories shared here are personal experiences and do not constitute medical advice.</p>
+              <p className="text-stone-700 text-[10px]">This site is not a substitute for professional mental health care.</p>
+              <p className="text-stone-700 text-[10px]">If you are in crisis, please reach out to the resources listed above.</p>
+              <p className="text-stone-700 text-[10px]">The stories shared here are personal experiences and do not constitute medical advice.</p>
             </div>
           </div>
         </section>
