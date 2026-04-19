@@ -48,7 +48,8 @@ export default function BlogPage() {
         </h1>
 
         <p className="text-stone-400 leading-loose mb-2">
-          Honest writing about the real experience of<br />
+          Honest writing<br />
+          about the real experience of<br />
           mental health recovery.
         </p>
         <p className="text-stone-400 leading-loose mb-2">
