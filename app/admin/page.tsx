@@ -106,7 +106,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
-      <div className="max-w-2xl mx-auto px-6 py-24">
+      <div className="max-w-2xl mx-auto px-6 pt-32 pb-24">
         <h1 className="text-2xl font-bold mb-2">New Post</h1>
         <p className="text-stone-600 text-xs mb-8">Write, preview, publish to Supabase</p>
 
@@ -181,9 +181,9 @@ export default function AdminPage() {
             <div className="text-center">
               <h3 className="text-2xl font-bold mb-2">{title}</h3>
               {excerpt && <p className="text-stone-500 text-sm mb-8">{excerpt}</p>}
-              <div className="space-y-4 text-stone-400 leading-loose text-left">
-                {body.split("\n").filter((p) => p.trim()).map((p, i) => (
-                  <p key={i}>{p}</p>
+              <div className="text-stone-400 leading-loose text-left">
+                {body.split(/\n\n+/).filter((b) => b.trim()).map((block, i) => (
+                  <p key={i} className="mb-8" style={{ whiteSpace: "pre-line" }}>{block.trim()}</p>
                 ))}
               </div>
             </div>

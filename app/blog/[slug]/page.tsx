@@ -53,7 +53,12 @@ export default function BlogPostPage() {
     );
   }
 
-  const paragraphs = post.body.split("\n").filter((p: string) => p.trim());
+  // Split on blank lines (one or more) for paragraph breaks
+  // Single newlines within a paragraph stay as line breaks
+  const blocks = post.body
+    .split(/\n\n+/)
+    .filter((b: string) => b.trim())
+    .map((b: string) => b.trim());
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
@@ -78,9 +83,11 @@ export default function BlogPostPage() {
           })}
         </p>
 
-        <div className="space-y-6 text-stone-400 leading-loose">
-          {paragraphs.map((p: string, i: number) => (
-            <p key={i}>{p}</p>
+        <div className="text-stone-400 leading-loose">
+          {blocks.map((block: string, i: number) => (
+            <p key={i} className="mb-8" style={{ whiteSpace: "pre-line" }}>
+              {block}
+            </p>
           ))}
         </div>
 
