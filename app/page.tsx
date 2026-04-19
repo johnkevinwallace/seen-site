@@ -178,12 +178,12 @@ export default function Home() {
           <div>
             <img
               src="/john-v2.jpg"
-              alt="John Kevin Wallace"
+              alt="John Kevin"
               width={230}
               height={230}
               className="rounded-full object-cover mb-6 border border-stone-700 mx-auto"
             />
-            <p className="text-stone-500 text-sm mb-2">John Kevin Wallace</p>
+            <p className="text-stone-500 text-sm mb-2">John Kevin</p>
             <p className="text-stone-600 text-xs uppercase tracking-[0.2em] mb-6">Lived experience. Real advocacy.</p>
             <p className="text-stone-600 text-sm mb-10">Seen — because everyone deserves to be.</p>
           </div>
