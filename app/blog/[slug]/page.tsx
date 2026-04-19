@@ -5,7 +5,7 @@ import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import { useParams } from "next/navigation";
 import { marked } from "marked";
-import { useMemo } from "react";
+
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
