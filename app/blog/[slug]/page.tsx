@@ -104,6 +104,23 @@ export default function BlogPostPage() {
             ← Back to blog
           </Link>
         </div>
+
+        <div className="border-t border-stone-800 mt-12 pt-8">
+          <p className="text-stone-600 text-xs uppercase tracking-[0.2em] mb-4">
+            If you&apos;re struggling right now, you don&apos;t have to do it alone. Reach out:
+          </p>
+          <div className="text-left space-y-1">
+            <p className="text-stone-500 text-sm">
+              <strong className="text-stone-300">988 Suicide &amp; Crisis Lifeline</strong> — Call or text 988 (24/7)
+            </p>
+            <p className="text-stone-500 text-sm">
+              <strong className="text-stone-300">Crisis Text Line</strong> — Text HOME to 741741 (24/7)
+            </p>
+            <p className="text-stone-500 text-sm">
+              <strong className="text-stone-300">NAMI Helpline</strong> — 1-800-950-NAMI (Mon–Fri, 10am–10pm ET)
+            </p>
+          </div>
+        </div>
       </div>
       <style jsx global>{`
         .blog-post-body p {
