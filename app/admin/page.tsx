@@ -1,8 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { marked } from "marked";
 
 const ADMIN_PASSWORD = "seen-admin-2026";
+
+interface Draft {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  trigger_warning: string | null;
+  body: string;
+  created_at: string;
+}
 
 export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -17,6 +28,28 @@ export default function AdminPage() {
   const [publishing, setPublishing] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const [drafts, setDrafts] = useState<Draft[]>([]);
+  const [draftsLoading, setDraftsLoading] = useState(false);
+
+  function loadDrafts() {
+    setDraftsLoading(true);
+    fetch("/api/draft", { headers: { "Content-Type": "application/json", "X-Password": ADMIN_PASSWORD } })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.drafts) setDrafts(data.drafts);
+      })
+      .finally(() => setDraftsLoading(false));
+  }
+
+  useEffect(() => {
+    if (authenticated) loadDrafts();
+  }, [authenticated]);
+
+  const previewHtml = useMemo(() => {
+    if (!body) return "";
+    return marked.parse(body, { async: false }) as string;
+  }, [body]);
 
   function handleLogin() {
     if (password === ADMIN_PASSWORD) {
@@ -36,9 +69,18 @@ export default function AdminPage() {
       .trim();
   }
 
+  function resetForm() {
+    setTitle("");
+    setSlug("");
+    setExcerpt("");
+    setTriggerWarning("");
+    setBody("");
+    setStatus("idle");
+    setErrorMsg("");
+  }
+
   async function handlePublish() {
     if (!title || !body) return;
-
     setPublishing(true);
     setStatus("idle");
     setErrorMsg("");
@@ -66,11 +108,8 @@ export default function AdminPage() {
         setStatus("error");
       } else {
         setStatus("success");
-        setTitle("");
-        setSlug("");
-        setExcerpt("");
-        setTriggerWarning("");
-        setBody("");
+        resetForm();
+        loadDrafts();
       }
     } catch (err) {
       setErrorMsg("Network error");
@@ -78,6 +117,56 @@ export default function AdminPage() {
     }
 
     setPublishing(false);
+  }
+
+  async function handleSaveDraft() {
+    if (!title || !body) return;
+    setPublishing(true);
+    setStatus("idle");
+    setErrorMsg("");
+
+    const finalSlug = slug || generateSlug(title);
+
+    try {
+      const res = await fetch("/api/draft", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          slug: finalSlug,
+          excerpt: excerpt || null,
+          trigger_warning: triggerWarning || null,
+          body,
+          password: ADMIN_PASSWORD,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setErrorMsg(data.error || "Something went wrong");
+        setStatus("error");
+      } else {
+        setStatus("success");
+        resetForm();
+        loadDrafts();
+      }
+    } catch (err) {
+      setErrorMsg("Network error");
+      setStatus("error");
+    }
+
+    setPublishing(false);
+  }
+
+  function loadDraft(d: Draft) {
+    setTitle(d.title);
+    setSlug(d.slug);
+    setExcerpt(d.excerpt || "");
+    setTriggerWarning(d.trigger_warning || "");
+    setBody(d.body);
+    setStatus("idle");
+    setErrorMsg("");
   }
 
   if (!authenticated) {
@@ -110,6 +199,25 @@ export default function AdminPage() {
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
       <div className="max-w-2xl mx-auto px-6 py-24 overflow-hidden">
+        {/* Drafts section */}
+        {drafts.length > 0 && (
+          <div className="mb-10 border border-stone-800 rounded p-4">
+            <h2 className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Drafts</h2>
+            <div className="space-y-2">
+              {drafts.map((d) => (
+                <button
+                  key={d.id}
+                  onClick={() => loadDraft(d)}
+                  className="w-full text-left px-3 py-2 bg-stone-900 rounded hover:bg-stone-800 transition-colors"
+                >
+                  <span className="text-stone-100 text-sm">{d.title}</span>
+                  <span className="text-stone-600 text-xs ml-2">{new Date(d.created_at).toLocaleDateString()}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         <h1 className="text-2xl font-bold mb-2">New Post</h1>
         <p className="text-stone-600 text-xs mb-8">Write, preview, publish to Supabase</p>
 
@@ -170,6 +278,7 @@ export default function AdminPage() {
               rows={15}
               className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50 resize-y leading-relaxed"
             />
+            <p className="text-stone-600 text-xs mt-1">Supports **bold**, ## headings, ### subheadings</p>
           </div>
 
           <div className="flex items-center gap-4">
@@ -180,8 +289,15 @@ export default function AdminPage() {
             >
               {publishing ? "Publishing..." : "Publish"}
             </button>
+            <button
+              onClick={handleSaveDraft}
+              disabled={publishing || !title || !body}
+              className="px-6 py-2 bg-stone-800 text-stone-100 text-sm font-semibold rounded hover:bg-stone-700 transition-colors disabled:opacity-50 border border-stone-700"
+            >
+              {publishing ? "Saving..." : "Save Draft"}
+            </button>
             {status === "success" && (
-              <p className="text-green-400 text-sm">Published ✓</p>
+              <p className="text-green-400 text-sm">Saved ✓</p>
             )}
             {status === "error" && (
               <p className="text-red-400 text-sm">{errorMsg || "Something went wrong."}</p>
@@ -195,14 +311,47 @@ export default function AdminPage() {
             <div className="text-center">
               <h3 className="text-2xl font-bold mb-2">{title}</h3>
               {excerpt && <p className="text-stone-500 text-sm mb-8">{excerpt}</p>}
-              <div className="text-stone-400 leading-loose text-left">
-                {body.split(/\n\n+/).filter((b) => b.trim()).map((block, i) => (
-                  <p key={i} className="mb-12 break-words" style={{ whiteSpace: "pre-line", overflowWrap: "anywhere" }}>{block.trim()}</p>
-                ))}
-              </div>
+              <div
+                className="text-left prose-invert"
+                style={{ color: "#a8a29e", lineHeight: "1.625" }}
+                dangerouslySetInnerHTML={{ __html: previewHtml }}
+              />
             </div>
           </div>
         )}
+
+        <style jsx global>{`
+          .prose-invert h2 {
+            color: #fbbf24;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+          }
+          .prose-invert h3 {
+            color: rgba(251, 191, 36, 0.8);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 12px;
+          }
+          .prose-invert p {
+            color: #a8a29e;
+            line-height: 1.625;
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
+          }
+          .prose-invert strong {
+            color: #f5f5f4;
+          }
+          .prose-invert a {
+            color: #fbbf24;
+            text-decoration: none;
+          }
+          .prose-invert a:hover {
+            text-decoration: underline;
+          }
+        `}</style>
       </div>
     </div>
   );

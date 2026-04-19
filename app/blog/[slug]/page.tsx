@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
 import { useParams } from "next/navigation";
+import { marked } from "marked";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -53,12 +54,9 @@ export default function BlogPostPage() {
     );
   }
 
-  // Split on blank lines (one or more) for paragraph breaks
-  // Single newlines within a paragraph stay as line breaks
-  const blocks = post.body
-    .split(/\n\n+/)
-    .filter((b: string) => b.trim())
-    .map((b: string) => b.trim());
+  const bodyHtml = useMemo(() => {
+    return marked.parse(post.body, { async: false }) as string;
+  }, [post.body]);
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
@@ -89,13 +87,10 @@ export default function BlogPostPage() {
           </p>
         )}
 
-        <div className="text-stone-400 leading-relaxed text-left">
-          {blocks.map((block: string, i: number) => (
-            <p key={i} className="break-words" style={{ marginBottom: "12px", whiteSpace: "pre-line", overflowWrap: "anywhere" }}>
-              {block}
-            </p>
-          ))}
-        </div>
+        <div
+          className="text-left blog-post-body"
+          dangerouslySetInnerHTML={{ __html: bodyHtml }}
+        />
 
         <div className="border-t border-stone-800 mt-16 pt-8">
           <Link
@@ -107,6 +102,38 @@ export default function BlogPostPage() {
           </Link>
         </div>
       </div>
+      <style jsx global>{`
+        .blog-post-body p {
+          color: #a8a29e;
+          line-height: 1.625;
+          margin-bottom: 12px;
+          overflow-wrap: anywhere;
+        }
+        .blog-post-body h2 {
+          color: #fbbf24;
+          font-weight: 700;
+          font-size: 1.125rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 12px;
+        }
+        .blog-post-body h3 {
+          color: rgba(251, 191, 36, 0.8);
+          font-weight: 600;
+          font-size: 1rem;
+          margin-bottom: 12px;
+        }
+        .blog-post-body strong {
+          color: #f5f5f4;
+        }
+        .blog-post-body a {
+          color: #fbbf24;
+          text-decoration: none;
+        }
+        .blog-post-body a:hover {
+          text-decoration: underline;
+        }
+      `}</style>
     </div>
   );
 }
