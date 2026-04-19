@@ -9,6 +9,7 @@ export default function Home() {
   const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [storyText, setStoryText] = useState("");
   const [storyStatus, setStoryStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [website, setWebsite] = useState(""); // honeypot
   const [confirmedParam] = useState(() => {
     if (typeof window === "undefined") return null;
     return new URLSearchParams(window.location.search).get("confirmed");
@@ -56,7 +57,7 @@ export default function Home() {
       const res = await fetch("/api/story", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ story: storyText.trim() }),
+        body: JSON.stringify({ story: storyText.trim(), website }),
       });
       if (res.ok) {
         setStoryStatus("success");
@@ -148,6 +149,18 @@ export default function Home() {
               <p className="text-amber-400">Thank you. Your story has been received.</p>
             ) : (
               <form onSubmit={handleStory} className="flex flex-col gap-4">
+                <div style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
+                  <label htmlFor="website">Website</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </div>
                 <textarea
                   required
                   minLength={10}
