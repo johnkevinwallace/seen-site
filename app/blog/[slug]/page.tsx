@@ -30,6 +30,12 @@ export default function BlogPostPage() {
       });
   }, [slug]);
 
+  const bodyHtml = useMemo(() => {
+    if (!post?.body) return "";
+    const result = marked.parse(post.body, { breaks: true, gfm: true, async: false });
+    return typeof result === "string" ? result : "";
+  }, [post?.body]);
+
   if (loading) {
     return (
       <div className="min-h-dvh bg-stone-950 text-stone-100 flex items-center justify-center">
@@ -54,11 +60,6 @@ export default function BlogPostPage() {
       </div>
     );
   }
-
-  const bodyHtml = useMemo(() => {
-    const result = marked.parse(post.body, { breaks: true, gfm: true, async: false });
-    return typeof result === "string" ? result : "";
-  }, [post.body]);
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
