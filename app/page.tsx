@@ -116,7 +116,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="h-dvh overflow-y-scroll snap-y snap-mandatory">
+      <main className="h-dvh overflow-y-scroll overflow-x-hidden snap-y snap-mandatory">
         {/* Hero */}
         <section className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
           <div>
