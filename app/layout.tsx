@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Nav from "@/components/Nav";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
@@ -35,6 +36,7 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
         <script
           dangerouslySetInnerHTML={{
             __html: `
