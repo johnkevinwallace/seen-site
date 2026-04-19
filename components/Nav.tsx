@@ -156,7 +156,8 @@ export default function Nav() {
                   style={{
                     fontSize: "14px",
                     letterSpacing: "0.025em",
-                    color: "#a8a29e",
+                    color: link.label === "Blog" ? "#d6d3d1" : "#a8a29e",
+                    fontWeight: link.label === "Blog" ? 700 : 400,
                     textDecoration: "none",
                     transition: "color 0.2s",
                     display: "block",
