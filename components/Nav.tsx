@@ -126,17 +126,48 @@ export default function Nav() {
         }}
       >
         <div style={{ paddingTop: "80px", paddingLeft: "32px", paddingRight: "32px", flex: 1 }}>
-          <p
+          <div
             style={{
-              color: "var(--accent)",
-              fontSize: "12px",
-              textTransform: "uppercase",
-              letterSpacing: "0.2em",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
               marginBottom: "32px",
             }}
           >
-            Navigate
-          </p>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 32 32"
+              width="24"
+              height="24"
+            >
+              <path
+                d="M7 8 C7 4, 16 3, 19 6 C22 9, 18 12, 14 13 C10 14, 7 15, 7 18 C7 22, 14 24, 17 22"
+                fill="none"
+                stroke="var(--accent, #fbbf24)"
+                strokeWidth="3.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M25 24 C25 28, 16 29, 13 26 C10 23, 14 20, 18 19 C22 18, 25 17, 25 14 C25 10, 18 8, 15 10"
+                fill="none"
+                stroke="var(--accent, #fbbf24)"
+                strokeWidth="3.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <p
+              style={{
+                color: "var(--accent)",
+                fontSize: "12px",
+                textTransform: "uppercase",
+                letterSpacing: "0.2em",
+              }}
+            >
+              Navigate
+            </p>
+          </div>
           <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "20px" }}>
             {links.map((link) => (
               <li key={link.href}>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "Helping others struggling with mental health to be seen. Compassion. Respect. Support.",
   openGraph: {
-    title: "Seen",
+    title: "Seen — Mental Health Advocacy",
     description: "Mental health advocacy — because everyone deserves to be seen.",
     type: "website",
     url: "https://seenadvocacy.com",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Nav />
           {children}
+          <Footer />
         </ThemeProvider>
         <Analytics />
         <script
