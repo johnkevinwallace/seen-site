@@ -192,8 +192,10 @@ export default function Home() {
           <div className="w-64">
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Stay in the loop</p>
             {subStatus === "success" ? (
-              <p className="text-amber-400 text-sm" style={{ marginBottom: "12px" }}>Check your inbox to confirm your subscription.</p>
-              <p className="text-stone-600 text-xs">Don't see it? Check your spam folder.</p>
+              <div>
+                <p className="text-amber-400 text-sm" style={{ marginBottom: "12px" }}>Check your inbox to confirm your subscription.</p>
+                <p className="text-stone-600 text-xs">Don't see it? Check your spam folder.</p>
+              </div>
             ) : (
               <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
                 <input
