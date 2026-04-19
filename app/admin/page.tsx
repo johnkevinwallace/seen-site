@@ -3,8 +3,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { marked } from "marked";
 
-const ADMIN_PASSWORD = "seen-admin-2026";
-
 interface Draft {
   id: number;
   title: string;
@@ -19,6 +17,7 @@ export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
 
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -34,7 +33,7 @@ export default function AdminPage() {
 
   function loadDrafts() {
     setDraftsLoading(true);
-    fetch("/api/draft", { headers: { "Content-Type": "application/json", "X-Password": ADMIN_PASSWORD } })
+    fetch("/api/draft")
       .then((r) => r.json())
       .then((data) => {
         if (data.drafts) setDrafts(data.drafts);
@@ -46,18 +45,42 @@ export default function AdminPage() {
     if (authenticated) loadDrafts();
   }, [authenticated]);
 
+  // Check if already logged in on mount
+  useEffect(() => {
+    fetch("/api/draft")
+      .then((r) => {
+        if (r.ok) setAuthenticated(true);
+      })
+      .catch(() => {});
+  }, []);
+
   const previewHtml = useMemo(() => {
     if (!body) return "";
     return marked.parse(body, { async: false, breaks: true, gfm: true }) as string;
   }, [body]);
 
-  function handleLogin() {
-    if (password === ADMIN_PASSWORD) {
-      setAuthenticated(true);
-      setPasswordError(false);
-    } else {
+  async function handleLogin() {
+    setAuthLoading(true);
+    setPasswordError(false);
+
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+
+      if (res.ok) {
+        setAuthenticated(true);
+        setPassword("");
+      } else {
+        setPasswordError(true);
+      }
+    } catch {
       setPasswordError(true);
     }
+
+    setAuthLoading(false);
   }
 
   function generateSlug(t: string) {
@@ -97,7 +120,6 @@ export default function AdminPage() {
           excerpt: excerpt || null,
           trigger_warning: triggerWarning || null,
           body,
-          password: ADMIN_PASSWORD,
         }),
       });
 
@@ -137,7 +159,6 @@ export default function AdminPage() {
           excerpt: excerpt || null,
           trigger_warning: triggerWarning || null,
           body,
-          password: ADMIN_PASSWORD,
         }),
       });
 
@@ -187,9 +208,10 @@ export default function AdminPage() {
           )}
           <button
             onClick={handleLogin}
-            className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors"
+            disabled={authLoading}
+            className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
           >
-            Enter
+            {authLoading ? "Logging in..." : "Enter"}
           </button>
         </div>
       </div>

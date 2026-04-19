@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { verifySession } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
-  const { title, slug, excerpt, body, password, trigger_warning } = await req.json();
+  const sessionToken = req.cookies.get("admin_session")?.value;
 
-  if (password !== "seen-admin-2026") {
+  if (!sessionToken || !verifySession(sessionToken)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const { title, slug, excerpt, body, trigger_warning } = await req.json();
 
   if (!title || !body) {
     return NextResponse.json({ error: "Title and body required" }, { status: 400 });
