@@ -55,7 +55,7 @@ export default function BlogPostPage() {
   }
 
   const bodyHtml = useMemo(() => {
-    return marked.parse(post.body, { async: false }) as string;
+    return marked.parse(post.body, { async: false, breaks: true, gfm: true }) as string;
   }, [post.body]);
 
   return (
@@ -129,6 +129,14 @@ export default function BlogPostPage() {
         .blog-post-body a {
           color: #fbbf24;
           text-decoration: none;
+        }
+        .blog-post-body em {
+          color: #d6d3d1;
+          font-style: italic;
+        }
+        .blog-post-body u {
+          color: #d6d3d1;
+          text-decoration: underline;
         }
         .blog-post-body a:hover {
           text-decoration: underline;

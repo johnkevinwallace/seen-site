@@ -48,7 +48,7 @@ export default function AdminPage() {
 
   const previewHtml = useMemo(() => {
     if (!body) return "";
-    return marked.parse(body, { async: false }) as string;
+    return marked.parse(body, { async: false, breaks: true, gfm: true }) as string;
   }, [body]);
 
   function handleLogin() {
@@ -278,7 +278,7 @@ export default function AdminPage() {
               rows={15}
               className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50 resize-y leading-relaxed"
             />
-            <p className="text-stone-600 text-xs mt-1">Supports **bold**, ## headings, ### subheadings</p>
+            <p className="text-stone-600 text-xs mt-1">Supports **bold**, *italic*, &lt;u&gt;underline&lt;/u&gt;, ## headings, ### subheadings</p>
           </div>
 
           <div className="flex items-center gap-4">
@@ -347,6 +347,14 @@ export default function AdminPage() {
           .prose-invert a {
             color: #fbbf24;
             text-decoration: none;
+          }
+          .prose-invert em {
+            color: #d6d3d1;
+            font-style: italic;
+          }
+          .prose-invert u {
+            color: #d6d3d1;
+            text-decoration: underline;
           }
           .prose-invert a:hover {
             text-decoration: underline;
