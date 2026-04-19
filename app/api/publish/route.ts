@@ -17,14 +17,35 @@ export async function POST(req: NextRequest) {
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-  const { error } = await supabase.from("posts").insert({
-    title,
-    slug,
-    excerpt: excerpt || null,
-    trigger_warning: trigger_warning || null,
-    body,
-    published: true,
-  });
+  // Upsert: update if slug exists, insert if new
+  const { data: existing } = await supabase
+    .from("posts")
+    .select("id")
+    .eq("slug", slug)
+    .single();
+
+  let error;
+  if (existing) {
+    ({ error } = await supabase
+      .from("posts")
+      .update({
+        title,
+        excerpt: excerpt || null,
+        trigger_warning: trigger_warning || null,
+        body,
+        published: true,
+      })
+      .eq("slug", slug));
+  } else {
+    ({ error } = await supabase.from("posts").insert({
+      title,
+      slug,
+      excerpt: excerpt || null,
+      trigger_warning: trigger_warning || null,
+      body,
+      published: true,
+    }));
+  }
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
