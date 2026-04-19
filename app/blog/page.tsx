@@ -34,7 +34,7 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
-      <div className="max-w-2xl mx-auto px-6 py-24 text-center">
+      <div className="mx-auto py-24 text-center" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
         <Link
           href="/"
           style={{ textDecoration: "none" }}
