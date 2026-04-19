@@ -12,6 +12,7 @@ export default function AdminPage() {
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
+  const [triggerWarning, setTriggerWarning] = useState("");
   const [body, setBody] = useState("");
   const [publishing, setPublishing] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
@@ -52,6 +53,7 @@ export default function AdminPage() {
           title,
           slug: finalSlug,
           excerpt: excerpt || null,
+          trigger_warning: triggerWarning || null,
           body,
           password: ADMIN_PASSWORD,
         }),
@@ -67,6 +69,7 @@ export default function AdminPage() {
         setTitle("");
         setSlug("");
         setExcerpt("");
+        setTriggerWarning("");
         setBody("");
       }
     } catch (err) {
@@ -143,6 +146,17 @@ export default function AdminPage() {
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
               placeholder="A short summary of what this post is about"
+              className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+            />
+          </div>
+
+          <div>
+            <label className="block text-stone-400 text-xs uppercase tracking-[0.1em] mb-2">Trigger Warning (optional)</label>
+            <input
+              type="text"
+              value={triggerWarning}
+              onChange={(e) => setTriggerWarning(e.target.value)}
+              placeholder="e.g. self-harm, substance abuse, suicide mention"
               className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
             />
           </div>

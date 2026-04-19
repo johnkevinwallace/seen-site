@@ -10,7 +10,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
-  const [post, setPost] = useState<{ title: string; body: string; created_at: string } | null>(null);
+  const [post, setPost] = useState<{ title: string; body: string; created_at: string; trigger_warning: string | null } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function BlogPostPage() {
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
     supabase
       .from("posts")
-      .select("id, slug, title, body, created_at")
+      .select("id, slug, title, body, trigger_warning, created_at")
       .eq("slug", slug)
       .eq("published", true)
       .single()
@@ -82,6 +82,12 @@ export default function BlogPostPage() {
             day: "numeric",
           })}
         </p>
+
+        {post.trigger_warning && (
+          <p className="text-stone-600 text-sm" style={{ marginBottom: "12px" }}>
+            <strong style={{ color: "#fbbf24" }}>Trigger Warning:</strong> {post.trigger_warning}
+          </p>
+        )}
 
         <div className="text-stone-400 leading-relaxed text-left">
           {blocks.map((block: string, i: number) => (

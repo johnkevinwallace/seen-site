@@ -2,9 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 export async function POST(req: NextRequest) {
-  const { title, slug, excerpt, body, password } = await req.json();
+  const { title, slug, excerpt, body, password, trigger_warning } = await req.json();
 
-  // Server-side password check
   if (password !== "seen-admin-2026") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -22,6 +21,7 @@ export async function POST(req: NextRequest) {
     title,
     slug,
     excerpt: excerpt || null,
+    trigger_warning: trigger_warning || null,
     body,
     published: true,
   });
