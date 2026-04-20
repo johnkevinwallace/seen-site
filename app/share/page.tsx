@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function SharePage() {
   const [storyText, setStoryText] = useState("");
   const [storyStatus, setStoryStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [website, setWebsite] = useState(""); // honeypot
+
+  // Scroll to top on mobile
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleStory = async (e: React.FormEvent) => {
     e.preventDefault();
