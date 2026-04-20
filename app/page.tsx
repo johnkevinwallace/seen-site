@@ -309,7 +309,7 @@ export default function Home() {
         )}
 
         {/* Share Your Story */}
-        <section id="share" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+        <section id="share" className="min-h-dvh snap-start snap-always flex flex-col items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-4">Share Your Story</h2>
             <p className="text-stone-400 text-base leading-relaxed mb-4">Your story matters. Share it here — completely anonymous. No email, no name, no cookies, no tracking. Just your words. We never collect or store any identifying information.</p>
