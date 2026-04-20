@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     },
     body: JSON.stringify({
       from: "Seen <hello@seenadvocacy.com>",
-      to: "support@seenadvocacy.com",
+      to: "johnkevin.q.wallace@gmail.com",
       subject: "Bug Report from seenadvocacy.com",
       html: htmlBody,
     }),
