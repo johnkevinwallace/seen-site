@@ -156,8 +156,8 @@ export default function Home() {
         </section>
 
         {/* Why This Matters */}
-        <section id="why" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
-          <div className="max-w-2xl w-full mx-auto">
+        <section id="why" className="min-h-dvh snap-start flex items-center justify-center text-center">
+          <div className="max-w-xl w-full mx-auto px-6 md:px-8">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
             <div className="text-stone-400 leading-relaxed">
               <p className="mb-12" style={{ marginBottom: "12px" }}>I live it.</p>
@@ -173,8 +173,8 @@ export default function Home() {
         </section>
 
         {/* What's Coming */}
-        <section id="coming" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
-          <div className="max-w-2xl w-full">
+        <section id="coming" className="min-h-dvh snap-start flex items-center justify-center text-center">
+          <div className="max-w-xl w-full mx-auto px-6 md:px-8">
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">What&apos;s Coming</h2>
             <ul className="text-stone-400">
               <li style={{ marginBottom: "12px" }}>→ Tools and systems for building stability when motivation fails</li>
@@ -186,8 +186,8 @@ export default function Home() {
 
         {/* Published Stories */}
         {publishedStories.length > 0 && (
-          <section id="stories" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
-            <div style={{ maxWidth: "640px", width: "100%" }}>
+          <section id="stories" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+            <div className="max-w-xl w-full mx-auto px-6 md:px-8">
               <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-10">Stories</h2>
               <div
                 onTouchStart={onTouchStart}
@@ -280,8 +280,8 @@ export default function Home() {
         )}
 
         {/* Share Your Story */}
-        <section id="share" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
-          <div className="w-80">
+        <section id="share" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+          <div className="max-w-xs w-full mx-auto px-6 md:px-8">
             <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-4">Share Your Story</h2>
             <p className="text-stone-400 text-sm leading-relaxed mb-8">Your story matters. Share it here — completely anonymous. No email, no name, no way to trace it back to you. Just your words.</p>
             {storyStatus === "success" ? (
@@ -326,8 +326,8 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer id="loop" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
-          <div>
+        <footer id="loop" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+          <div className="px-6 md:px-8">
             <img
               src="/john-v2.jpg"
               alt="John Kevin"
@@ -374,8 +374,8 @@ export default function Home() {
         </footer>
 
         {/* Resources */}
-        <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center px-6 text-center">
-          <div className="w-80">
+        <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+          <div className="max-w-xs w-full mx-auto px-6 md:px-8">
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em]" style={{ marginBottom: "12px" }}>If you need help now</p>
             <div>
               <div style={{ marginBottom: "12px" }}>

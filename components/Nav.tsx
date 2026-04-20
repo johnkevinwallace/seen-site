@@ -9,9 +9,9 @@ const links = [
   { href: "/#mission", label: "Mission | Vision | Values" },
   { href: "/#why", label: "Why This Matters" },
   { href: "/#coming", label: "What's Coming" },
+  { href: "/#stories", label: "Stories" },
   { href: "/#share", label: "Share Your Story" },
   { href: "/#loop", label: "Stay In The Loop" },
-  { href: "/#stories", label: "Stories" },
   { href: "/#resources", label: "Resources" },
   { href: "/blog", label: "Blog" },
 ];
