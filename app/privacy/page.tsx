@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function TermsPage() {
+export default function PrivacyPage() {
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
       <div
@@ -16,76 +16,72 @@ export default function TermsPage() {
         </Link>
 
         <h1 className="text-4xl font-bold tracking-tight mt-8 mb-2">
-          Terms of Use
+          Privacy Policy
         </h1>
         <p className="text-stone-600 text-sm mb-10">
-          Last updated: April 19, 2026
-        </p>
-
-        <p className="text-stone-600 text-xs mb-10">
-          <Link href="/privacy" className="text-stone-600 hover:text-amber-400 transition-colors">Privacy Policy →</Link>
+          Last updated: April 2026
         </p>
 
         <section className="space-y-8">
           <div>
             <h2 className="text-amber-400 text-lg font-semibold mb-2">
-              Ownership
+              What We Collect
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              All content, branding, logo, and design on seenadvocacy.com are
-              the original work of Seen Advocacy and protected by copyright law.
+              Only your story text and submission timestamp. No email, no name,
+              no IP address, no cookies, no tracking of any kind.
             </p>
           </div>
 
           <div>
             <h2 className="text-amber-400 text-lg font-semibold mb-2">
-              Logo &amp; Branding
+              How Stories Are Stored
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              The Seen Advocacy logo and brand name may not be used without
-              written permission.
+              Stories are stored in a secure database with no identifying
+              information attached. Each submission receives a random ID — there
+              is no way to connect a story back to you.
             </p>
           </div>
 
           <div>
             <h2 className="text-amber-400 text-lg font-semibold mb-2">
-              Content
+              Review Process
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              Blog posts, stories, and other content are owned by Seen Advocacy
-              (or their respective anonymous authors). Do not reproduce without
-              permission.
+              All stories are reviewed before publishing. We reserve the right
+              not to publish content that promotes harm, contains hate speech,
+              offers medical advice, or is spam.
             </p>
           </div>
 
           <div>
             <h2 className="text-amber-400 text-lg font-semibold mb-2">
-              Anonymous Stories
+              Your Control
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              Stories shared through the &ldquo;Share Your Story&rdquo; feature
-              are submitted anonymously. By submitting, you grant Seen Advocacy
-              a non-exclusive license to publish your story. We do not collect
-              personal information with submissions.
+              You cannot edit or delete a story after submission since we have
+              no way to verify you submitted it. If you need a story removed,
+              please <a href="mailto:contact@seenadvocacy.com" className="text-amber-400 hover:text-amber-300 transition-colors">contact us</a>.
             </p>
           </div>
 
           <div>
             <h2 className="text-amber-400 text-lg font-semibold mb-2">
-              Disclaimer
+              Third Parties
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              This site is not a substitute for professional mental health care.
-              Content is for informational purposes only.
+              We don&rsquo;t sell, share, or transfer your data to anyone. Period.
             </p>
           </div>
 
           <div>
             <h2 className="text-amber-400 text-lg font-semibold mb-2">
-              Changes
+              Security
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              We may update these terms at any time.
+              The site uses HTTPS encryption. Submissions are transmitted
+              securely.
             </p>
           </div>
         </section>

@@ -59,7 +59,7 @@ export default function Footer() {
           © 2026 Seen Advocacy. All rights reserved.
         </span>
       </div>
-      <div style={{ marginTop: "4px" }}>
+      <div style={{ marginTop: "4px", display: "flex", justifyContent: "center", gap: "8px" }}>
         <a
           href="/terms"
           style={{
@@ -69,6 +69,17 @@ export default function Footer() {
           }}
         >
           Terms of Use
+        </a>
+        <span style={{ color: "#44403c", fontSize: "11px" }}>·</span>
+        <a
+          href="/privacy"
+          style={{
+            color: "#57534e",
+            fontSize: "11px",
+            textDecoration: "none",
+          }}
+        >
+          Privacy Policy
         </a>
       </div>
     </footer>
