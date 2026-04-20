@@ -62,7 +62,7 @@ export default function PrivacyPage() {
             <p className="text-stone-400 leading-relaxed">
               You cannot edit or delete a story after submission since we have
               no way to verify you submitted it. If you need a story removed,
-              please <a href="mailto:contact@seenadvocacy.com" className="text-amber-400 hover:text-amber-300 transition-colors">contact us</a>.
+              please <Link href="/contact" className="text-amber-400 hover:text-amber-300 transition-colors">contact us</Link>.
             </p>
           </div>
 
