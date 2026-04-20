@@ -1,6 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// --- Rate limiting (in-memory, per-IP, 5/hour) ---
+const contactAttempts = new Map<string, number[]>();
+const HOUR_MS = 60 * 60 * 1000;
+const MAX_PER_HOUR = 5;
+
+function pruneOld(ip: string, now: number) {
+  const times = contactAttempts.get(ip);
+  if (!times) return;
+  const recent = times.filter((t) => now - t < HOUR_MS);
+  if (recent.length === 0) {
+    contactAttempts.delete(ip);
+  } else {
+    contactAttempts.set(ip, recent);
+  }
+}
+
+let lastCleanup = Date.now();
+function cleanupStale() {
+  const now = Date.now();
+  if (now - lastCleanup < 10 * 60 * 1000) return;
+  lastCleanup = now;
+  for (const [ip, times] of contactAttempts) {
+    const recent = times.filter((t) => now - t < HOUR_MS);
+    if (recent.length === 0) {
+      contactAttempts.delete(ip);
+    } else {
+      contactAttempts.set(ip, recent);
+    }
+  }
+}
+
 export async function POST(req: NextRequest) {
+  // Rate limit check
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "unknown";
+  const now = Date.now();
+  cleanupStale();
+  pruneOld(ip, now);
+
+  const times = contactAttempts.get(ip) || [];
+  if (times.length >= MAX_PER_HOUR) {
+    return NextResponse.json({ error: "Too many requests. Try again later." }, { status: 429 });
+  }
+
   const { name, email, message } = await req.json();
 
   if (!message || typeof message !== "string" || !message.trim()) {
@@ -45,6 +87,10 @@ export async function POST(req: NextRequest) {
   if (!res.ok) {
     return NextResponse.json({ error: "Failed to send report" }, { status: 500 });
   }
+
+  // Record successful request for rate limiting
+  times.push(now);
+  contactAttempts.set(ip, times);
 
   return NextResponse.json({ ok: true });
 }

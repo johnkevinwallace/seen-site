@@ -4,7 +4,49 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
+// --- Rate limiting (in-memory, per-IP, 5/hour) ---
+const subscribeAttempts = new Map<string, number[]>();
+const HOUR_MS = 60 * 60 * 1000;
+const MAX_PER_HOUR = 5;
+
+function pruneOld(ip: string, now: number) {
+  const times = subscribeAttempts.get(ip);
+  if (!times) return;
+  const recent = times.filter((t) => now - t < HOUR_MS);
+  if (recent.length === 0) {
+    subscribeAttempts.delete(ip);
+  } else {
+    subscribeAttempts.set(ip, recent);
+  }
+}
+
+let lastCleanup = Date.now();
+function cleanupStale() {
+  const now = Date.now();
+  if (now - lastCleanup < 10 * 60 * 1000) return;
+  lastCleanup = now;
+  for (const [ip, times] of subscribeAttempts) {
+    const recent = times.filter((t) => now - t < HOUR_MS);
+    if (recent.length === 0) {
+      subscribeAttempts.delete(ip);
+    } else {
+      subscribeAttempts.set(ip, recent);
+    }
+  }
+}
+
 export async function POST(req: NextRequest) {
+  // Rate limit check
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "unknown";
+  const now = Date.now();
+  cleanupStale();
+  pruneOld(ip, now);
+
+  const times = subscribeAttempts.get(ip) || [];
+  if (times.length >= MAX_PER_HOUR) {
+    return NextResponse.json({ error: "Too many requests. Try again later." }, { status: 429 });
+  }
+
   const { email } = await req.json();
 
   if (!email || !email.includes("@")) {
@@ -60,6 +102,10 @@ export async function POST(req: NextRequest) {
       `,
     }),
   });
+
+  // Record successful request for rate limiting
+  times.push(now);
+  subscribeAttempts.set(ip, times);
 
   return NextResponse.json({ ok: true, message: "Confirmation email sent" });
 }
