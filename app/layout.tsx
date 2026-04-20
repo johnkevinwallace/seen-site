@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AnalyticsGate from "@/components/AnalyticsGate";
 import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
+import FooterGate from "@/components/FooterGate";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
@@ -34,7 +34,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Nav />
           {children}
-          <Footer />
+          <FooterGate />
         </ThemeProvider>
         <AnalyticsGate />
         <script
