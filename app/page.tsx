@@ -191,7 +191,7 @@ export default function Home() {
         {publishedStories.length > 0 && (
           <section id="stories" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
             <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-10">Stories</h2>
+              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-10">Featured Stories</h2>
               <div
                 onTouchStart={onTouchStart}
                 onTouchMove={onTouchMove}

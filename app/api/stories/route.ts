@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
   // Fetch stories where status is 'pending' or null (pre-migration rows)
   const { data, error } = await supabase
     .from("stories")
-    .select("id, story, created_at, status")
+    .select("id, story, created_at, status, featured")
     .or("status.eq.pending,status.is.null")
     .order("created_at", { ascending: false });
 

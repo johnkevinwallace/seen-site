@@ -21,9 +21,13 @@ interface Story {
   featured: boolean;
 }
 
-  const [publishedStories, setPublishedStories] = useState<Story[]>([]);
-  const [publishedLoading, setPublishedLoading] = useState(false);
-  type AdminTab = "posts" | "stories" | "published";
+type AdminTab = "posts" | "stories" | "published";
+
+export default function AdminPage() {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<AdminTab>("posts");
 
   // Blog post state
@@ -44,6 +48,12 @@ interface Story {
   const [storiesLoading, setStoriesLoading] = useState(false);
   const [expandedStories, setExpandedStories] = useState<Set<string>>(new Set());
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+
+  // Published stories state (for featuring)
+  const [publishedStories, setPublishedStories] = useState<Story[]>([]);
+  const [publishedLoading, setPublishedLoading] = useState(false);
+
+  function loadDrafts() {
     setDraftsLoading(true);
     fetch("/api/draft")
       .then((r) => r.json())
@@ -63,10 +73,21 @@ interface Story {
       .finally(() => setStoriesLoading(false));
   }
 
+  function loadPublishedStories() {
+    setPublishedLoading(true);
+    fetch("/api/stories/published")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.stories) setPublishedStories(data.stories);
+      })
+      .finally(() => setPublishedLoading(false));
+  }
+
   useEffect(() => {
     if (authenticated) {
       loadDrafts();
       loadStories();
+      loadPublishedStories();
     }
   }, [authenticated]);
 
@@ -237,6 +258,7 @@ interface Story {
       });
       if (res.ok) {
         setStories((prev) => prev.filter((s) => s.id !== id));
+        loadPublishedStories();
       } else {
         const data = await res.json().catch(() => ({}));
         alert(data.error || `Failed to publish (HTTP ${res.status})`);
@@ -258,8 +280,31 @@ interface Story {
       });
       if (res.ok) {
         setStories((prev) => prev.filter((s) => s.id !== id));
+        setPublishedStories((prev) => prev.filter((s) => s.id !== id));
       }
     } catch {}
+    setActionLoading(null);
+  }
+
+  async function handleToggleFeatured(id: string, currentFeatured: boolean) {
+    setActionLoading(id);
+    try {
+      const res = await fetch("/api/stories/feature", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, featured: !currentFeatured }),
+      });
+      if (res.ok) {
+        setPublishedStories((prev) =>
+          prev.map((s) => (s.id === id ? { ...s, featured: !currentFeatured } : s))
+        );
+      } else {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || "Failed to toggle featured");
+      }
+    } catch {
+      alert("Network error toggling featured");
+    }
     setActionLoading(null);
   }
 
@@ -319,6 +364,13 @@ interface Story {
                 {pendingCount}
               </span>
             )}
+          </button>
+          <button
+            onClick={() => { setActiveTab("published"); if (publishedStories.length === 0) loadPublishedStories(); }}
+            className="relative text-sm font-semibold uppercase tracking-[0.15em] transition-colors"
+            style={{ color: activeTab === "published" ? "#fbbf24" : "#a8a29e" }}
+          >
+            Published
           </button>
         </div>
 
@@ -380,6 +432,78 @@ interface Story {
                           className="px-4 py-1.5 bg-stone-800 text-stone-100 text-xs font-semibold rounded hover:bg-stone-700 transition-colors disabled:opacity-50 border border-stone-700"
                         >
                           {isActionLoading ? "..." : "Delete"}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeTab === "published" && (
+          <div>
+            <h1 className="text-2xl font-bold mb-2">Published Stories</h1>
+            <p className="text-stone-600 text-xs mb-8">
+              Toggle which stories appear on the homepage carousel.
+            </p>
+
+            {publishedLoading ? (
+              <p className="text-stone-500 text-sm">Loading published stories...</p>
+            ) : publishedStories.length === 0 ? (
+              <p className="text-stone-600 text-sm">No published stories yet.</p>
+            ) : (
+              <div className="space-y-4">
+                {publishedStories.map((s) => {
+                  const isActionLoadingStory = actionLoading === s.id;
+                  const isExpanded = expandedStories.has(s.id);
+                  const truncated = s.story.length > 200;
+                  const displayText =
+                    isExpanded || !truncated
+                      ? s.story
+                      : s.story.slice(0, 200) + "...";
+
+                  return (
+                    <div
+                      key={s.id}
+                      className="border border-stone-800 rounded p-4"
+                    >
+                      <p
+                        className="text-stone-300 text-sm leading-relaxed whitespace-pre-wrap"
+                        style={{ marginBottom: "8px" }}
+                      >
+                        {displayText}
+                      </p>
+                      {truncated && (
+                        <button
+                          onClick={() => toggleStoryExpand(s.id)}
+                          className="text-amber-400 text-xs hover:underline mb-2"
+                        >
+                          {isExpanded ? "Show less" : "Show more"}
+                        </button>
+                      )}
+                      <p className="text-stone-600 text-xs" style={{ marginBottom: "12px" }}>
+                        Published {new Date(s.created_at).toLocaleDateString()}
+                      </p>
+                      <div className="flex gap-3 items-center">
+                        <button
+                          onClick={() => handleToggleFeatured(s.id, s.featured)}
+                          disabled={isActionLoadingStory}
+                          className={`px-4 py-1.5 text-xs font-semibold rounded transition-colors disabled:opacity-50 ${
+                            s.featured
+                              ? "bg-amber-400 text-stone-950 hover:bg-amber-300"
+                              : "bg-stone-800 text-stone-100 hover:bg-stone-700 border border-stone-700"
+                          }`}
+                        >
+                          {isActionLoadingStory ? "..." : s.featured ? "★ Featured" : "☆ Feature"}
+                        </button>
+                        <button
+                          onClick={() => handleDeleteStory(s.id)}
+                          disabled={isActionLoadingStory}
+                          className="px-4 py-1.5 bg-stone-800 text-stone-100 text-xs font-semibold rounded hover:bg-stone-700 transition-colors disabled:opacity-50 border border-stone-700"
+                        >
+                          {isActionLoadingStory ? "..." : "Delete"}
                         </button>
                       </div>
                     </div>

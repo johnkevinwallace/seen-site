@@ -9,11 +9,12 @@ const links = [
   { href: "/#mission", label: "Mission | Vision | Values" },
   { href: "/#why", label: "Why This Matters" },
   { href: "/#coming", label: "What's Coming" },
-  { href: "/stories", label: "Stories" },
+  { href: "/#stories", label: "Featured Stories" },
   { href: "/#share", label: "Share Your Story" },
   { href: "/#loop", label: "Stay In The Loop" },
   { href: "/#resources", label: "Resources" },
   { href: "/blog", label: "Blog" },
+  { href: "/stories", label: "All Stories" },
 ];
 
 export default function Nav() {
@@ -178,8 +179,8 @@ export default function Nav() {
                   style={{
                     fontSize: "14px",
                     letterSpacing: "0.025em",
-                    color: link.label === "Blog" ? "var(--text)" : "var(--text-secondary)",
-                    fontWeight: link.label === "Blog" ? 700 : 400,
+                    color: link.label === "Blog" || link.label === "All Stories" ? "var(--text)" : "var(--text-secondary)",
+                    fontWeight: link.label === "Blog" || link.label === "All Stories" ? 700 : 400,
                     textDecoration: "none",
                     transition: "color 0.2s",
                     display: "block",
