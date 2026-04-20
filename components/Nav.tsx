@@ -23,7 +23,7 @@ export default function Nav() {
   const { theme, toggle } = useTheme();
 
   // Hide nav on admin, blog, and terms pages
-  if (pathname === "/admin" || pathname === "/terms" || pathname === "/privacy" || pathname === "/blog" || pathname.startsWith("/blog/") || pathname === "/stories") return null;
+  if (pathname === "/admin" || pathname === "/terms" || pathname === "/privacy" || pathname === "/contact" || pathname === "/blog" || pathname.startsWith("/blog/") || pathname === "/stories") return null;
 
   function handleClick(href: string) {
     setOpen(false);

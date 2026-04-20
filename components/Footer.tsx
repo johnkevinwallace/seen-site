@@ -82,6 +82,18 @@ export default function Footer() {
           Privacy Policy
         </a>
       </div>
+      <div style={{ marginTop: "4px" }}>
+        <a
+          href="/contact"
+          style={{
+            color: "#57534e",
+            fontSize: "11px",
+            textDecoration: "none",
+          }}
+        >
+          Report a Bug
+        </a>
+      </div>
     </footer>
   );
 }
