@@ -386,12 +386,12 @@ export default function Home() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+                    className="seen-input"
                   />
                   <button
                     type="submit"
                     disabled={subStatus === "loading"}
-                    className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                    className="seen-btn"
                   >
                     {subStatus === "loading" ? "..." : "Subscribe"}
                   </button>
