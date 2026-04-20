@@ -80,7 +80,7 @@ export default function StoriesPage() {
 
         <div className="border-t border-stone-800 pt-8 mt-8">
           <Link
-            href="/#share"
+            href="/share"
             className="text-amber-400 text-sm hover:text-amber-300 transition-colors"
           >
             Share your own story →
