@@ -159,7 +159,7 @@ export default function Home() {
         {/* Mission / Vision / Values */}
         <section id="mission" className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <div className="flex flex-col gap-16">
+            <div className="flex flex-col gap-24">
               <div>
                 <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Mission</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Help those struggling with their mental health to be seen.</p>
@@ -408,20 +408,20 @@ export default function Home() {
         <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">If you need help now</p>
-            <div className="text-left">
-              <div className="mb-4">
+            <div className="text-center" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div>
                 <p className="text-amber-400 text-sm font-bold">988 Suicide & Crisis Lifeline</p>
                 <p className="text-stone-400 text-xs italic">Call or text 988 — 24/7, free, confidential</p>
               </div>
-              <div className="mb-4">
+              <div>
                 <p className="text-amber-400 text-sm font-bold">Crisis Text Line</p>
                 <p className="text-stone-400 text-xs italic">Text HOME to 741741 — 24/7, free, confidential</p>
               </div>
-              <div className="mb-4">
+              <div>
                 <p className="text-amber-400 text-sm font-bold">NAMI Helpline</p>
                 <p className="text-stone-400 text-xs italic">1-800-950-NAMI (6264) — Mon–Fri, 10am–10pm ET</p>
               </div>
-              <div className="mb-4">
+              <div>
                 <p className="text-amber-400 text-sm font-bold">SAMHSA Helpline</p>
                 <p className="text-stone-400 text-xs italic">1-800-662-4357 — 24/7, free, confidential</p>
               </div>
