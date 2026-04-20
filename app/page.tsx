@@ -118,13 +118,13 @@ export default function Home() {
     <>
       <main className="h-dvh overflow-y-scroll overflow-x-hidden snap-y snap-mandatory">
         {/* Hero */}
-        <section className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
-          <div>
+        <section className="min-h-dvh snap-start flex items-center justify-center text-center">
+          <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8">
               Everyone deserves to be{" "}
               <span className="italic text-amber-400">seen</span>.
             </h1>
-            <p className="text-lg md:text-xl text-stone-400 max-w-2xl leading-relaxed">
+            <p className="text-lg md:text-xl text-stone-400 leading-relaxed">
               Too many people struggle in silence — with mental health, with
               setbacks, with the feeling that no one notices. This is a space that
               notices.
@@ -161,15 +161,15 @@ export default function Home() {
         <section id="why" className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
-            <div className="text-stone-400 leading-relaxed text-left">
-              <p className="mb-3">I live it.</p>
-              <p className="mb-3">ADHD. Bipolar 1.</p>
-              <p className="mb-3">The cycle of starting strong, crashing hard, and rebuilding from scratch.</p>
-              <p className="mb-3">The comparison trap — watching everyone else move forward while you&apos;re just trying to stand up.</p>
-              <p className="mb-3">I don&apos;t have a degree in psychology. I&apos;m not a therapist.</p>
-              <p className="mb-3">But I know what it&apos;s like to fight your own brain and still show up the next day.</p>
-              <p className="mb-3">And I know that being seen — truly seen, not judged, not fixed, just acknowledged — is where recovery starts.</p>
-              <p className="mb-3">This isn&apos;t about having all the answers. It&apos;s about making sure no one has to struggle alone in the dark.</p>
+            <div className="text-stone-400 leading-relaxed" style={{ textAlign: "center" }}>
+              <p style={{ marginBottom: "12px" }}>I live it.</p>
+              <p style={{ marginBottom: "12px" }}>ADHD. Bipolar 1.</p>
+              <p style={{ marginBottom: "12px" }}>The cycle of starting strong, crashing hard, and rebuilding from scratch.</p>
+              <p style={{ marginBottom: "12px" }}>The comparison trap — watching everyone else move forward while you&apos;re just trying to stand up.</p>
+              <p style={{ marginBottom: "12px" }}>I don&apos;t have a degree in psychology. I&apos;m not a therapist.</p>
+              <p style={{ marginBottom: "12px" }}>But I know what it&apos;s like to fight your own brain and still show up the next day.</p>
+              <p style={{ marginBottom: "12px" }}>And I know that being seen — truly seen, not judged, not fixed, just acknowledged — is where recovery starts.</p>
+              <p style={{ marginBottom: "12px" }}>This isn&apos;t about having all the answers. It&apos;s about making sure no one has to struggle alone in the dark.</p>
             </div>
           </div>
         </section>
@@ -178,11 +178,11 @@ export default function Home() {
         <section id="coming" className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">What&apos;s Coming</h2>
-            <ul className="text-stone-400 text-left">
-              <li className="mb-3">→ Tools and systems for building stability when motivation fails</li>
-              <li className="mb-3">→ Honest writing about the real experience of mental health recovery</li>
-              <li className="mb-3">→ A community where people support each other without judgment</li>
-            </ul>
+            <div className="text-stone-400" style={{ textAlign: "left" }}>
+              <p style={{ marginBottom: "12px" }}>→ Tools and systems for building stability when motivation fails</p>
+              <p style={{ marginBottom: "12px" }}>→ Honest writing about the real experience of mental health recovery</p>
+              <p style={{ marginBottom: "12px" }}>→ A community where people support each other without judgment</p>
+            </div>
           </div>
         </section>
 
