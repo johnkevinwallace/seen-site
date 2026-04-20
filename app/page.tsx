@@ -135,9 +135,9 @@ export default function Home() {
 
   return (
     <>
-      <main className="h-dvh overflow-y-scroll overflow-x-hidden snap-y snap-mandatory">
+      <main className="overflow-x-hidden">
         {/* Hero */}
-        <section className="min-h-dvh snap-start flex items-center justify-center text-center">
+        <section className="min-h-dvh snap-start snap-always flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8">
               Everyone deserves to be{" "}
@@ -157,7 +157,7 @@ export default function Home() {
         </section>
 
         {/* Mission / Vision / Values */}
-        <section id="mission" className="min-h-dvh snap-start flex items-center justify-center text-center">
+        <section id="mission" className="min-h-dvh snap-start snap-always flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <div className="flex flex-col gap-3">
               <div>
@@ -177,7 +177,7 @@ export default function Home() {
         </section>
 
         {/* Why This Matters */}
-        <section id="why" className="min-h-dvh snap-start flex items-center justify-center text-center">
+        <section id="why" className="min-h-dvh snap-start snap-always flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
             <div className="text-stone-400 leading-relaxed" style={{ textAlign: "center" }}>
@@ -194,7 +194,7 @@ export default function Home() {
         </section>
 
         {/* What's Coming */}
-        <section id="coming" className="min-h-dvh snap-start flex items-center justify-center text-center">
+        <section id="coming" className="min-h-dvh snap-start snap-always flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">What&apos;s Coming</h2>
             <div className="text-stone-400" style={{ textAlign: "left" }}>
@@ -207,7 +207,7 @@ export default function Home() {
 
         {/* Published Stories */}
         {publishedStories.length > 0 && (
-          <section id="stories" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+          <section id="stories" className="min-h-dvh snap-start snap-always flex flex-col items-center justify-center text-center">
             <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
               <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-6">Featured Stories</h2>
               <div
@@ -357,7 +357,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer id="loop" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+        <footer id="loop" className="min-h-dvh snap-start snap-always flex flex-col items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <img
               src="/john-v2.jpg"
@@ -405,7 +405,7 @@ export default function Home() {
         </footer>
 
         {/* Resources */}
-        <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+        <section id="resources" className="min-h-dvh snap-start snap-always flex flex-col items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">If you need help now</p>
             <div className="text-center" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>

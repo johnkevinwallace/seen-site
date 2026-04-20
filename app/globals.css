@@ -26,6 +26,11 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-snap-type: y proximity;
+  overflow-y: auto;
+}
+
 /* Dark mode (default) */
 :root, [data-theme="dark"] {
   --bg: #0c0a09;
