@@ -357,7 +357,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer id="loop" className="snap-start flex flex-col items-center justify-center text-center py-24">
+        <footer id="loop" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <img
               src="/john-v2.jpg"
@@ -386,12 +386,12 @@ export default function Home() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="seen-input"
+                    className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
                   />
                   <button
                     type="submit"
                     disabled={subStatus === "loading"}
-                    className="seen-btn"
+                    className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
                   >
                     {subStatus === "loading" ? "..." : "Subscribe"}
                   </button>
@@ -405,7 +405,7 @@ export default function Home() {
         </footer>
 
         {/* Resources */}
-        <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center pt-32 pb-24 border-t border-stone-200/40 md:pt-32 md:min-h-0">
+        <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">If you need help now</p>
             <div className="text-left">
