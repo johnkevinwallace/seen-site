@@ -8,9 +8,9 @@ export default function SharePage() {
   const [storyStatus, setStoryStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [website, setWebsite] = useState(""); // honeypot
 
-  // Scroll to top on mobile
+  // Scroll to top — runs on mount and also handles Next.js back-navigation
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
 
   const handleStory = async (e: React.FormEvent) => {

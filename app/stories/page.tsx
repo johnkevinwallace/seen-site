@@ -17,6 +17,11 @@ export default function StoriesPage() {
   const [stories, setStories] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Scroll to top on mount (handles back-navigation too)
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, []);
+
   useEffect(() => {
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
     supabase
