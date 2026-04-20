@@ -258,14 +258,14 @@ export default function Home() {
                       return (
                         <div key={i} style={{ minWidth: "100%", textAlign: "left" }}>
                           <div style={{
-                            maxHeight: "200px",
+                            maxHeight: "360px",
                             overflowY: "auto",
                             padding: "12px 16px",
                             borderRadius: "6px",
-                            background: "rgba(28, 25, 23, 0.5)",
-                            border: "1px solid #292524",
+                            background: "var(--bg, #0c0a09)",
+                            border: "1px solid var(--border, #292524)",
                           }}>
-                            <p style={{ color: "#a8a29e", lineHeight: "1.625", marginBottom: "0", whiteSpace: "pre-wrap", fontSize: "14px" }}>
+                            <p style={{ color: "var(--text, #a8a29e)", lineHeight: "1.625", marginBottom: "0", whiteSpace: "pre-wrap", fontSize: "14px" }}>
                               {s.story}
                             </p>
                           </div>
