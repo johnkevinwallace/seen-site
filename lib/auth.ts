@@ -1,12 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createHmac, randomBytes } from "crypto";
+import { createHmac, timingSafeEqual, randomBytes } from "crypto";
 
-// In production, this would be an env var. For now, it's server-side only.
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "seen-admin-2026";
-const SESSION_SECRET = process.env.SESSION_SECRET || randomBytes(32).toString("hex");
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
+const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
+
+if (!ADMIN_PASSWORD) {
+  throw new Error("ADMIN_PASSWORD is required");
+}
+
+if (!SESSION_SECRET) {
+  throw new Error("SESSION_SECRET is required");
+}
 
 export function verifyPassword(password: string): boolean {
-  return password === ADMIN_PASSWORD;
+  const provided = Buffer.from(password);
+  const expected = Buffer.from(ADMIN_PASSWORD);
+  if (provided.length !== expected.length) return false;
+  return timingSafeEqual(provided, expected);
 }
 
 export function createSession(): string {
