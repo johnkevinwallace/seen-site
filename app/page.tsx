@@ -138,48 +138,50 @@ export default function Home() {
         </section>
 
         {/* Mission / Vision / Values */}
-        <section id="mission" className="min-h-dvh snap-start flex items-center justify-center px-6 text-center">
-          <div className="max-w-4xl w-full grid md:grid-cols-3 gap-20">
-            <div>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "0px" }}>Mission</h2>
-              <p className="text-lg text-stone-300 leading-relaxed" style={{ marginBottom: "12px" }}>Help those struggling with their mental health to be seen.</p>
-            </div>
-            <div>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "0px" }}>Vision</h2>
-              <p className="text-lg text-stone-300 leading-relaxed" style={{ marginBottom: "12px" }}>Become a prominent voice in the mental health advocacy space.</p>
-            </div>
-            <div>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400" style={{ marginBottom: "0px" }}>Values</h2>
-              <p className="text-lg text-stone-300 leading-relaxed">Compassion. Respect. Support.</p>
+        <section id="mission" className="min-h-dvh snap-start flex items-center justify-center text-center">
+          <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
+            <div className="flex flex-col gap-10">
+              <div>
+                <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-2">Mission</h2>
+                <p className="text-lg text-stone-300 leading-relaxed">Help those struggling with their mental health to be seen.</p>
+              </div>
+              <div>
+                <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-2">Vision</h2>
+                <p className="text-lg text-stone-300 leading-relaxed">Become a prominent voice in the mental health advocacy space.</p>
+              </div>
+              <div>
+                <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-2">Values</h2>
+                <p className="text-lg text-stone-300 leading-relaxed">Compassion. Respect. Support.</p>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Why This Matters */}
         <section id="why" className="min-h-dvh snap-start flex items-center justify-center text-center">
-          <div className="max-w-xl w-full mx-auto px-6 md:px-8">
+          <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
-            <div className="text-stone-400 leading-relaxed">
-              <p className="mb-12" style={{ marginBottom: "12px" }}>I live it.</p>
-              <p className="mb-12" style={{ marginBottom: "12px" }}>ADHD. Bipolar 1.</p>
-              <p className="mb-12" style={{ marginBottom: "12px" }}>The cycle of starting strong, crashing hard, and rebuilding from scratch.</p>
-              <p className="mb-12" style={{ marginBottom: "12px" }}>The comparison trap — watching everyone else move forward while you&apos;re just trying to stand up.</p>
-              <p className="mb-12" style={{ marginBottom: "12px" }}>I don&apos;t have a degree in psychology. I&apos;m not a therapist.</p>
-              <p className="mb-12" style={{ marginBottom: "12px" }}>But I know what it&apos;s like to fight your own brain and still show up the next day.</p>
-              <p className="mb-12" style={{ marginBottom: "12px" }}>And I know that being seen — truly seen, not judged, not fixed, just acknowledged — is where recovery starts.</p>
-              <p className="mb-12" style={{ marginBottom: "12px" }}>This isn&apos;t about having all the answers. It&apos;s about making sure no one has to struggle alone in the dark.</p>
+            <div className="text-stone-400 leading-relaxed text-left">
+              <p className="mb-3">I live it.</p>
+              <p className="mb-3">ADHD. Bipolar 1.</p>
+              <p className="mb-3">The cycle of starting strong, crashing hard, and rebuilding from scratch.</p>
+              <p className="mb-3">The comparison trap — watching everyone else move forward while you&apos;re just trying to stand up.</p>
+              <p className="mb-3">I don&apos;t have a degree in psychology. I&apos;m not a therapist.</p>
+              <p className="mb-3">But I know what it&apos;s like to fight your own brain and still show up the next day.</p>
+              <p className="mb-3">And I know that being seen — truly seen, not judged, not fixed, just acknowledged — is where recovery starts.</p>
+              <p className="mb-3">This isn&apos;t about having all the answers. It&apos;s about making sure no one has to struggle alone in the dark.</p>
             </div>
           </div>
         </section>
 
         {/* What's Coming */}
         <section id="coming" className="min-h-dvh snap-start flex items-center justify-center text-center">
-          <div className="max-w-xl w-full mx-auto px-6 md:px-8">
+          <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">What&apos;s Coming</h2>
-            <ul className="text-stone-400">
-              <li style={{ marginBottom: "12px" }}>→ Tools and systems for building stability when motivation fails</li>
-              <li style={{ marginBottom: "12px" }}>→ Honest writing about the real experience of mental health recovery</li>
-              <li style={{ marginBottom: "12px" }}>→ A community where people support each other without judgment</li>
+            <ul className="text-stone-400 text-left">
+              <li className="mb-3">→ Tools and systems for building stability when motivation fails</li>
+              <li className="mb-3">→ Honest writing about the real experience of mental health recovery</li>
+              <li className="mb-3">→ A community where people support each other without judgment</li>
             </ul>
           </div>
         </section>
@@ -187,7 +189,7 @@ export default function Home() {
         {/* Published Stories */}
         {publishedStories.length > 0 && (
           <section id="stories" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
-            <div className="max-w-xl w-full mx-auto px-6 md:px-8">
+            <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
               <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-10">Stories</h2>
               <div
                 onTouchStart={onTouchStart}
@@ -281,7 +283,7 @@ export default function Home() {
 
         {/* Share Your Story */}
         <section id="share" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
-          <div className="max-w-xs w-full mx-auto px-6 md:px-8">
+          <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-4">Share Your Story</h2>
             <p className="text-stone-400 text-sm leading-relaxed mb-8">Your story matters. Share it here — completely anonymous. No email, no name, no way to trace it back to you. Just your words.</p>
             {storyStatus === "success" ? (
@@ -327,7 +329,7 @@ export default function Home() {
 
         {/* Footer */}
         <footer id="loop" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
-          <div className="px-6 md:px-8">
+          <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <img
               src="/john-v2.jpg"
               alt="John Kevin"
@@ -338,60 +340,60 @@ export default function Home() {
             <p className="text-stone-500 text-sm mb-2">John Kevin</p>
             <p className="text-stone-600 text-xs uppercase tracking-[0.2em] mb-6">Lived experience. Real advocacy.</p>
             <p className="text-stone-600 text-sm mb-10">Seen — because everyone deserves to be.</p>
-          </div>
 
-          {/* Newsletter signup */}
-          <div className="w-64">
-            <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Stay in the loop</p>
-            {subStatus === "success" ? (
-              <div>
-                <p className="text-amber-400 text-sm" style={{ marginBottom: "12px" }}>Check your inbox to confirm your subscription.</p>
-                <p className="text-stone-600 text-xs">Don't see it? Check your spam folder.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
-                />
-                <button
-                  type="submit"
-                  disabled={subStatus === "loading"}
-                  className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
-                >
-                  {subStatus === "loading" ? "..." : "Subscribe"}
-                </button>
-              </form>
-            )}
-            {subStatus === "error" && (
-              <p className="text-red-400 text-xs mt-2">Something went wrong. Try again?</p>
-            )}
+            {/* Newsletter signup */}
+            <div>
+              <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Stay in the loop</p>
+              {subStatus === "success" ? (
+                <div>
+                  <p className="text-amber-400 text-sm" style={{ marginBottom: "12px" }}>Check your inbox to confirm your subscription.</p>
+                  <p className="text-stone-600 text-xs">Don&apos;t see it? Check your spam folder.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+                  />
+                  <button
+                    type="submit"
+                    disabled={subStatus === "loading"}
+                    className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                  >
+                    {subStatus === "loading" ? "..." : "Subscribe"}
+                  </button>
+                </form>
+              )}
+              {subStatus === "error" && (
+                <p className="text-red-400 text-xs mt-2">Something went wrong. Try again?</p>
+              )}
+            </div>
           </div>
         </footer>
 
         {/* Resources */}
         <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
-          <div className="max-w-xs w-full mx-auto px-6 md:px-8">
-            <p className="text-stone-500 text-xs uppercase tracking-[0.2em]" style={{ marginBottom: "12px" }}>If you need help now</p>
-            <div>
-              <div style={{ marginBottom: "12px" }}>
-                <p className="text-amber-400 text-sm" style={{ fontWeight: 700 }}>988 Suicide & Crisis Lifeline</p>
+          <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
+            <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">If you need help now</p>
+            <div className="text-left">
+              <div className="mb-4">
+                <p className="text-amber-400 text-sm font-bold">988 Suicide & Crisis Lifeline</p>
                 <p className="text-stone-400 text-xs italic">Call or text 988 — 24/7, free, confidential</p>
               </div>
-              <div style={{ marginBottom: "12px" }}>
-                <p className="text-amber-400 text-sm" style={{ fontWeight: 700 }}>Crisis Text Line</p>
+              <div className="mb-4">
+                <p className="text-amber-400 text-sm font-bold">Crisis Text Line</p>
                 <p className="text-stone-400 text-xs italic">Text HOME to 741741 — 24/7, free, confidential</p>
               </div>
-              <div style={{ marginBottom: "12px" }}>
-                <p className="text-amber-400 text-sm" style={{ fontWeight: 700 }}>NAMI Helpline</p>
+              <div className="mb-4">
+                <p className="text-amber-400 text-sm font-bold">NAMI Helpline</p>
                 <p className="text-stone-400 text-xs italic">1-800-950-NAMI (6264) — Mon–Fri, 10am–10pm ET</p>
               </div>
-              <div style={{ marginBottom: "12px" }}>
-                <p className="text-amber-400 text-sm" style={{ fontWeight: 700 }}>SAMHSA Helpline</p>
+              <div className="mb-4">
+                <p className="text-amber-400 text-sm font-bold">SAMHSA Helpline</p>
                 <p className="text-stone-400 text-xs italic">1-800-662-4357 — 24/7, free, confidential</p>
               </div>
             </div>
