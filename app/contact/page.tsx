@@ -73,7 +73,7 @@ export default function ContactPage() {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-stone-900 border border-stone-800 rounded-lg px-4 py-3 text-stone-100 text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                className="seen-input"
                 placeholder="Your name"
               />
             </div>
@@ -83,7 +83,7 @@ export default function ContactPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-stone-900 border border-stone-800 rounded-lg px-4 py-3 text-stone-100 text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                className="seen-input"
                 placeholder="you@example.com"
               />
             </div>
@@ -94,7 +94,7 @@ export default function ContactPage() {
                 onChange={(e) => setMessage(e.target.value)}
                 required
                 rows={6}
-                className="w-full bg-stone-900 border border-stone-800 rounded-lg px-4 py-3 text-stone-100 text-sm focus:outline-none focus:border-amber-400 transition-colors resize-y"
+                className="seen-textarea"
                 placeholder="What went wrong?"
               />
             </div>
@@ -104,7 +104,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={status === "sending" || !message.trim()}
-              className="bg-amber-400 text-stone-950 font-semibold px-6 py-3 rounded-lg text-sm hover:bg-amber-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="seen-btn"
             >
               {status === "sending" ? "Sending…" : "Send Report"}
             </button>

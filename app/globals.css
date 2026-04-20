@@ -69,6 +69,69 @@
 [data-theme="light"] .placeholder-stone-600::placeholder { color: #a8a29e !important; }
 [data-theme="light"] .hover\:bg-amber-300:hover { background-color: #d97706 !important; }
 
+/* UX polish: shadcn-inspired defaults keeping brand colors */
+.seen-input {
+  width: 100%;
+  background-color: var(--bg-surface, #1c1917);
+  border: 1px solid #292524;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: #e7e5e4;
+  min-height: 48px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.seen-input::placeholder { color: #57534e; }
+.seen-input:focus { border-color: rgba(251,191,36,0.5); box-shadow: 0 0 0 2px rgba(251,191,36,0.25); }
+
+.seen-textarea {
+  width: 100%;
+  background-color: var(--bg-surface, #1c1917);
+  border: 1px solid #292524;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: #e7e5e4;
+  min-height: 160px;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.seen-textarea::placeholder { color: #57534e; }
+.seen-textarea:focus { border-color: rgba(251,191,36,0.5); box-shadow: 0 0 0 2px rgba(251,191,36,0.25); }
+
+.seen-btn {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: #fbbf24;
+  color: #0c0a09;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background-color 0.2s;
+}
+.seen-btn:hover { background-color: #fcd34d; }
+.seen-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Light mode overrides for form elements */
+[data-theme="light"] .seen-input,
+[data-theme="light"] .seen-textarea {
+  background-color: var(--bg-surface);
+  color: #1c1917;
+  border-color: #d6d3d1;
+}
+[data-theme="light"] .seen-input::placeholder,
+[data-theme="light"] .seen-textarea::placeholder { color: #a8a29e; }
+[data-theme="light"] .seen-input:focus,
+[data-theme="light"] .seen-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(180,83,9,0.25); }
+[data-theme="light"] .seen-btn { background-color: var(--accent); color: #fafaf9; }
+[data-theme="light"] .seen-btn:hover { background-color: #d97706; }
+
+
 html, body {
   height: 100%;
   scroll-behavior: smooth;

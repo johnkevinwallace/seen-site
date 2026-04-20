@@ -159,17 +159,17 @@ export default function Home() {
         {/* Mission / Vision / Values */}
         <section id="mission" className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-16">
               <div>
-                <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-2">Mission</h2>
+                <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Mission</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Help those struggling with their mental health to be seen.</p>
               </div>
               <div>
-                <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-2">Vision</h2>
+                <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Vision</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Become a prominent voice in the mental health advocacy space.</p>
               </div>
               <div>
-                <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-2">Values</h2>
+                <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Values</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Compassion. Respect. Support.</p>
               </div>
             </div>
@@ -209,7 +209,7 @@ export default function Home() {
         {publishedStories.length > 0 && (
           <section id="stories" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
             <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-10">Featured Stories</h2>
+              <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-6">Featured Stories</h2>
               <div
                 onTouchStart={onTouchStart}
                 onTouchMove={onTouchMove}
@@ -279,12 +279,12 @@ export default function Home() {
                           <div style={{
                             maxHeight: "360px",
                             overflowY: "auto",
-                            padding: "12px 16px",
-                            borderRadius: "6px",
+                            padding: "16px 20px",
+                            borderRadius: "8px",
                             background: "var(--bg, #0c0a09)",
                             border: "1px solid var(--border, #292524)",
                           }}>
-                            <p style={{ color: "var(--text, #a8a29e)", lineHeight: "1.625", marginBottom: "0", whiteSpace: "pre-wrap", fontSize: "14px" }}>
+                            <p style={{ color: "var(--text, #a8a29e)", lineHeight: "1.625", marginBottom: "0", whiteSpace: "pre-wrap", fontSize: "15px" }}>
                               {s.story}
                             </p>
                           </div>
@@ -303,7 +303,7 @@ export default function Home() {
                   </p>
                 )}
               </div>
-              <a href="/stories" style={{ color: "#fbbf24", fontSize: "14px", textDecoration: "none", display: "inline-block", marginTop: "24px" }}>Read more stories →</a>
+              <a href="/stories" style={{ color: "#fbbf24", fontSize: "15px", textDecoration: "none", display: "inline-block", marginTop: "24px" }}>Read more stories →</a>
             </div>
           </section>
         )}
@@ -312,7 +312,7 @@ export default function Home() {
         <section id="share" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-4">Share Your Story</h2>
-            <p className="text-stone-400 text-sm leading-relaxed mb-4">Your story matters. Share it here — completely anonymous. No email, no name, no cookies, no tracking. Just your words. We never collect or store any identifying information.</p>
+            <p className="text-stone-400 text-base leading-relaxed mb-4">Your story matters. Share it here — completely anonymous. No email, no name, no cookies, no tracking. Just your words. We never collect or store any identifying information.</p>
             <p className="text-stone-600 text-xs leading-relaxed mb-2">Stories are reviewed before publishing. We welcome honest, respectful accounts of mental health experiences. Content that promotes harm, contains hate speech, or offers medical advice will not be published.</p>
             <p className="mb-8"><a href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</a></p>
             {storyStatus === "success" ? (
@@ -339,12 +339,12 @@ export default function Home() {
                   onChange={(e) => setStoryText(e.target.value)}
                   placeholder="Write your story here..."
                   rows={6}
-                  className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-3 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50 resize-none"
+                  className="seen-textarea"
                 />
                 <button
                   type="submit"
                   disabled={storyStatus === "loading" || storyText.trim().length < 10}
-                  className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                  className="seen-btn"
                 >
                   {storyStatus === "loading" ? "..." : "Submit anonymously"}
                 </button>
@@ -357,7 +357,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer id="loop" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+        <footer id="loop" className="snap-start flex flex-col items-center justify-center text-center py-24">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <img
               src="/john-v2.jpg"
@@ -386,12 +386,12 @@ export default function Home() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="w-full bg-stone-900 border border-stone-700 rounded px-4 py-2 text-sm text-stone-100 placeholder-stone-600 focus:outline-none focus:border-amber-400/50"
+                    className="seen-input"
                   />
                   <button
                     type="submit"
                     disabled={subStatus === "loading"}
-                    className="w-full px-4 py-2 bg-amber-400 text-stone-950 text-sm font-semibold rounded hover:bg-amber-300 transition-colors disabled:opacity-50"
+                    className="seen-btn"
                   >
                     {subStatus === "loading" ? "..." : "Subscribe"}
                   </button>
@@ -405,7 +405,7 @@ export default function Home() {
         </footer>
 
         {/* Resources */}
-        <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
+        <section id="resources" className="snap-start flex flex-col items-center justify-center text-center py-24">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">If you need help now</p>
             <div className="text-left">
