@@ -10,7 +10,7 @@ export async function GET() {
 
   const { data, error } = await supabase
     .from("stories")
-    .select("story, created_at")
+    .select("story, created_at, featured")
     .eq("status", "published")
     .order("created_at", { ascending: false });
 

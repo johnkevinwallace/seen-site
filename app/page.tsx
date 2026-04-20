@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -10,7 +11,7 @@ export default function Home() {
   const [storyText, setStoryText] = useState("");
   const [storyStatus, setStoryStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [website, setWebsite] = useState(""); // honeypot
-  const [publishedStories, setPublishedStories] = useState<{ story: string; created_at: string }[]>([]);
+  const [publishedStories, setPublishedStories] = useState<{ story: string; created_at: string; featured: boolean }[]>([]);
   const [storiesLoaded, setStoriesLoaded] = useState(false);
   const [storyIndex, setStoryIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -66,7 +67,7 @@ export default function Home() {
     fetch("/api/stories/public")
       .then((r) => r.json())
       .then((data) => {
-        if (data.stories) setPublishedStories(data.stories);
+        if (data.stories) setPublishedStories(data.stories.filter((s: { featured: boolean }) => s.featured));
       })
       .catch(() => {})
       .finally(() => setStoriesLoaded(true));
@@ -284,6 +285,7 @@ export default function Home() {
                   </p>
                 )}
               </div>
+              <a href="/stories" style={{ color: "#fbbf24", fontSize: "14px", textDecoration: "none", display: "inline-block", marginTop: "24px" }}>Read more stories →</a>
             </div>
           </section>
         )}

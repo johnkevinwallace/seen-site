@@ -9,7 +9,7 @@ const links = [
   { href: "/#mission", label: "Mission | Vision | Values" },
   { href: "/#why", label: "Why This Matters" },
   { href: "/#coming", label: "What's Coming" },
-  { href: "/#stories", label: "Stories" },
+  { href: "/stories", label: "Stories" },
   { href: "/#share", label: "Share Your Story" },
   { href: "/#loop", label: "Stay In The Loop" },
   { href: "/#resources", label: "Resources" },
@@ -22,7 +22,7 @@ export default function Nav() {
   const { theme, toggle } = useTheme();
 
   // Hide nav on admin, blog, and terms pages
-  if (pathname === "/admin" || pathname === "/terms" || pathname === "/blog" || pathname.startsWith("/blog/")) return null;
+  if (pathname === "/admin" || pathname === "/terms" || pathname === "/blog" || pathname.startsWith("/blog/") || pathname === "/stories") return null;
 
   function handleClick(href: string) {
     setOpen(false);

@@ -18,15 +18,12 @@ interface Story {
   story: string;
   created_at: string;
   status: string | null;
+  featured: boolean;
 }
 
-type AdminTab = "posts" | "stories";
-
-export default function AdminPage() {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
-  const [authLoading, setAuthLoading] = useState(false);
+  const [publishedStories, setPublishedStories] = useState<Story[]>([]);
+  const [publishedLoading, setPublishedLoading] = useState(false);
+  type AdminTab = "posts" | "stories" | "published";
   const [activeTab, setActiveTab] = useState<AdminTab>("posts");
 
   // Blog post state
@@ -47,8 +44,6 @@ export default function AdminPage() {
   const [storiesLoading, setStoriesLoading] = useState(false);
   const [expandedStories, setExpandedStories] = useState<Set<string>>(new Set());
   const [actionLoading, setActionLoading] = useState<string | null>(null);
-
-  function loadDrafts() {
     setDraftsLoading(true);
     fetch("/api/draft")
       .then((r) => r.json())
