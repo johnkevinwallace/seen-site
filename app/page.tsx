@@ -405,7 +405,7 @@ export default function Home() {
         </footer>
 
         {/* Resources */}
-        <section id="resources" className="snap-start flex flex-col items-center justify-center text-center pt-32 pb-24 border-t border-stone-200/40">
+        <section id="resources" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center pt-32 pb-24 border-t border-stone-200/40 md:pt-32 md:min-h-0">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">If you need help now</p>
             <div className="text-left">
