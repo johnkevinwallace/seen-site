@@ -368,7 +368,7 @@ export default function Home() {
             />
             <p className="text-stone-500 text-sm mb-2">John Kevin</p>
             <p className="text-stone-600 text-xs uppercase tracking-[0.2em] mb-6">Lived experience. Real advocacy.</p>
-            <p className="text-stone-600 text-sm mb-10">Seen — because everyone deserves to be.</p>
+            <p className="text-stone-600 text-sm mb-3">Seen — because everyone deserves to be.</p>
 
             {/* Newsletter signup */}
             <div>
@@ -427,7 +427,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="my-3 border-t border-stone-800" />
+            <div className="my-6 border-t border-stone-700" />
 
             {/* Disclaimer */}
             <div>
@@ -436,7 +436,7 @@ export default function Home() {
               <p className="text-stone-700 text-[10px]">The stories shared here are personal experiences and do not constitute medical advice.</p>
             </div>
 
-            <div className="my-3 border-t border-stone-800" />
+            <div className="my-6 border-t border-stone-700" />
 
             <div className="text-center">
               <p className="text-stone-500 text-xs uppercase tracking-[0.1em]">Seen — Mental Health Advocacy</p>
