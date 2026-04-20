@@ -27,9 +27,22 @@
 }
 
 html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  overflow-y: auto;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
-  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+body > main > section,
+body > main > footer {
+  scroll-snap-align: start always;
+  scroll-margin-top: 0;
 }
 
 /* Dark mode (default) */
