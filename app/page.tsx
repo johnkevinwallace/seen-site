@@ -63,6 +63,24 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Scroll to anchor when navigating from external links (e.g. /stories -> /#share)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const main = document.querySelector("main");
+      if (main) {
+        main.style.scrollSnapType = "none";
+        setTimeout(() => {
+          const el = document.querySelector(hash);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+          setTimeout(() => {
+            if (main) main.style.scrollSnapType = "";
+          }, 1000);
+        }, 100);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     fetch("/api/stories/public")
       .then((r) => r.json())
