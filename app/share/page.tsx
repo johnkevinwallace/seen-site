@@ -49,8 +49,8 @@ export default function SharePage() {
           Share Your Story
         </h1>
 
-        <p className="text-stone-400 text-sm leading-relaxed mb-4">Your story matters. Share it here — completely anonymous. No email, no name, no cookies, no tracking. Just your words. We never collect or store any identifying information.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-2">Stories are reviewed before publishing. We welcome honest, respectful accounts of mental health experiences. Content that promotes harm, contains hate speech, or offers medical advice will not be published.</p>
+        <p className="text-stone-400 text-sm leading-relaxed mb-4">Your story matters. We do not ask for your name or email, and your published story is not linked to personal profile data.</p>
+        <p className="text-stone-600 text-xs leading-relaxed mb-2">For abuse prevention and site operations, technical request data (such as IP address and browser metadata) may still be processed by infrastructure providers. Stories are reviewed before publishing, and content that promotes harm, contains hate speech, or offers medical advice will not be published.</p>
         <p className="mb-8"><a href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</a></p>
 
         {storyStatus === "success" ? (

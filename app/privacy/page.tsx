@@ -28,8 +28,8 @@ export default function PrivacyPage() {
               What We Collect
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              Only your story text and submission timestamp. No email, no name,
-              no IP address, no cookies, no tracking of any kind.
+              We collect the story text you submit and submission timestamp. We do
+              not require your name or email for story submissions.
             </p>
           </div>
 
@@ -38,9 +38,9 @@ export default function PrivacyPage() {
               How Stories Are Stored
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              Stories are stored in a secure database with no identifying
-              information attached. Each submission receives a random ID — there
-              is no way to connect a story back to you.
+              Stories are stored in a secure database record intended to contain
+              only story content and moderation fields. We do not intentionally
+              attach name or email data to published stories.
             </p>
           </div>
 
@@ -71,7 +71,10 @@ export default function PrivacyPage() {
               Third Parties
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              We don&rsquo;t sell, share, or transfer your data to anyone. Period.
+              We use third-party infrastructure providers (for hosting, database,
+              and delivery). They may process technical request data (for example,
+              IP address, user agent, and security logs) to operate and secure the
+              service. We do not sell your story data.
             </p>
           </div>
 
@@ -81,7 +84,7 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-stone-400 leading-relaxed">
               The site uses HTTPS encryption. Submissions are transmitted
-              securely.
+              securely. The dedicated /share page does not load site analytics.
             </p>
           </div>
         </section>
