@@ -144,11 +144,11 @@ export default function Home() {
               <span className="italic text-amber-400">seen</span>.
             </h1>
             <div className="text-lg md:text-xl text-stone-400 leading-relaxed">
-              <p className="mb-3">Too many people struggle in silence — with mental health, with setbacks, with the feeling that no one notices.</p>
-              <p className="mb-3">This is a space that notices.</p>
+              <p style={{ marginBottom: "12px" }}>Too many people struggle in silence — with mental health, with setbacks, with the feeling that no one notices.</p>
+              <p style={{ marginBottom: "12px" }}>This is a space that notices.</p>
             </div>
             <div
-              className={`mt-3 flex justify-center transition-opacity duration-700 ${scrolled || !showHint ? "opacity-0" : "opacity-0 animate-[fadeScroll_10s_ease-in-out_infinite]"}`}
+              className={`flex justify-center transition-opacity duration-700 ${scrolled || !showHint ? "opacity-0" : "opacity-0 animate-[fadeScroll_10s_ease-in-out_infinite]"}`}
             >
               <span className="text-stone-600 text-xs uppercase tracking-[0.2em]">Scroll down</span>
             </div>
