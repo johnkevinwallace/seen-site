@@ -49,10 +49,10 @@ export default function SharePage() {
           Share Your Story
         </h1>
 
-        <p className="text-stone-400 text-sm leading-relaxed mb-4">Your story matters. We don&apos;t ask for your name or email, and we don&apos;t attach identity profile data to published stories.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-2">What we do collect: your story text and submission time. What may still be processed by infrastructure providers: technical request metadata (for example IP address, browser, and security logs) for abuse prevention and site operations.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-2">How we protect submissions: HTTPS in transit, moderated publishing workflow, and no analytics script on this /share page.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-4">Stories are reviewed before publishing. Content that promotes harm, contains hate speech, or offers medical advice will not be published.</p>
+        <p className="text-stone-400 text-sm leading-relaxed mb-3">Your story matters. We don&apos;t ask for your name or email.</p>
+        <p className="text-stone-600 text-xs leading-relaxed mb-3">We store your story text and submission time, and every story is reviewed before publishing.</p>
+        <p className="text-stone-600 text-xs leading-relaxed mb-3">Infrastructure providers may process technical request metadata (like IP address and browser details) for abuse prevention and site operations.</p>
+        <p className="text-stone-600 text-xs leading-relaxed mb-3">The dedicated /share page does not load analytics.</p>
         <p className="mb-8"><a href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</a></p>
 
         {storyStatus === "success" ? (
