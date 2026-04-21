@@ -139,15 +139,14 @@ export default function Home() {
         {/* Hero */}
         <section className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-3">
               Everyone deserves to be{" "}
               <span className="italic text-amber-400">seen</span>.
             </h1>
-            <p className="text-lg md:text-xl text-stone-400 leading-relaxed">
-              Too many people struggle in silence — with mental health, with
-              setbacks, with the feeling that no one notices. This is a space that
-              notices.
-            </p>
+            <div className="text-lg md:text-xl text-stone-400 leading-relaxed">
+              <p className="mb-3">Too many people struggle in silence — with mental health, with setbacks, with the feeling that no one notices.</p>
+              <p>This is a space that notices.</p>
+            </div>
             <div
               className={`mt-16 flex justify-center transition-opacity duration-700 ${scrolled || !showHint ? "opacity-0" : "opacity-0 animate-[fadeScroll_10s_ease-in-out_infinite]"}`}
             >
