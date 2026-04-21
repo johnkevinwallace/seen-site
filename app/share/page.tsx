@@ -10,7 +10,10 @@ export default function SharePage() {
 
   // Scroll to top — runs on mount and also handles Next.js back-navigation
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    scrollTop();
+    const raf = window.requestAnimationFrame(scrollTop);
+    return () => window.cancelAnimationFrame(raf);
   }, []);
 
   const handleStory = async (e: React.FormEvent) => {

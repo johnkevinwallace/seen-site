@@ -19,7 +19,10 @@ export default function StoriesPage() {
 
   // Scroll to top on mount (handles back-navigation too)
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    scrollTop();
+    const raf = window.requestAnimationFrame(scrollTop);
+    return () => window.cancelAnimationFrame(raf);
   }, []);
 
   useEffect(() => {
