@@ -144,7 +144,7 @@ export default function Home() {
               <span className="italic text-amber-400">seen</span>.
             </h1>
             <div className="text-lg md:text-xl text-stone-400 leading-relaxed">
-              <p className="mb-3">Too many people struggle in silence — with mental health, with setbacks, with the feeling that no one notices.</p>
+              <p className="mb-6">Too many people struggle in silence — with mental health, with setbacks, with the feeling that no one notices.</p>
               <p>This is a space that notices.</p>
             </div>
             <div
@@ -158,12 +158,12 @@ export default function Home() {
         {/* Mission / Vision / Values */}
         <section id="mission" className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <div className="flex flex-col gap-0">
-              <div className="mb-6">
+            <div className="flex flex-col" style={{ minHeight: "100vh", justifyContent: "space-between", paddingTop: "calc(33.33vh - 40px)", paddingBottom: "calc(33.33vh - 40px)" }}>
+              <div>
                 <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Mission</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Help those struggling with their mental health to be seen.</p>
               </div>
-              <div className="mb-6">
+              <div>
                 <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Vision</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Become a prominent voice in the mental health advocacy space.</p>
               </div>
@@ -178,7 +178,7 @@ export default function Home() {
         {/* Why This Matters */}
         <section id="why" className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">Why This Matters</h2>
+            <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-12">Why This Matters</h2>
             <div className="text-stone-400 leading-relaxed" style={{ textAlign: "center" }}>
               <p style={{ marginBottom: "12px" }}>I live it.</p>
               <p style={{ marginBottom: "12px" }}>ADHD. Bipolar 1.</p>
@@ -195,7 +195,7 @@ export default function Home() {
         {/* What's Coming */}
         <section id="coming" className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-8">What&apos;s Coming</h2>
+            <h2 className="text-sm uppercase tracking-[0.2em] text-stone-500 mb-12">What&apos;s Coming</h2>
             <div className="text-stone-400" style={{ textAlign: "left" }}>
               <p style={{ marginBottom: "12px" }}>→ Tools and systems for building stability when motivation fails</p>
               <p style={{ marginBottom: "12px" }}>→ Honest writing about the real experience of mental health recovery</p>
@@ -310,10 +310,10 @@ export default function Home() {
         {/* Share Your Story */}
         <section id="share" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-4">Share Your Story</h2>
-            <p className="text-stone-400 text-base leading-relaxed mb-4">Your story matters. Share it here — completely anonymous. No email, no name, no cookies, no tracking. Just your words. We never collect or store any identifying information.</p>
-            <p className="text-stone-600 text-xs leading-relaxed mb-2">Stories are reviewed before publishing. We welcome honest, respectful accounts of mental health experiences. Content that promotes harm, contains hate speech, or offers medical advice will not be published.</p>
-            <p className="mb-8"><a href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</a></p>
+            <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-6">Share Your Story</h2>
+            <p className="text-stone-400 text-base leading-relaxed mb-6">Your story matters. Share it here — completely anonymous. No email, no name, no cookies, no tracking. Just your words. We never collect or store any identifying information.</p>
+            <p className="text-stone-600 text-xs leading-relaxed mb-6">Stories are reviewed before publishing. We welcome honest, respectful accounts of mental health experiences. Content that promotes harm, contains hate speech, or offers medical advice will not be published.</p>
+            <p className="mb-10"><Link href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</Link></p>
             {storyStatus === "success" ? (
               <p className="text-amber-400">Thank you. Your story has been received.</p>
             ) : (
@@ -367,11 +367,11 @@ export default function Home() {
             />
             <p className="text-stone-500 text-sm mb-2">John Kevin</p>
             <p className="text-stone-600 text-xs uppercase tracking-[0.2em] mb-6">Lived experience. Real advocacy.</p>
-            <p className="text-stone-600 text-sm mb-6">Seen — because everyone deserves to be.</p>
+            <p className="text-stone-600 text-sm mb-16">Seen — because everyone deserves to be.</p>
 
             {/* Newsletter signup */}
             <div>
-              <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-4">Stay in the loop</p>
+              <p className="text-stone-500 text-xs uppercase tracking-[0.2em] mb-6">Stay in the loop</p>
               {subStatus === "success" ? (
                 <div>
                   <p className="text-amber-400 text-sm" style={{ marginBottom: "12px" }}>Check your inbox to confirm your subscription.</p>
@@ -426,7 +426,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="my-8 border-t border-stone-700" />
+            <div className="my-16 border-t border-stone-700" />
 
             {/* Disclaimer */}
             <div>
@@ -435,7 +435,7 @@ export default function Home() {
               <p className="text-stone-700 text-[10px]">The stories shared here are personal experiences and do not constitute medical advice.</p>
             </div>
 
-            <div className="my-8 border-t border-stone-700" />
+            <div className="my-16 border-t border-stone-700" />
 
             <div className="text-center">
               <p className="text-stone-500 text-xs uppercase tracking-[0.1em]">Seen — Mental Health Advocacy</p>
