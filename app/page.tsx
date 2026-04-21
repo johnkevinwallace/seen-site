@@ -158,12 +158,12 @@ export default function Home() {
         {/* Mission / Vision / Values */}
         <section id="mission" className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <div className="flex flex-col justify-center gap-6 md:min-h-[100vh] md:justify-between md:gap-0 md:pt-[calc(33.33vh-40px)] md:pb-[calc(33.33vh-40px)]">
-              <div>
+            <div className="flex flex-col justify-center">
+              <div className="mb-8 md:mb-10">
                 <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Mission</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Help those struggling with their mental health to be seen.</p>
               </div>
-              <div>
+              <div className="mb-8 md:mb-10">
                 <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Vision</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Become a prominent voice in the mental health advocacy space.</p>
               </div>
