@@ -311,8 +311,10 @@ export default function Home() {
         <section id="share" className="min-h-dvh snap-start flex flex-col items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Share Your Story</h2>
-            <p className="text-stone-400 text-base leading-relaxed mb-3">Your story matters. We do not ask for your name or email, and your published story is not linked to personal profile data.</p>
-            <p className="text-stone-600 text-xs leading-relaxed mb-3">For abuse prevention and site operations, technical request data (such as IP address and browser metadata) may still be processed by infrastructure providers. Stories are reviewed before publishing, and content that promotes harm, contains hate speech, or offers medical advice will not be published.</p>
+            <p className="text-stone-400 text-base leading-relaxed mb-3">Your story matters. We don&apos;t ask for your name or email, and we don&apos;t attach identity profile data to published stories.</p>
+            <p className="text-stone-600 text-xs leading-relaxed mb-3">What we do collect: your story text and submission time. What may still be processed by infrastructure providers: technical request metadata (for example IP address, browser, and security logs) for abuse prevention and site operations.</p>
+            <p className="text-stone-600 text-xs leading-relaxed mb-3">How we protect submissions: HTTPS in transit, moderated publishing workflow, and no analytics script on the dedicated /share page.</p>
+            <p className="text-stone-600 text-xs leading-relaxed mb-3">Stories are reviewed before publishing. Content that promotes harm, contains hate speech, or offers medical advice will not be published.</p>
             <p className="mb-3"><Link href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</Link></p>
             {storyStatus === "success" ? (
               <p className="text-amber-400">Thank you. Your story has been received.</p>

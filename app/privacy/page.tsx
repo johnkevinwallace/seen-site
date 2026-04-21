@@ -28,8 +28,16 @@ export default function PrivacyPage() {
               What We Collect
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              We collect the story text you submit and submission timestamp. We do
-              not require your name or email for story submissions.
+              We collect the story text you submit and submission timestamp.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-amber-400 text-lg font-semibold mb-2">
+              What We Don&apos;t Ask For
+            </h2>
+            <p className="text-stone-400 leading-relaxed">
+              Story submissions do not require your name or email.
             </p>
           </div>
 
@@ -80,11 +88,22 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="text-amber-400 text-lg font-semibold mb-2">
+              How We Protect Submissions
+            </h2>
+            <p className="text-stone-400 leading-relaxed">
+              We use HTTPS encryption in transit, moderation controls before
+              publishing, and the dedicated /share page does not load site
+              analytics.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-amber-400 text-lg font-semibold mb-2">
               Security
             </h2>
             <p className="text-stone-400 leading-relaxed">
-              The site uses HTTPS encryption. Submissions are transmitted
-              securely. The dedicated /share page does not load site analytics.
+              Submissions are transmitted securely, but no internet system can be
+              guaranteed as zero-risk. We continuously patch and review the site.
             </p>
           </div>
         </section>
