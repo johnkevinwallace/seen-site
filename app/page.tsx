@@ -139,7 +139,7 @@ export default function Home() {
         {/* Hero */}
         <section className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-3">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
               Everyone deserves to be{" "}
               <span className="italic text-amber-400">seen</span>.
             </h1>
@@ -158,12 +158,12 @@ export default function Home() {
         {/* Mission / Vision / Values */}
         <section id="mission" className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
-            <div className="flex flex-col gap-3">
-              <div>
+            <div className="flex flex-col gap-0">
+              <div className="mb-6">
                 <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Mission</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Help those struggling with their mental health to be seen.</p>
               </div>
-              <div>
+              <div className="mb-6">
                 <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Vision</h2>
                 <p className="text-lg text-stone-300 leading-relaxed">Become a prominent voice in the mental health advocacy space.</p>
               </div>
@@ -367,7 +367,7 @@ export default function Home() {
             />
             <p className="text-stone-500 text-sm mb-2">John Kevin</p>
             <p className="text-stone-600 text-xs uppercase tracking-[0.2em] mb-6">Lived experience. Real advocacy.</p>
-            <p className="text-stone-600 text-sm mb-3">Seen — because everyone deserves to be.</p>
+            <p className="text-stone-600 text-sm mb-6">Seen — because everyone deserves to be.</p>
 
             {/* Newsletter signup */}
             <div>
@@ -426,7 +426,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="my-6 border-t border-stone-700" />
+            <div className="my-8 border-t border-stone-700" />
 
             {/* Disclaimer */}
             <div>
@@ -435,7 +435,7 @@ export default function Home() {
               <p className="text-stone-700 text-[10px]">The stories shared here are personal experiences and do not constitute medical advice.</p>
             </div>
 
-            <div className="my-6 border-t border-stone-700" />
+            <div className="my-8 border-t border-stone-700" />
 
             <div className="text-center">
               <p className="text-stone-500 text-xs uppercase tracking-[0.1em]">Seen — Mental Health Advocacy</p>
