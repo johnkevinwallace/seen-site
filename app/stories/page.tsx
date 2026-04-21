@@ -17,12 +17,24 @@ export default function StoriesPage() {
   const [stories, setStories] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Scroll to top on mount (handles back-navigation too)
+  // Force top position on mount (helps mobile/webview scroll restoration edge cases)
   useEffect(() => {
-    const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    const scrollTop = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
     scrollTop();
     const raf = window.requestAnimationFrame(scrollTop);
-    return () => window.cancelAnimationFrame(raf);
+    const t1 = window.setTimeout(scrollTop, 0);
+    const t2 = window.setTimeout(scrollTop, 120);
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
   }, []);
 
   useEffect(() => {
@@ -89,6 +101,7 @@ export default function StoriesPage() {
         <div className="border-t border-stone-800 pt-8 mt-8">
           <Link
             href="/share"
+            scroll
             className="text-amber-400 text-sm hover:text-amber-300 transition-colors"
           >
             Share your own story →

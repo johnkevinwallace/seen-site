@@ -8,12 +8,24 @@ export default function SharePage() {
   const [storyStatus, setStoryStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [website, setWebsite] = useState(""); // honeypot
 
-  // Scroll to top — runs on mount and also handles Next.js back-navigation
+  // Force top position on mount (helps mobile/webview scroll restoration edge cases)
   useEffect(() => {
-    const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    const scrollTop = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
     scrollTop();
     const raf = window.requestAnimationFrame(scrollTop);
-    return () => window.cancelAnimationFrame(raf);
+    const t1 = window.setTimeout(scrollTop, 0);
+    const t2 = window.setTimeout(scrollTop, 120);
+
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
   }, []);
 
   const handleStory = async (e: React.FormEvent) => {
