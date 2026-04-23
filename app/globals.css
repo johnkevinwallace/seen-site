@@ -142,6 +142,11 @@ html, body {
   min-height: 100dvh;
 }
 
+/* Homepage: prevent body scroll when main is the scroll container */
+html:has(main#main-content.snap-y) {
+  overflow: hidden;
+}
+
 /* Visually hidden skip link */
 .skip-link {
   position: absolute;

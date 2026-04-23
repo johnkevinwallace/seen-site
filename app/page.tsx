@@ -46,14 +46,6 @@ export default function Home() {
   const nextStory = () => setStoryIndex((i) => Math.min(publishedStories.length - 1, i + 1));
 
   useEffect(() => {
-    // Prevent body scroll on homepage — main is the scroll container
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, []);
-
-  useEffect(() => {
     const main = document.querySelector("main");
     if (!main) return;
     const onScroll = () => setScrolled(main.scrollTop > 50);
@@ -152,7 +144,7 @@ export default function Home() {
 
   return (
     <>
-      <main id="main-content" className="h-screen overflow-y-auto overflow-x-hidden snap-y snap-mandatory">
+      <main id="main-content" className="h-dvh overflow-y-auto overflow-x-hidden snap-y snap-mandatory">
         {/* Hero */}
         <section className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
