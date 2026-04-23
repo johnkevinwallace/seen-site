@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+import { createAnonClient } from "@/lib/supabase";
 
 // --- Rate limiting (in-memory, per-IP, 3/hour) ---
 const submissionTimes = new Map<string, number[]>();
@@ -64,7 +61,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Too many submissions. Try again later." }, { status: 429 });
   }
 
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+  const supabase = createAnonClient();
   const { error } = await supabase.from("stories").insert({ story: story.trim() });
 
   if (error) {

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
 
 interface Draft {
   id: number;
@@ -102,7 +103,8 @@ export default function AdminPage() {
 
   const previewHtml = useMemo(() => {
     if (!body) return "";
-    return marked.parse(body, { async: false, breaks: true, gfm: true }) as string;
+    const html = marked.parse(body, { async: false, breaks: true, gfm: true }) as string;
+    return DOMPurify.sanitize(html);
   }, [body]);
 
   async function handleLogin() {

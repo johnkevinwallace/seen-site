@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createAdminClient } from "@/lib/supabase";
 import { verifySession } from "@/lib/auth";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-function getAdminClient() {
-  return createClient(supabaseUrl, supabaseServiceKey);
-}
 
 // PATCH /api/stories/feature — toggle featured status on a story
 export async function PATCH(req: NextRequest) {
@@ -22,7 +15,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: "id and featured (boolean) required" }, { status: 400 });
   }
 
-  const supabase = getAdminClient();
+  const supabase = createAdminClient();
 
   const { error } = await supabase
     .from("stories")

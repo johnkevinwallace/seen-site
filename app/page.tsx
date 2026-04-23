@@ -45,11 +45,6 @@ export default function Home() {
   const prevStory = () => setStoryIndex((i) => Math.max(0, i - 1));
   const nextStory = () => setStoryIndex((i) => Math.min(publishedStories.length - 1, i + 1));
 
-  const [confirmedParam] = useState(() => {
-    if (typeof window === "undefined") return null;
-    return new URLSearchParams(window.location.search).get("confirmed");
-  });
-
   useEffect(() => {
     const main = document.querySelector("main");
     if (!main) return;
@@ -90,6 +85,20 @@ export default function Home() {
       .catch(() => {})
       .finally(() => setStoriesLoaded(true));
   }, []);
+
+  // Keyboard navigation for story carousel
+  useEffect(() => {
+    if (publishedStories.length <= 1) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setStoryIndex((i) => Math.max(0, i - 1));
+      } else if (e.key === "ArrowRight") {
+        setStoryIndex((i) => Math.min(publishedStories.length - 1, i + 1));
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [publishedStories.length]);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -135,7 +144,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="h-dvh overflow-y-scroll overflow-x-hidden snap-y snap-mandatory">
+      <main id="main-content" className="h-dvh overflow-y-scroll overflow-x-hidden snap-y snap-mandatory">
         {/* Hero */}
         <section className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
@@ -351,8 +360,11 @@ export default function Home() {
                 </button>
               </form>
             )}
+            <div aria-live="polite" className="sr-only">
+              {storyStatus === "error" && "Something went wrong. Try again?"}
+            </div>
             {storyStatus === "error" && (
-              <p className="text-red-400 text-xs mt-2">Something went wrong. Try again?</p>
+              <p className="text-red-400 text-xs mt-2" aria-live="polite">Something went wrong. Try again?</p>
             )}
           </div>
         </section>
@@ -398,8 +410,11 @@ export default function Home() {
                   </button>
                 </form>
               )}
+              <div aria-live="polite" className="sr-only">
+                {subStatus === "error" && "Something went wrong. Try again?"}
+              </div>
               {subStatus === "error" && (
-                <p className="text-red-400 text-xs mt-2">Something went wrong. Try again?</p>
+                <p className="text-red-400 text-xs mt-2" aria-live="polite">Something went wrong. Try again?</p>
               )}
             </div>
           </div>

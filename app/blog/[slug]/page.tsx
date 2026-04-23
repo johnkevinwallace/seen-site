@@ -1,48 +1,45 @@
-"use client";
-
-import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
-import { useParams } from "next/navigation";
 import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
+import { createAnonClient } from "@/lib/supabase";
+import { Metadata } from "next";
 
+interface Post {
+  title: string;
+  body: string;
+  created_at: string;
+  trigger_warning: string | null;
+}
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+interface Props {
+  params: Promise<{ slug: string }>;
+}
 
-export default function BlogPostPage() {
-  const { slug } = useParams<{ slug: string }>();
-  const [post, setPost] = useState<{ title: string; body: string; created_at: string; trigger_warning: string | null } | null>(null);
-  const [loading, setLoading] = useState(true);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = createAnonClient();
+  const { data: post } = await supabase
+    .from("posts")
+    .select("title, excerpt")
+    .eq("slug", slug)
+    .eq("published", true)
+    .single();
 
-  useEffect(() => {
-    if (!slug) return;
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    supabase
-      .from("posts")
-      .select("id, slug, title, body, trigger_warning, created_at")
-      .eq("slug", slug)
-      .eq("published", true)
-      .single()
-      .then(({ data }) => {
-        setPost(data as typeof post);
-        setLoading(false);
-      });
-  }, [slug]);
+  return {
+    title: post?.title ? `${post.title} — Seen` : "Post not found — Seen",
+    description: post?.excerpt || "Blog post from Seen",
+  };
+}
 
-  const bodyHtml = useMemo(() => {
-    if (!post?.body) return "";
-    const result = marked.parse(post.body, { breaks: true, gfm: true, async: false });
-    return typeof result === "string" ? result : "";
-  }, [post?.body]);
-
-  if (loading) {
-    return (
-      <div className="min-h-dvh bg-stone-950 text-stone-100 flex items-center justify-center">
-        <p className="text-stone-600 text-sm">Loading...</p>
-      </div>
-    );
-  }
+export default async function BlogPostPage({ params }: Props) {
+  const { slug } = await params;
+  const supabase = createAnonClient();
+  const { data: post } = await supabase
+    .from("posts")
+    .select("id, slug, title, body, trigger_warning, created_at")
+    .eq("slug", slug)
+    .eq("published", true)
+    .single();
 
   if (!post) {
     return (
@@ -61,6 +58,10 @@ export default function BlogPostPage() {
     );
   }
 
+  const typedPost = post as Post;
+  const rawHtml = marked.parse(typedPost.body || "", { breaks: true, gfm: true, async: false }) as string;
+  const bodyHtml = DOMPurify.sanitize(rawHtml);
+
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
       <div className="mx-auto py-24 text-center" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
@@ -73,20 +74,20 @@ export default function BlogPostPage() {
         </Link>
 
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight mt-8 mb-4">
-          {post.title}
+          {typedPost.title}
         </h1>
 
         <p className="text-stone-600 text-xs" style={{ marginBottom: "12px" }}>
-          {new Date(post.created_at).toLocaleDateString("en-US", {
+          {new Date(typedPost.created_at).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
           })}
         </p>
 
-        {post.trigger_warning && (
+        {typedPost.trigger_warning && (
           <p className="text-stone-600 text-sm" style={{ marginBottom: "12px" }}>
-            <strong style={{ color: "#fbbf24" }}>Trigger Warning:</strong> {post.trigger_warning}
+            <strong style={{ color: "#fbbf24" }}>Trigger Warning:</strong> {typedPost.trigger_warning}
           </p>
         )}
 
@@ -122,55 +123,6 @@ export default function BlogPostPage() {
           </div>
         </div>
       </div>
-      <style jsx global>{`
-        .blog-post-body p {
-          color: #a8a29e;
-          line-height: 1.625;
-          margin-bottom: 12px;
-          overflow-wrap: anywhere;
-        }
-        .blog-post-body h2 {
-          color: #fbbf24;
-          font-weight: 700;
-          font-size: 1.125rem;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          margin-bottom: 12px;
-        }
-        .blog-post-body h3 {
-          color: rgba(251, 191, 36, 0.8);
-          font-weight: 600;
-          font-size: 1rem;
-          margin-bottom: 12px;
-        }
-        .blog-post-body strong {
-          color: #f5f5f4;
-        }
-        [data-theme="light"] .blog-post-body strong {
-          color: #1c1917;
-        }
-        .blog-post-body a {
-          color: #fbbf24;
-          text-decoration: none;
-        }
-        .blog-post-body em {
-          color: #d6d3d1;
-          font-style: italic;
-        }
-        [data-theme="light"] .blog-post-body em {
-          color: #57534e;
-        }
-        .blog-post-body u {
-          color: #d6d3d1;
-          text-decoration: underline;
-        }
-        [data-theme="light"] .blog-post-body u {
-          color: #57534e;
-        }
-        .blog-post-body a:hover {
-          text-decoration: underline;
-        }
-      `}</style>
     </div>
   );
 }

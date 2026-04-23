@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createAdminClient } from "@/lib/supabase";
 import { verifySession } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
@@ -15,10 +15,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Title and body required" }, { status: 400 });
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  const supabase = createAdminClient();
 
   // Upsert: update if slug exists, insert if new
   const { data: existing } = await supabase
@@ -64,10 +61,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from("posts")

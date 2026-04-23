@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createAdminClient } from "@/lib/supabase";
 import { verifySession } from "@/lib/auth";
 
 /*
@@ -11,13 +11,6 @@ import { verifySession } from "@/lib/auth";
  * already insert without a status, so they'll also default to 'pending'.
  */
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-function getAdminClient() {
-  return createClient(supabaseUrl, supabaseServiceKey);
-}
-
 // GET /api/stories — fetch pending stories for admin review
 export async function GET(req: NextRequest) {
   const sessionToken = req.cookies.get("admin_session")?.value;
@@ -25,7 +18,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const supabase = getAdminClient();
+  const supabase = createAdminClient();
 
   // Fetch stories where status is 'pending' or null (pre-migration rows)
   const { data, error } = await supabase
@@ -54,7 +47,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: "id and status required" }, { status: 400 });
   }
 
-  const supabase = getAdminClient();
+  const supabase = createAdminClient();
 
   const { error } = await supabase
     .from("stories")
@@ -81,7 +74,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "id required" }, { status: 400 });
   }
 
-  const supabase = getAdminClient();
+  const supabase = createAdminClient();
 
   const { error } = await supabase
     .from("stories")

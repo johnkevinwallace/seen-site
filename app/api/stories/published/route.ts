@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createAdminClient } from "@/lib/supabase";
 import { verifySession } from "@/lib/auth";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-function getAdminClient() {
-  return createClient(supabaseUrl, supabaseServiceKey);
-}
 
 // GET /api/stories/published — fetch published stories for admin management (includes featured)
 export async function GET(req: NextRequest) {
@@ -16,7 +9,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const supabase = getAdminClient();
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from("stories")

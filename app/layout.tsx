@@ -32,6 +32,9 @@ export default function RootLayout({
     <html lang="en" data-va="0" data-theme="light">
       <body className={`${inter.className}`} style={{ background: "var(--bg)", color: "var(--text)" }}>
         <ThemeProvider>
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
           <Nav />
           {children}
           <FooterGate />

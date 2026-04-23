@@ -94,6 +94,18 @@ export default function Footer() {
           Report a Bug
         </a>
       </div>
+      <div style={{ marginTop: "4px" }}>
+        <a
+          href="/owner-analytics"
+          style={{
+            color: "#57534e",
+            fontSize: "11px",
+            textDecoration: "none",
+          }}
+        >
+          Analytics
+        </a>
+      </div>
     </footer>
   );
 }

@@ -1,11 +1,11 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
+import { createAnonClient } from "@/lib/supabase";
+import { Metadata } from "next";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+export const metadata: Metadata = {
+  title: "Blog — Seen",
+  description: "Honest writing about the real experience of mental health recovery.",
+};
 
 interface Post {
   id: string;
@@ -15,22 +15,15 @@ interface Post {
   created_at: string;
 }
 
-export default function BlogPage() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
+export default async function BlogPage() {
+  const supabase = createAnonClient();
+  const { data } = await supabase
+    .from("posts")
+    .select("id, slug, title, excerpt, created_at")
+    .eq("published", true)
+    .order("created_at", { ascending: false });
 
-  useEffect(() => {
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    supabase
-      .from("posts")
-      .select("id, slug, title, excerpt, created_at")
-      .eq("published", true)
-      .order("created_at", { ascending: false })
-      .then(({ data }) => {
-        setPosts((data as Post[]) ?? []);
-        setLoading(false);
-      });
-  }, []);
+  const posts = (data as Post[]) ?? [];
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
@@ -62,9 +55,7 @@ export default function BlogPage() {
         </p>
 
         <div className="border-t border-stone-800 pt-8">
-          {loading ? (
-            <p className="text-stone-600 text-sm">Loading...</p>
-          ) : posts.length === 0 ? (
+          {posts.length === 0 ? (
             <p className="text-stone-600 text-sm">No posts yet. The first one is coming.</p>
           ) : (
             <div className="space-y-8">

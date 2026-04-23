@@ -1,11 +1,11 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
+import { createAnonClient } from "@/lib/supabase";
+import { Metadata } from "next";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+export const metadata: Metadata = {
+  title: "Stories — Seen",
+  description: "Real stories from real people. No names. No judgment. Just truth.",
+};
 
 interface Story {
   id: string;
@@ -13,23 +13,15 @@ interface Story {
   created_at: string;
 }
 
-export default function StoriesPage() {
-  const [stories, setStories] = useState<Story[]>([]);
-  const [loading, setLoading] = useState(true);
+export default async function StoriesPage() {
+  const supabase = createAnonClient();
+  const { data } = await supabase
+    .from("stories")
+    .select("id, story, created_at")
+    .eq("status", "published")
+    .order("created_at", { ascending: false });
 
-
-  useEffect(() => {
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    supabase
-      .from("stories")
-      .select("id, story, created_at")
-      .eq("status", "published")
-      .order("created_at", { ascending: false })
-      .then(({ data }) => {
-        setStories((data as Story[]) ?? []);
-        setLoading(false);
-      });
-  }, []);
+  const stories = (data as Story[]) ?? [];
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">
@@ -54,9 +46,7 @@ export default function StoriesPage() {
         </p>
 
         <div className="border-t border-stone-800 pt-8">
-          {loading ? (
-            <p className="text-stone-600 text-sm">Loading...</p>
-          ) : stories.length === 0 ? (
+          {stories.length === 0 ? (
             <p className="text-stone-600 text-sm">No stories yet. Be the first to share yours.</p>
           ) : (
             <div className="space-y-8">

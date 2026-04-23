@@ -98,8 +98,11 @@ export default function ContactPage() {
                 placeholder="What went wrong?"
               />
             </div>
+            <div aria-live="polite" className="sr-only">
+              {status === "error" && "Something went wrong. Please try again."}
+            </div>
             {status === "error" && (
-              <p className="text-red-400 text-sm">Something went wrong. Please try again.</p>
+              <p className="text-red-400 text-sm" aria-live="polite">Something went wrong. Please try again.</p>
             )}
             <button
               type="submit"

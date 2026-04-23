@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "./ThemeProvider";
@@ -21,6 +21,8 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   // Hide nav on admin, blog, and terms pages
   if (pathname === "/admin" || pathname === "/terms" || pathname === "/privacy" || pathname === "/contact" || pathname === "/blog" || pathname.startsWith("/blog/") || pathname === "/stories" || pathname === "/share") return null;
@@ -38,11 +40,64 @@ export default function Nav() {
     }
   }
 
+  // Focus trap inside mobile nav panel
+  useEffect(() => {
+    if (!open) return;
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const focusableSelector = 'a[href], button, textarea, input[type="text"], input[type="email"], input[type="search"], input[type="submit"], [tabindex]:not([tabindex="-1"])';
+    const focusables = Array.from(panel.querySelectorAll(focusableSelector)) as HTMLElement[];
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    const trap = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      if (focusables.length === 0) return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+
+    const esc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+
+    window.addEventListener("keydown", trap);
+    window.addEventListener("keydown", esc);
+    // focus first focusable element in panel
+    first?.focus();
+
+    return () => {
+      window.removeEventListener("keydown", trap);
+      window.removeEventListener("keydown", esc);
+    };
+  }, [open]);
+
+  // Return focus to hamburger when closing
+  useEffect(() => {
+    if (!open) {
+      hamburgerRef.current?.focus();
+    }
+  }, [open]);
+
   return (
     <>
       {/* Hamburger button */}
       <button
+        ref={hamburgerRef}
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-controls="nav-panel"
+        aria-label={open ? "Close menu" : "Open menu"}
         style={{
           position: "fixed",
           top: "20px",
@@ -62,7 +117,6 @@ export default function Nav() {
           backdropFilter: "blur(8px)",
           padding: "0",
         }}
-        aria-label="Toggle menu"
       >
         <span
           style={{
@@ -107,11 +161,15 @@ export default function Nav() {
             zIndex: 99999,
           }}
           onClick={() => setOpen(false)}
+          aria-hidden="true"
         />
       )}
 
       {/* Menu panel */}
       <div
+        id="nav-panel"
+        ref={panelRef}
+        aria-hidden={!open}
         style={{
           position: "fixed",
           top: 0,

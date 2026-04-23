@@ -10,22 +10,9 @@ export default function SharePage() {
 
   // Force top position on mount (helps mobile/webview scroll restoration edge cases)
   useEffect(() => {
-    const scrollTop = () => {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    };
-
-    scrollTop();
-    const raf = window.requestAnimationFrame(scrollTop);
-    const t1 = window.setTimeout(scrollTop, 0);
-    const t2 = window.setTimeout(scrollTop, 120);
-
-    return () => {
-      window.cancelAnimationFrame(raf);
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-    };
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, []);
 
   const handleStory = async (e: React.FormEvent) => {
@@ -105,8 +92,11 @@ export default function SharePage() {
             </button>
           </form>
         )}
+        <div aria-live="polite" className="sr-only">
+          {storyStatus === "error" && "Something went wrong. Try again?"}
+        </div>
         {storyStatus === "error" && (
-          <p className="text-red-400 text-xs mt-2">Something went wrong. Try again?</p>
+          <p className="text-red-400 text-xs mt-2" aria-live="polite">Something went wrong. Try again?</p>
         )}
 
         <div className="border-t border-stone-800 pt-8 mt-12">

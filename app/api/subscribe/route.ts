@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+import { createAdminClient } from "@/lib/supabase";
 
 // --- Rate limiting (in-memory, per-IP, 5/hour) ---
 const subscribeAttempts = new Map<string, number[]>();
@@ -57,7 +54,7 @@ export async function POST(req: NextRequest) {
   const token = crypto.randomUUID();
 
   // Insert subscriber with confirmed=false and token
-  const supabase = createClient(supabaseUrl, supabaseServiceKey);
+  const supabase = createAdminClient();
   const { error } = await supabase.from("subscribers").upsert(
     { email, confirmed: false, confirm_token: token },
     { onConflict: "email" }
@@ -76,7 +73,7 @@ export async function POST(req: NextRequest) {
   const confirmUrl = `${baseUrl}/api/confirm?token=${token}`;
   const resendKey = process.env.RESEND_API_KEY!;
 
-  await fetch("https://api.resend.com/emails", {
+  const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${resendKey}`,
@@ -102,6 +99,10 @@ export async function POST(req: NextRequest) {
       `,
     }),
   });
+
+  if (!res.ok) {
+    return NextResponse.json({ error: "Failed to send confirmation email" }, { status: 500 });
+  }
 
   // Record successful request for rate limiting
   times.push(now);
