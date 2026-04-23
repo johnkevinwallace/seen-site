@@ -17,6 +17,8 @@ const links = [
   { href: "/stories", label: "All Stories" },
 ];
 
+const hiddenRoutes = ["/admin", "/terms", "/privacy", "/contact", "/blog", "/stories", "/share"];
+
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -24,21 +26,10 @@ export default function Nav() {
   const panelRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
 
-  // Hide nav on admin, blog, and terms pages
-  if (pathname === "/admin" || pathname === "/terms" || pathname === "/privacy" || pathname === "/contact" || pathname === "/blog" || pathname.startsWith("/blog/") || pathname === "/stories" || pathname === "/share") return null;
-
-  function handleClick(href: string) {
-    setOpen(false);
-    if (pathname === "/" && href.startsWith("/#")) {
-      const id = href.slice(2);
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
-    }
-  }
+  // All hooks must be called unconditionally (Rules of Hooks)
+  const isHidden = hiddenRoutes.some(
+    (route) => pathname === route || (route !== "/admin" && pathname.startsWith(route + "/"))
+  );
 
   // Focus trap inside mobile nav panel
   useEffect(() => {
@@ -73,7 +64,6 @@ export default function Nav() {
 
     window.addEventListener("keydown", trap);
     window.addEventListener("keydown", esc);
-    // focus first focusable element in panel
     first?.focus();
 
     return () => {
@@ -88,6 +78,21 @@ export default function Nav() {
       hamburgerRef.current?.focus();
     }
   }, [open]);
+
+  if (isHidden) return null;
+
+  function handleClick(href: string) {
+    setOpen(false);
+    if (pathname === "/" && href.startsWith("/#")) {
+      const id = href.slice(2);
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }
 
   return (
     <>
