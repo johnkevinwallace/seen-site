@@ -29,8 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-va="0" data-theme="light">
+    <html lang="en" data-va="0" data-theme="light" suppressHydrationWarning>
       <body className={`${inter.className}`} style={{ background: "var(--bg)", color: "var(--text)" }}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("seen-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`,
+          }}
+        />
         <ThemeProvider>
           <a href="#main-content" className="skip-link">
             Skip to main content
