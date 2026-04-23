@@ -46,6 +46,14 @@ export default function Home() {
   const nextStory = () => setStoryIndex((i) => Math.min(publishedStories.length - 1, i + 1));
 
   useEffect(() => {
+    // Prevent body scroll on homepage — main is the scroll container
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  useEffect(() => {
     const main = document.querySelector("main");
     if (!main) return;
     const onScroll = () => setScrolled(main.scrollTop > 50);
