@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { marked } from "marked";
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 import { createAnonClient } from "@/lib/supabase";
 import { Metadata } from "next";
 
@@ -60,7 +60,15 @@ export default async function BlogPostPage({ params }: Props) {
 
   const typedPost = post as Post;
   const rawHtml = marked.parse(typedPost.body || "", { breaks: true, gfm: true, async: false }) as string;
-  const bodyHtml = DOMPurify.sanitize(rawHtml);
+  const bodyHtml = sanitizeHtml(rawHtml, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["h1", "h2", "h3", "br", "hr", "img", "details", "summary"]),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ["src", "alt", "title", "width", "height"],
+      a: ["href", "title", "target", "rel"],
+    },
+    allowedSchemes: ["https", "mailto"],
+  });
 
   return (
     <div className="min-h-dvh bg-stone-950 text-stone-100">

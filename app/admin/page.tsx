@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { marked } from "marked";
-import DOMPurify from "isomorphic-dompurify";
+import DOMPurify from "dompurify";
 
 interface Draft {
   id: number;
