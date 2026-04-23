@@ -144,7 +144,7 @@ export default function Home() {
 
   return (
     <>
-      <main id="main-content" className="h-screen overflow-y-auto overflow-x-hidden snap-y snap-mandatory" style={{ position: 'fixed', inset: 0 }}>
+      <main id="main-content" className="h-screen overflow-y-auto overflow-x-hidden snap-y snap-mandatory">
         {/* Hero */}
         <section className="min-h-dvh snap-start flex items-center justify-center text-center">
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
