@@ -16,7 +16,7 @@ export default function Home() {
   const [confirmShare, setConfirmShare] = useState(false);
   const [draftRestored, setDraftRestored] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
-  const [publishedStories, setPublishedStories] = useState<{ id: string; story: string; created_at: string; featured: boolean }[]>([]);
+  const [publishedStories, setPublishedStories] = useState<{ id: string; story: string; created_at: string; featured: boolean; trigger_warnings?: string[] | null }[]>([]);
   const [storiesLoaded, setStoriesLoaded] = useState(false);
   const [storyIndex, setStoryIndex] = useState(0);
   const [revealedStories, setRevealedStories] = useState<Record<string, boolean>>({});
@@ -312,14 +312,17 @@ export default function Home() {
                       transform: `translateX(-${storyIndex * 100}%)`,
                     }}
                   >
-                    {publishedStories.map((s, i) => {
+                    {publishedStories.map((s) => {
                       const date = new Date(s.created_at);
                       const month = date.toLocaleString("en-US", { month: "long" });
                       const year = date.getFullYear();
                       return (
                         <div key={s.id} style={{ minWidth: "100%", textAlign: "left" }}>
                           {(() => {
-                            const warnings = detectTriggerWarnings(s.story);
+                            const warnings =
+                              s.trigger_warnings && s.trigger_warnings.length > 0
+                                ? s.trigger_warnings
+                                : detectTriggerWarnings(s.story);
                             const hasWarnings = warnings.length > 0;
                             const isRevealed = revealedStories[s.id] || !hasWarnings;
 
@@ -408,12 +411,9 @@ export default function Home() {
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Share Your Story</h2>
             <p className="text-stone-400 text-base leading-relaxed mb-3">Your story matters. We don&apos;t ask for your name or email.</p>
-            <p className="text-stone-600 text-xs leading-relaxed mb-3">Drafts are saved locally in this browser while you type.</p>
-            <p className="text-stone-600 text-xs leading-relaxed mb-3">Every story is reviewed before publication. Nothing is posted instantly.</p>
-            <p className="text-stone-600 text-xs leading-relaxed mb-3">If you want to withdraw a submission before publication, use <Link href="/contact" className="hover:text-amber-400 transition-colors">contact</Link> and include your submission time and first sentence so we can find it.</p>
-            <p className="text-stone-600 text-xs leading-relaxed mb-3">Infrastructure providers may process technical request metadata (like IP address and browser details) for abuse prevention and site operations.</p>
-            <p className="text-stone-600 text-xs leading-relaxed mb-3">The dedicated /share page does not load analytics.</p>
-            <p className="mb-3"><Link href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</Link></p>
+            <p className="text-stone-600 text-xs leading-relaxed mb-3">
+              <Link href="/storynotices" className="hover:text-amber-400 transition-colors underline">Before you share, read what happens to your story →</Link>
+            </p>
             {storyStatus === "success" ? (
               <div>
                 <p className="text-amber-400">Thank you. Your story has been received for moderation.</p>

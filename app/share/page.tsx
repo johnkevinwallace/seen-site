@@ -78,12 +78,9 @@ export default function SharePage() {
         </h1>
 
         <p className="text-stone-400 text-sm leading-relaxed mb-3">Your story matters. We don&apos;t ask for your name or email.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-3">Drafts are saved locally in this browser while you type.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-3">Every story is reviewed before publication. Nothing is posted instantly.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-3">If you want to withdraw a submission before publication, use <Link href="/contact" className="hover:text-amber-400 transition-colors">contact</Link> and include your submission time and first sentence so we can find it.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-3">Infrastructure providers may process technical request metadata (like IP address and browser details) for abuse prevention and site operations.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-3">The dedicated /share page does not load analytics.</p>
-        <p className="mb-8"><a href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</a></p>
+        <p className="text-stone-600 text-xs leading-relaxed mb-8">
+          <Link href="/storynotices" className="hover:text-amber-400 transition-colors underline">Before you share, read what happens to your story →</Link>
+        </p>
 
         {storyStatus === "success" ? (
           <div>

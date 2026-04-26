@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { verifySession } from "@/lib/auth";
 
-// GET /api/stories/published — fetch published stories for admin management (includes featured)
+// GET /api/stories/published — fetch published stories for admin management
 export async function GET(req: NextRequest) {
   const sessionToken = req.cookies.get("admin_session")?.value;
   if (!sessionToken || !verifySession(sessionToken)) {
@@ -11,15 +11,30 @@ export async function GET(req: NextRequest) {
 
   const supabase = createAdminClient();
 
-  const { data, error } = await supabase
+  const withWarnings = await supabase
+    .from("stories")
+    .select("id, story, created_at, status, featured, trigger_warnings")
+    .eq("status", "published")
+    .order("created_at", { ascending: false });
+
+  if (!withWarnings.error) {
+    return NextResponse.json({ stories: withWarnings.data ?? [] });
+  }
+
+  const fallback = await supabase
     .from("stories")
     .select("id, story, created_at, status, featured")
     .eq("status", "published")
     .order("created_at", { ascending: false });
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (fallback.error) {
+    return NextResponse.json({ error: fallback.error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ stories: data });
+  const stories = (fallback.data ?? []).map((story) => ({
+    ...story,
+    trigger_warnings: null,
+  }));
+
+  return NextResponse.json({ stories });
 }

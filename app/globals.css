@@ -26,6 +26,16 @@
   box-sizing: border-box;
 }
 
+/* iOS Safari: prevent viewport-height gap after virtual keyboard closes */
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    min-height: 100svh;
+  }
+  #__next {
+    min-height: 100svh;
+  }
+}
+
 /* Dark mode (default) */
 :root, [data-theme="dark"] {
   --bg: #0c0a09;

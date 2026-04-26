@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
+import { STORY_WARNING_OPTIONS, detectTriggerWarnings } from "@/lib/story-warnings";
 
 interface Draft {
   id: number;

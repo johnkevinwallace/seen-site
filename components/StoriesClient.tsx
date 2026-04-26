@@ -8,6 +8,7 @@ interface Story {
   id: string;
   story: string;
   created_at: string;
+  trigger_warnings?: string[] | null;
 }
 
 interface StoriesClientProps {
@@ -46,7 +47,10 @@ export default function StoriesClient({ stories }: StoriesClientProps) {
                 const date = new Date(s.created_at);
                 const month = date.toLocaleString("en-US", { month: "long" });
                 const year = date.getFullYear();
-                const warnings = detectTriggerWarnings(s.story);
+                const warnings =
+                  s.trigger_warnings && s.trigger_warnings.length > 0
+                    ? s.trigger_warnings
+                    : detectTriggerWarnings(s.story);
                 const hasWarnings = warnings.length > 0;
                 const isRevealed = revealedStories[s.id] || !hasWarnings;
 
