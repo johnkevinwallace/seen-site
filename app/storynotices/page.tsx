@@ -59,13 +59,15 @@ export default function StoryNoticesPage() {
             </p>
           </div>
         </div>
-        <Link
-          href="/share"
-          style={{ textDecoration: "none" }}
-          className="seen-btn text-center mt-8 inline-block"
-        >
-          Back to Share
-        </Link>
+        <div className="mt-12">
+          <a
+            href="/share"
+            className="seen-btn inline-block text-center"
+            style={{ textDecoration: "none", width: "auto", paddingLeft: "24px", paddingRight: "24px" }}
+          >
+            Back to Share
+          </a>
+        </div>
       </div>
     </div>
   );
