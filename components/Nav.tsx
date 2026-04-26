@@ -19,6 +19,7 @@ const links = [
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -26,6 +27,23 @@ export default function Nav() {
 
   // All hooks must be called unconditionally (Rules of Hooks)
   const isVisible = pathname === "/";
+
+  // Hide hamburger when any input/textarea is focused (Instagram WebView collision)
+  useEffect(() => {
+    const inputs = document.querySelectorAll('input, textarea');
+    const onFocus = () => setHidden(true);
+    const onBlur = () => setHidden(false);
+    inputs.forEach((el) => {
+      el.addEventListener('focus', onFocus);
+      el.addEventListener('blur', onBlur);
+    });
+    return () => {
+      inputs.forEach((el) => {
+        el.removeEventListener('focus', onFocus);
+        el.removeEventListener('blur', onBlur);
+      });
+    };
+  }, []);
 
   // Focus trap inside mobile nav panel
   useEffect(() => {
@@ -106,7 +124,7 @@ export default function Nav() {
           zIndex: 100001,
           width: "48px",
           height: "48px",
-          display: "flex",
+          display: hidden || open ? "none" : "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
@@ -122,6 +140,9 @@ export default function Nav() {
           transform: "translateZ(0)",
           WebkitTapHighlightColor: "transparent",
           touchAction: "manipulation",
+          transition: "opacity 0.2s",
+          opacity: open ? 0 : 1,
+          pointerEvents: open ? "none" : "auto",
         }}
       >
         <span
