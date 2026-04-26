@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { detectTriggerWarnings } from "@/lib/story-warnings";
+
+const STORY_DRAFT_KEY = "seen_story_draft";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -10,10 +13,13 @@ export default function Home() {
   const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [storyText, setStoryText] = useState("");
   const [storyStatus, setStoryStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [confirmShare, setConfirmShare] = useState(false);
+  const [draftRestored, setDraftRestored] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
-  const [publishedStories, setPublishedStories] = useState<{ story: string; created_at: string; featured: boolean }[]>([]);
+  const [publishedStories, setPublishedStories] = useState<{ id: string; story: string; created_at: string; featured: boolean }[]>([]);
   const [storiesLoaded, setStoriesLoaded] = useState(false);
   const [storyIndex, setStoryIndex] = useState(0);
+  const [revealedStories, setRevealedStories] = useState<Record<string, boolean>>({});
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
@@ -80,11 +86,35 @@ export default function Home() {
     fetch("/api/stories/public")
       .then((r) => r.json())
       .then((data) => {
-        if (data.stories) setPublishedStories(data.stories.filter((s: { featured: boolean }) => s.featured));
+        if (data.stories) {
+          setPublishedStories(
+            data.stories.filter((s: { featured: boolean }) => s.featured)
+          );
+        }
       })
       .catch(() => {})
       .finally(() => setStoriesLoaded(true));
   }, []);
+
+  useEffect(() => {
+    try {
+      const draft = localStorage.getItem(STORY_DRAFT_KEY);
+      if (draft && draft.trim().length > 0) {
+        setStoryText(draft);
+        setDraftRestored(true);
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    try {
+      if (storyText.trim().length > 0) {
+        localStorage.setItem(STORY_DRAFT_KEY, storyText);
+      } else {
+        localStorage.removeItem(STORY_DRAFT_KEY);
+      }
+    } catch {}
+  }, [storyText]);
 
   // Keyboard navigation for story carousel
   useEffect(() => {
@@ -123,7 +153,7 @@ export default function Home() {
 
   const handleStory = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!storyText || storyText.trim().length < 10) return;
+    if (!storyText || storyText.trim().length < 10 || !confirmShare) return;
     setStoryStatus("loading");
     try {
       const res = await fetch("/api/story", {
@@ -133,6 +163,10 @@ export default function Home() {
       });
       if (res.ok) {
         setStoryStatus("success");
+        setConfirmShare(false);
+        try {
+          localStorage.removeItem(STORY_DRAFT_KEY);
+        } catch {}
       } else {
         setStoryStatus("error");
       }
@@ -283,19 +317,72 @@ export default function Home() {
                       const month = date.toLocaleString("en-US", { month: "long" });
                       const year = date.getFullYear();
                       return (
-                        <div key={i} style={{ minWidth: "100%", textAlign: "left" }}>
-                          <div style={{
-                            maxHeight: "360px",
-                            overflowY: "auto",
-                            padding: "16px 20px",
-                            borderRadius: "8px",
-                            background: "var(--bg, #0c0a09)",
-                            border: "1px solid var(--border, #292524)",
-                          }}>
-                            <p style={{ color: "var(--text, #a8a29e)", lineHeight: "1.625", marginBottom: "0", whiteSpace: "pre-wrap", fontSize: "15px" }}>
-                              {s.story}
-                            </p>
-                          </div>
+                        <div key={s.id} style={{ minWidth: "100%", textAlign: "left" }}>
+                          {(() => {
+                            const warnings = detectTriggerWarnings(s.story);
+                            const hasWarnings = warnings.length > 0;
+                            const isRevealed = revealedStories[s.id] || !hasWarnings;
+
+                            return (
+                              <>
+                                {hasWarnings && (
+                                  <p className="text-amber-300 text-xs mb-3">
+                                    Trigger warning: {warnings.join(", ")}
+                                  </p>
+                                )}
+                                <div
+                                  style={{
+                                    maxHeight: "360px",
+                                    overflowY: "auto",
+                                    padding: "16px 20px",
+                                    borderRadius: "8px",
+                                    background: "var(--bg, #0c0a09)",
+                                    border: "1px solid var(--border, #292524)",
+                                    position: "relative",
+                                  }}
+                                >
+                                  <p
+                                    style={{
+                                      color: "var(--text, #a8a29e)",
+                                      lineHeight: "1.625",
+                                      marginBottom: "0",
+                                      whiteSpace: "pre-wrap",
+                                      fontSize: "15px",
+                                      filter: hasWarnings && !isRevealed ? "blur(9px)" : "none",
+                                      transition: "filter 0.2s ease",
+                                      userSelect: hasWarnings && !isRevealed ? "none" : "text",
+                                    }}
+                                    aria-hidden={hasWarnings && !isRevealed}
+                                  >
+                                    {s.story}
+                                  </p>
+
+                                  {hasWarnings && !isRevealed && (
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        setRevealedStories((prev) => ({
+                                          ...prev,
+                                          [s.id]: true,
+                                        }))
+                                      }
+                                      className="seen-btn"
+                                      style={{
+                                        position: "absolute",
+                                        inset: "50% auto auto 50%",
+                                        transform: "translate(-50%, -50%)",
+                                        width: "auto",
+                                        padding: "10px 16px",
+                                        fontSize: "12px",
+                                      }}
+                                    >
+                                      Tap to reveal
+                                    </button>
+                                  )}
+                                </div>
+                              </>
+                            );
+                          })()}
                           <p style={{ color: "#78716c", fontSize: "12px", marginTop: "16px" }}>
                             Shared {month} {year}
                           </p>
@@ -321,12 +408,17 @@ export default function Home() {
           <div className="w-full mx-auto" style={{ maxWidth: "580px", paddingLeft: "24px", paddingRight: "24px" }}>
             <h2 className="text-sm uppercase tracking-[0.2em] text-amber-400 mb-3">Share Your Story</h2>
             <p className="text-stone-400 text-base leading-relaxed mb-3">Your story matters. We don&apos;t ask for your name or email.</p>
-            <p className="text-stone-600 text-xs leading-relaxed mb-3">We store your story text and submission time, and every story is reviewed before publishing.</p>
+            <p className="text-stone-600 text-xs leading-relaxed mb-3">Drafts are saved locally in this browser while you type.</p>
+            <p className="text-stone-600 text-xs leading-relaxed mb-3">Every story is reviewed before publication. Nothing is posted instantly.</p>
+            <p className="text-stone-600 text-xs leading-relaxed mb-3">If you want to withdraw a submission before publication, use <Link href="/contact" className="hover:text-amber-400 transition-colors">contact</Link> and include your submission time and first sentence so we can find it.</p>
             <p className="text-stone-600 text-xs leading-relaxed mb-3">Infrastructure providers may process technical request metadata (like IP address and browser details) for abuse prevention and site operations.</p>
             <p className="text-stone-600 text-xs leading-relaxed mb-3">The dedicated /share page does not load analytics.</p>
             <p className="mb-3"><Link href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</Link></p>
             {storyStatus === "success" ? (
-              <p className="text-amber-400">Thank you. Your story has been received.</p>
+              <div>
+                <p className="text-amber-400">Thank you. Your story has been received for moderation.</p>
+                <p className="text-stone-600 text-xs mt-2">It is not public yet. If you want it withdrawn before publication, message us from the contact page with your submission time and first sentence.</p>
+              </div>
             ) : (
               <form onSubmit={handleStory} className="flex flex-col gap-3">
                 <div style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
@@ -351,12 +443,26 @@ export default function Home() {
                   rows={6}
                   className="seen-textarea"
                 />
+                {draftRestored && storyText.trim().length > 0 && (
+                  <p className="text-stone-600 text-xs text-left">Draft restored from this device.</p>
+                )}
+                <label className="text-stone-500 text-xs leading-relaxed text-left flex items-start gap-2">
+                  <input
+                    type="checkbox"
+                    checked={confirmShare}
+                    onChange={(e) => setConfirmShare(e.target.checked)}
+                    style={{ marginTop: "2px" }}
+                  />
+                  <span>
+                    I confirm I want this shared anonymously for moderator review.
+                  </span>
+                </label>
                 <button
                   type="submit"
-                  disabled={storyStatus === "loading" || storyText.trim().length < 10}
+                  disabled={storyStatus === "loading" || storyText.trim().length < 10 || !confirmShare}
                   className="seen-btn"
                 >
-                  {storyStatus === "loading" ? "..." : "Submit anonymously"}
+                  {storyStatus === "loading" ? "..." : "Submit for review"}
                 </button>
               </form>
             )}

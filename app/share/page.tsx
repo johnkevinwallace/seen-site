@@ -3,9 +3,13 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+const STORY_DRAFT_KEY = "seen_story_draft";
+
 export default function SharePage() {
   const [storyText, setStoryText] = useState("");
   const [storyStatus, setStoryStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [confirmShare, setConfirmShare] = useState(false);
+  const [draftRestored, setDraftRestored] = useState(false);
   const [website, setWebsite] = useState(""); // honeypot
 
   // Force top position on mount (helps mobile/webview scroll restoration edge cases)
@@ -13,11 +17,29 @@ export default function SharePage() {
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
+
+    try {
+      const draft = localStorage.getItem(STORY_DRAFT_KEY);
+      if (draft && draft.trim().length > 0) {
+        setStoryText(draft);
+        setDraftRestored(true);
+      }
+    } catch {}
   }, []);
+
+  useEffect(() => {
+    try {
+      if (storyText.trim().length > 0) {
+        localStorage.setItem(STORY_DRAFT_KEY, storyText);
+      } else {
+        localStorage.removeItem(STORY_DRAFT_KEY);
+      }
+    } catch {}
+  }, [storyText]);
 
   const handleStory = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!storyText || storyText.trim().length < 10) return;
+    if (!storyText || storyText.trim().length < 10 || !confirmShare) return;
     setStoryStatus("loading");
     try {
       const res = await fetch("/api/story", {
@@ -27,6 +49,10 @@ export default function SharePage() {
       });
       if (res.ok) {
         setStoryStatus("success");
+        setConfirmShare(false);
+        try {
+          localStorage.removeItem(STORY_DRAFT_KEY);
+        } catch {}
       } else {
         setStoryStatus("error");
       }
@@ -52,13 +78,18 @@ export default function SharePage() {
         </h1>
 
         <p className="text-stone-400 text-sm leading-relaxed mb-3">Your story matters. We don&apos;t ask for your name or email.</p>
-        <p className="text-stone-600 text-xs leading-relaxed mb-3">We store your story text and submission time, and every story is reviewed before publishing.</p>
+        <p className="text-stone-600 text-xs leading-relaxed mb-3">Drafts are saved locally in this browser while you type.</p>
+        <p className="text-stone-600 text-xs leading-relaxed mb-3">Every story is reviewed before publication. Nothing is posted instantly.</p>
+        <p className="text-stone-600 text-xs leading-relaxed mb-3">If you want to withdraw a submission before publication, use <Link href="/contact" className="hover:text-amber-400 transition-colors">contact</Link> and include your submission time and first sentence so we can find it.</p>
         <p className="text-stone-600 text-xs leading-relaxed mb-3">Infrastructure providers may process technical request metadata (like IP address and browser details) for abuse prevention and site operations.</p>
         <p className="text-stone-600 text-xs leading-relaxed mb-3">The dedicated /share page does not load analytics.</p>
         <p className="mb-8"><a href="/privacy" className="text-stone-600 text-xs hover:text-amber-400 transition-colors">See our privacy policy →</a></p>
 
         {storyStatus === "success" ? (
-          <p className="text-amber-400">Thank you. Your story has been received.</p>
+          <div>
+            <p className="text-amber-400">Thank you. Your story has been received for moderation.</p>
+            <p className="text-stone-600 text-xs mt-2">It is not public yet. If you want it withdrawn before publication, message us from the contact page with your submission time and first sentence.</p>
+          </div>
         ) : (
           <form onSubmit={handleStory} className="flex flex-col gap-4">
             <div style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
@@ -83,12 +114,26 @@ export default function SharePage() {
               rows={6}
               className="seen-textarea"
             />
+            {draftRestored && storyText.trim().length > 0 && (
+              <p className="text-stone-600 text-xs text-left">Draft restored from this device.</p>
+            )}
+            <label className="text-stone-500 text-xs leading-relaxed text-left flex items-start gap-2">
+              <input
+                type="checkbox"
+                checked={confirmShare}
+                onChange={(e) => setConfirmShare(e.target.checked)}
+                style={{ marginTop: "2px" }}
+              />
+              <span>
+                I confirm I want this shared anonymously for moderator review.
+              </span>
+            </label>
             <button
               type="submit"
-              disabled={storyStatus === "loading" || storyText.trim().length < 10}
+              disabled={storyStatus === "loading" || storyText.trim().length < 10 || !confirmShare}
               className="seen-btn"
             >
-              {storyStatus === "loading" ? "..." : "Submit anonymously"}
+              {storyStatus === "loading" ? "..." : "Submit for review"}
             </button>
           </form>
         )}
