@@ -17,8 +17,6 @@ const links = [
   { href: "/stories", label: "All Stories" },
 ];
 
-const hiddenRoutes = ["/admin", "/terms", "/privacy", "/contact", "/blog", "/stories", "/share"];
-
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -27,9 +25,7 @@ export default function Nav() {
   const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   // All hooks must be called unconditionally (Rules of Hooks)
-  const isHidden = hiddenRoutes.some(
-    (route) => pathname === route || (route !== "/admin" && pathname.startsWith(route + "/"))
-  );
+  const isVisible = pathname === "/";
 
   // Focus trap inside mobile nav panel
   useEffect(() => {
@@ -79,7 +75,7 @@ export default function Nav() {
     }
   }, [open]);
 
-  if (isHidden) return null;
+  if (!isVisible) return null;
 
   function handleClick(href: string) {
     setOpen(false);
