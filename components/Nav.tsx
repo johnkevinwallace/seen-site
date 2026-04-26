@@ -101,7 +101,7 @@ export default function Nav() {
         aria-label={open ? "Close menu" : "Open menu"}
         style={{
           position: "fixed",
-          top: "20px",
+          top: "max(52px, env(safe-area-inset-top) + 12px)",
           left: "20px",
           zIndex: 100001,
           width: "48px",
