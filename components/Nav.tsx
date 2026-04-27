@@ -31,6 +31,33 @@ export default function Nav() {
     setIsInstagram(/Instagram/.test(ua));
   }, []);
 
+  // Instagram WebView: reset fixed positioning after keyboard dismiss
+  // (visualViewport doesn't restore position:fixed elements correctly)
+  useEffect(() => {
+    if (!isInstagram) return;
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    let prevHeight = vv.height;
+    const handleResize = () => {
+      const h = vv.height;
+      // Viewport expanded by >150px -> keyboard closed
+      if (h > prevHeight + 150) {
+        // Force reflow on hamburger to snap it back
+        const btn = hamburgerRef.current;
+        if (btn) {
+          btn.style.display = "none";
+          void btn.offsetHeight; // trigger reflow
+          btn.style.display = "";
+        }
+      }
+      prevHeight = h;
+    };
+
+    vv.addEventListener("resize", handleResize);
+    return () => vv.removeEventListener("resize", handleResize);
+  }, [isInstagram]);
+
   // All hooks must be called unconditionally (Rules of Hooks)
   const isVisible = pathname === "/";
 
