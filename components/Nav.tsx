@@ -35,27 +35,33 @@ export default function Nav() {
   // (visualViewport doesn't restore position:fixed elements correctly)
   useEffect(() => {
     if (!isInstagram) return;
-    const vv = window.visualViewport;
-    if (!vv) return;
 
-    let prevHeight = vv.height;
-    const handleResize = () => {
-      const h = vv.height;
-      // Viewport expanded by >150px -> keyboard closed
-      if (h > prevHeight + 150) {
-        // Force reflow on hamburger to snap it back
-        const btn = hamburgerRef.current;
-        if (btn) {
-          btn.style.display = "none";
-          void btn.offsetHeight; // trigger reflow
-          btn.style.display = "";
-        }
-      }
-      prevHeight = h;
+    const snapBack = () => {
+      const btn = hamburgerRef.current;
+      if (!btn) return;
+      // Aggressive reflow: toggle position property to force browser recalc
+      btn.style.position = "absolute";
+      void btn.offsetHeight;
+      btn.style.position = "fixed";
+      // Also nudge top to ensure it's respected
+      const targetTop = isInstagram ? "64px" : "20px";
+      btn.style.top = targetTop;
     };
 
-    vv.addEventListener("resize", handleResize);
-    return () => vv.removeEventListener("resize", handleResize);
+    // Trigger on visualViewport resize (keyboard dismiss)
+    const vv = window.visualViewport;
+    if (vv) {
+      vv.addEventListener("resize", snapBack);
+    }
+
+    // Backup: trigger on any input blur/focusout
+    const onFocusOut = () => setTimeout(snapBack, 100);
+    document.addEventListener("focusout", onFocusOut);
+
+    return () => {
+      if (vv) vv.removeEventListener("resize", snapBack);
+      document.removeEventListener("focusout", onFocusOut);
+    };
   }, [isInstagram]);
 
   // All hooks must be called unconditionally (Rules of Hooks)
@@ -136,7 +142,7 @@ export default function Nav() {
         style={{
           position: "fixed",
           top: isInstagram ? "64px" : "20px",
-          right: "20px",
+          left: "20px",
           zIndex: 100001,
           width: "48px",
           height: "48px",
@@ -216,13 +222,13 @@ export default function Nav() {
         style={{
           position: "fixed",
           top: 0,
-          right: 0,
+          left: 0,
           height: "100%",
           width: "256px",
           background: "var(--nav-bg)",
-          borderLeft: "1px solid var(--border)",
+          borderRight: "1px solid var(--border)",
           zIndex: 100000,
-          transform: open ? "translateX(0)" : "translateX(100%)",
+          transform: open ? "translateX(0)" : "translateX(-100%)",
           transition: "transform 0.3s ease",
           display: "flex",
           flexDirection: "column",
