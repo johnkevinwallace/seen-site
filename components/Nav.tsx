@@ -19,10 +19,17 @@ const links = [
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [isInstagram, setIsInstagram] = useState(false);
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
   const panelRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
+
+  // Detect Instagram in-app browser (has top chrome that overlaps fixed elements)
+  useEffect(() => {
+    const ua = navigator.userAgent || "";
+    setIsInstagram(/Instagram/.test(ua));
+  }, []);
 
   // All hooks must be called unconditionally (Rules of Hooks)
   const isVisible = pathname === "/";
@@ -101,7 +108,7 @@ export default function Nav() {
         aria-label={open ? "Close menu" : "Open menu"}
         style={{
           position: "fixed",
-          top: "20px",
+          top: isInstagram ? "64px" : "20px",
           right: "20px",
           zIndex: 100001,
           width: "48px",
