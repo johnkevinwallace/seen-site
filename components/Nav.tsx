@@ -19,7 +19,6 @@ const links = [
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const pathname = usePathname();
   const { theme, toggle } = useTheme();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -27,23 +26,6 @@ export default function Nav() {
 
   // All hooks must be called unconditionally (Rules of Hooks)
   const isVisible = pathname === "/";
-
-  // Hide hamburger when any input/textarea is focused (Instagram WebView collision)
-  useEffect(() => {
-    const inputs = document.querySelectorAll('input, textarea');
-    const onFocus = () => setHidden(true);
-    const onBlur = () => setHidden(false);
-    inputs.forEach((el) => {
-      el.addEventListener('focus', onFocus);
-      el.addEventListener('blur', onBlur);
-    });
-    return () => {
-      inputs.forEach((el) => {
-        el.removeEventListener('focus', onFocus);
-        el.removeEventListener('blur', onBlur);
-      });
-    };
-  }, []);
 
   // Focus trap inside mobile nav panel
   useEffect(() => {
@@ -120,11 +102,11 @@ export default function Nav() {
         style={{
           position: "fixed",
           top: "20px",
-          left: "20px",
+          right: "20px",
           zIndex: 100001,
           width: "48px",
           height: "48px",
-          display: hidden || open ? "none" : "flex",
+          display: open ? "none" : "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
@@ -200,13 +182,13 @@ export default function Nav() {
         style={{
           position: "fixed",
           top: 0,
-          left: 0,
+          right: 0,
           height: "100%",
           width: "256px",
           background: "var(--nav-bg)",
-          borderRight: "1px solid var(--border)",
+          borderLeft: "1px solid var(--border)",
           zIndex: 100000,
-          transform: open ? "translateX(0)" : "translateX(-100%)",
+          transform: open ? "translateX(0)" : "translateX(100%)",
           transition: "transform 0.3s ease",
           display: "flex",
           flexDirection: "column",
